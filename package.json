@@ -39,8 +39,16 @@
     ]
   },
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VasylMolnar/TravelAgency.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VasylMolnar/TravelAgency/issues"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Vasyl Molnar",
   "license": "ISC",
-  "homepage": "https://vasylmolnar.github.io/TravelAgency/"
+  "homepage": "https://vasylmolnar.github.io/TravelAgency/",
+  "devDependencies": {}
 }
