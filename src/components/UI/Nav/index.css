@@ -1,0 +1,40 @@
+.navbar {
+    background-color: rgb(236, ​ 236, ​ 236);
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.189);
+
+}
+
+.logo {
+    font-family: Raleway, sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.16;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    color: black;
+    margin: 0px 135px 0px 20px;
+}
+
+.logo>span {
+    font-family: Raleway, sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.16;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    color: #2196f3;
+}
+
+.navbar a.active {
+    color: red;
+}
+
+.navbar-brand:not(:last-child) {
+    margin-right: 50px;
+}
+
+.navbar-brand:last-child {
+    margin-right: 150px;
+}
