@@ -1,22 +1,38 @@
-.nav_menu {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  justify-content: space-between;
-}
+.nav-menu {
+  @media screen and (max-width: $tablet) {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
 
-/**************** nav__bar ****************/
-.nav_list > .item:not(:last-child) {
-  @media screen and (min-width: 768px) {
-    margin-right: 50px;
+    width: 100%;
+    height: 796px;
+    background-color: rgb(250, 247, 247);
+    text-align: left;
+    padding: 50px;
+    padding-bottom: 48px;
+
+    &.isOpen {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  @media screen and (min-width: $desktop) {
+    justify-content: space-between;
   }
 }
 
-.nav_list {
+.nav__list {
   list-style: none;
   margin: 0px;
   padding: 0px;
-  margin-bottom: 378px;
+  margin-bottom: 200px;
 
   @media screen and (max-width: 767px) {
     & .item:not(:last-child) {
@@ -30,15 +46,14 @@
   }
 }
 
-.nav_list .nav_link {
+.nav__link {
   text-decoration: none;
   display: inline-block;
   color: $texcolor;
 
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 47px;
-  letter-spacing: 0.02em;
+  @extend %text500;
+  margin-right: 30px;
+  font-size: 30px;
 
   @media screen and (min-width: $tablet) {
     font-size: 14px;
@@ -49,19 +64,51 @@
     color: $background;
   }
 
+  &:hover {
+    color: $background;
+  }
+
   &.active::after {
     content: '';
-    top: 55px;
-    left: 0;
+
+    opacity: 1;
+    display: block;
+    top: 51px;
+    cursor: pointer;
     width: 100%;
     height: 4px;
+    margin-top: 8px;
     background-color: $background;
-
     background-size: auto;
     border-radius: 2px;
 
     @media screen and (min-width: $tablet) {
       position: absolute;
     }
+  }
+}
+
+.nav__info {
+  list-style: none;
+  padding: 0px;
+
+  @media screen and (min-width: $tablet) and (max-width: 1199px) {
+    .tell {
+      display: none;
+    }
+
+    .mail {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    margin-left: 90px;
+    padding-top: 15px;
+  }
+
+  .icon-contact {
+    margin-right: 10px;
   }
 }

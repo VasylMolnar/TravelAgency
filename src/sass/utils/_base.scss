@@ -2,7 +2,6 @@ $mobile: 480px;
 $tablet: 768px;
 $desktop: 1200px;
 
-
 *,
 *::before,
 *::after {
@@ -12,9 +11,10 @@ $desktop: 1200px;
 }
 
 .section {
-  padding: 94px 0px;
-  @media screen and (max-width: 1199px) {
-    padding-top: 30px;
+  padding: 30px 0px;
+
+  @media screen and (min-width: $tablet) {
+    padding-top: 94px;
     padding-bottom: 30px;
   }
 }
@@ -27,7 +27,7 @@ $desktop: 1200px;
   @media screen and (min-width: $tablet) {
     max-width: 768px;
   }
-  
+
   @media screen and (min-width: $desktop) {
     max-width: 1200px;
   }
