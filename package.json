@@ -27,7 +27,6 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "sass": "^1.59.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.0.2"
   },
@@ -68,5 +67,9 @@
   "keywords": [],
   "author": "Vasyl Molnar",
   "license": "ISC",
-  "homepage": "https://vasylmolnar.github.io/TravelAgency/"
+  "homepage": "https://vasylmolnar.github.io/TravelAgency/",
+  "devDependencies": {
+    "node-sass": "^7.0.3",
+    "sass-loader": "^13.2.0"
+  }
 }

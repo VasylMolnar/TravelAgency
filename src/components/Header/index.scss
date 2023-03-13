@@ -1,0 +1,58 @@
+.logo {
+  display: block;
+  font-family: Raleway, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.16;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  color: $texcolor;
+
+  @media screen and (min-width: $tablet) and (max-width: 1199px) {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    margin-right: 93px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+  @media screen and (min-width: $desktop) {
+    display: flex;
+    justify-content: space-between;
+    min-width: 148px;
+
+    font-size: 26px;
+    line-height: 1.19;
+    margin-right: 85px;
+    padding-top: 24px;
+    padding-bottom: 25px;
+  }
+
+  span {
+    color: $background;
+  }
+}
+
+.header {
+  min-height: 60px;
+  margin-bottom: 0px;
+  border-bottom: 1px solid $colorborder-bottom;
+
+  @media screen and (min-width: $tablet) {
+    height: 80px;
+    display: flex;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: relative;
+
+    @media screen and (min-width: $tablet) {
+      height: 80px;
+    }
+  }
+}

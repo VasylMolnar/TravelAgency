@@ -1,0 +1,67 @@
+.nav_menu {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: space-between;
+}
+
+/**************** nav__bar ****************/
+.nav_list > .item:not(:last-child) {
+  @media screen and (min-width: 768px) {
+    margin-right: 50px;
+  }
+}
+
+.nav_list {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 378px;
+
+  @media screen and (max-width: 767px) {
+    & .item:not(:last-child) {
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    margin-bottom: 0px;
+  }
+}
+
+.nav_list .nav_link {
+  text-decoration: none;
+  display: inline-block;
+  color: $texcolor;
+
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 47px;
+  letter-spacing: 0.02em;
+
+  @media screen and (min-width: $tablet) {
+    font-size: 14px;
+    position: relative;
+  }
+
+  &.active {
+    color: $background;
+  }
+
+  &.active::after {
+    content: '';
+    top: 55px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: $background;
+
+    background-size: auto;
+    border-radius: 2px;
+
+    @media screen and (min-width: $tablet) {
+      position: absolute;
+    }
+  }
+}

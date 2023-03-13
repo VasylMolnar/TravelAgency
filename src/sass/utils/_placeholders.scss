@@ -1,0 +1,31 @@
+%button {
+    display: block;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.875;
+    font-size: 16px;
+    box-shadow: 0px 4px 4px $colorboxshadow;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    border: 0;
+    cursor: pointer;
+    color: $colorwhite;
+    background: $background;
+}
+
+%title {
+  color: $texcolor;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+    @media screen and (min-width: $desktop) {
+        font-size: 36px;
+        line-height: 1.17;
+    }
+}
+
