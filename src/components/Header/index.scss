@@ -1,13 +1,16 @@
 .header {
+  display: flex;
+  align-items: center;
   min-height: 60px;
   margin-bottom: 0px;
   border-bottom: 1px solid $colorborder-bottom;
+  background-color: white;
+  position: relative;
 
   @media screen and (min-width: $tablet) {
     height: 80px;
     position: fixed;
     z-index: 1;
-    background-color: white;
     width: 100%;
     top: 0;
   }
@@ -16,12 +19,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
-    position: relative;
-
-    @media screen and (min-width: $tablet) {
-      height: 80px;
-    }
   }
 }
 
@@ -43,8 +40,7 @@
 
 /**************** menu-button **************/
 .menu-button {
-  margin: 0;
-  padding: 0;
+  display: block;
   border: 0;
   background-color: transparent;
 

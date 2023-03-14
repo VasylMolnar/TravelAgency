@@ -30,7 +30,7 @@ const Nav = ({ isOpen }) => {
 
       <ul className="nav__info">
         <li className="item">
-          <a href="mailto:info@touragency.com" className="nav__link mail">
+          <a href="mailto:travelagency.com" className="nav__link mail">
             <MarkAsUnreadIcon className="icon-contact" />
             travelagency.com
           </a>
