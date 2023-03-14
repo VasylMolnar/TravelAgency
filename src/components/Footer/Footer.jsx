@@ -77,7 +77,7 @@ const Footer = () => {
             <input type="email" name="mail" id="mail" placeholder="E-mail" />
             <button type="submit" className="button">
               Підписатися
-              <TelegramIcon className="icon-send" width={24} height={24} />
+              <TelegramIcon className="icon" width={24} height={24} />
             </button>
           </form>
         </div>

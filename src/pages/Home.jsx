@@ -1,12 +1,13 @@
 import React from 'react';
+import Hero from '../components/Hero/Hero';
+import Team from '../components/Team/Team';
 
 const Home = () => {
   return (
-    <div className="section home">
-      <div className="container">
-        <h1>Home</h1>
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Team />
+    </>
   );
 };
 
