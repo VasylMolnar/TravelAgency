@@ -1,36 +1,22 @@
 .team {
   background-color: $color;
 
-  .title {
-    @extend %text700;
-    font-size: 17px;
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    color: $texcolor;
-
-    @media screen and (min-width: $tablet) {
-      padding-top: 0px;
-      padding-bottom: 70px;
-      font-size: 1.5rem;
-    }
-
-    @media screen and (min-width: $desktop) {
-      font-size: 2rem;
-    }
-  }
-
   .footer_ul {
     margin-bottom: 0px;
   }
 
   .team__ul {
     list-style: none;
+    padding-left: 0;
 
     @media screen and(min-width: $tablet) {
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
+    }
+
+    @media screen and(min-width: $desktop) {
+      flex-wrap: nowrap;
     }
   }
 
@@ -67,3 +53,23 @@
     box-shadow: 10px 10px 5px 1px rgba(219, 219, 219, 1);
   }
 }
+
+// /****** title *****/ add to base
+// .title {
+//   @extend %text700;
+//   font-size: 17px;
+//   text-align: center;
+//   padding-top: 30px;
+//   padding-bottom: 30px;
+//   color: $texcolor;
+
+//   @media screen and (min-width: $tablet) {
+//     padding-top: 0px;
+//     padding-bottom: 70px;
+//     font-size: 1.5rem;
+//   }
+
+//   @media screen and (min-width: $desktop) {
+//     font-size: 2rem;
+//   }
+// }

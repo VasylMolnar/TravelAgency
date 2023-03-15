@@ -1,0 +1,75 @@
+.partners {
+  .partners__ul {
+    list-style: none;
+    padding-left: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    //gap: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .partners__li {
+    @media screen and (max-width: 767px) {
+      width: calc((100% - 2 * 30px) / 2);
+      margin-right: 30px;
+      margin-bottom: 30px;
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+
+    @media screen and (min-width: $tablet) {
+      width: calc((100% - 3 * 30px) / 3);
+      margin-right: 30px;
+      margin-bottom: 30px;
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+
+      &:last-child() {
+        margin-right: 0;
+      }
+    }
+
+    @media screen and (min-width: $desktop) {
+      width: calc((100% - 5 * 30px) / 6);
+
+      &:not(:last-child) {
+        margin-right: 30px;
+      }
+      margin-bottom: 0;
+    }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 92px;
+    border: 1px solid $networks;
+    border-radius: 4px;
+    //width: 150px;
+  }
+}
+
+/******* icon ********/
+.icon {
+  font-size: 40px;
+  fill: #b3b3b3;
+
+  &:hover {
+    fill: $background;
+  }
+}
+
+.iconBook {
+  font-size: 40px;
+  color: #b3b3b3;
+
+  &:hover {
+    color: $background;
+  }
+}
