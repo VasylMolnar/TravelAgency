@@ -7,29 +7,29 @@ const Partners = () => {
   return (
     <section className="section partners">
       <div className="container">
-        <h2 class="title">Наші партнери</h2>
+        <h2 className="title">Наші партнери</h2>
 
         <ul className="partners__ul">
           <li className="partners__li">
-            <a href="/" class="item">
+            <a href="/" className="item">
               <TbBrandBooking className="iconBook" />
             </a>
           </li>
 
           <li className="partners__li">
-            <a href="/" class="item">
+            <a href="/" className="item">
               <FaAirbnb className="icon" />
             </a>
           </li>
 
           <li className="partners__li">
-            <a href="/" class="item">
+            <a href="/" className="item">
               <SiRyanair className="icon" />
             </a>
           </li>
 
           <li className="partners__li">
-            <a href="/" class="item">
+            <a href="/" className="item">
               <SiHotelsdotcom className="icon" />
             </a>
           </li>

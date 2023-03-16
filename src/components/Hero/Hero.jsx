@@ -1,7 +1,7 @@
 import React from 'react';
 import video from '../../img/vid-1.mp4';
 
-const Hero = () => {
+const Hero = ({ setIsOpen }) => {
   return (
     <section className="hero">
       <div className="video-container">
@@ -14,7 +14,7 @@ const Hero = () => {
           className="btn"
           type="button"
           data-modal-open
-          //onClick={toggleModal}
+          onClick={() => setIsOpen(true)}
         >
           Замовити послугу
         </button>
