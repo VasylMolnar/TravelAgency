@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Hotel = () => {
-  return <div></div>;
+  return <main className="section hotel">Hello hotel</main>;
 };
 
 export default Hotel;

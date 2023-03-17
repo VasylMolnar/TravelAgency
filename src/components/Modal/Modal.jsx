@@ -62,7 +62,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
         <button
           type="submit"
           className="btn btn-close"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(false)}
         />
       </div>
     </div>
