@@ -1,14 +1,20 @@
-import React from 'react';
+import { useState, React } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
-import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const SearchBooking = () => {
+  const [optionsHidden, setOptionsHidden] = useState(false);
+  const [options, setOptions] = useState({
+    min: '0',
+    max: '100',
+    adult: '1',
+    children: '0',
+    room: '1',
+  });
+
   return (
     <div className="searchBooking">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,50 +27,96 @@ const SearchBooking = () => {
           ]}
         >
           <form
+            className="form"
             onSubmit={e => {
               e.preventDefault();
               console.log('searchBooking');
             }}
           >
+            <p className="title">Шукати</p>
             <label className="form_item">
               <span className="form_label">"Місце / назва помешкання:"</span>
               <input
                 type="name"
                 placeholder="Буковель"
-                required
                 className="form-input"
                 name="name"
               />
               <SearchIcon className="icon" />
             </label>
 
-            {/* <label className="form_item">
-          <span className="form_label">"Дата заїзду"</span>
-          <input
-            type="date"
-            placeholder="Буковель"
-            required
-            className="form-input"
-            name="data_end"
-          />
-          <DateRangeIcon className="icon" />
-        </label>
-
-        <label className="form_item">
-          <span className="form_label">"Дата виїзду"</span>
-          <input
-            type="date"
-            placeholder="Буковель"
-            required
-            className="form-input"
-            name="data_off"
-          />
-          <CalendarMonthIcon className="icon" />
-        </label> */}
-
-            <DemoItem label="Responsive variant">
-              <DatePicker defaultValue={dayjs('2022-04-17')} />
+            <DemoItem label="Дата заїзду" required name="data_end">
+              <DatePicker />
             </DemoItem>
+
+            <DemoItem label="Дата виїзду" required name="data_off">
+              <DatePicker />
+            </DemoItem>
+
+            <div className="options">
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={e => {
+                  e.stopPropagation();
+                  setOptionsHidden(!optionsHidden);
+                }}
+              >
+                Опції
+              </button>
+
+              <div
+                className={
+                  optionsHidden ? 'options_list' : 'options_list is-hidden'
+                }
+              >
+                <input
+                  className="form-input"
+                  type="number"
+                  placeholder="Дорослі"
+                  onChange={e => {
+                    setOptions({ ...options, adult: e.target.value });
+                  }}
+                />
+
+                <input
+                  className="form-input"
+                  type="number"
+                  placeholder="Діти"
+                  onChange={e => {
+                    setOptions({ ...options, children: e.target.value });
+                  }}
+                />
+                <input
+                  className="form-input"
+                  type="number"
+                  placeholder="Кімнати"
+                  onChange={e => {
+                    setOptions({ ...options, room: e.target.value });
+                  }}
+                />
+
+                <input
+                  className="form-input"
+                  type="number"
+                  placeholder="Max"
+                  onChange={e => {
+                    setOptions({ ...options, max: e.target.value });
+                  }}
+                />
+
+                <input
+                  className="form-input"
+                  type="number"
+                  placeholder="Min"
+                  onChange={e => {
+                    setOptions({ ...options, min: e.target.value });
+                  }}
+                />
+              </div>
+            </div>
+
+            <button className="btn btn-primary">Знайти</button>
           </form>
         </DemoContainer>
       </LocalizationProvider>
