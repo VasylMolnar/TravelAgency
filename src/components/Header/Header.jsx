@@ -19,7 +19,6 @@ const Header = () => {
           type="button"
           className="menu-button"
           aria-expanded="false"
-          data-menu-button
           onClick={() => setIsOpen(!isOpen)}
         >
           <MenuIcon />
