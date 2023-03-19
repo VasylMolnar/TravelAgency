@@ -1,4 +1,5 @@
 .hotels {
+  background-color: $color;
   .container {
     @media screen and (min-width: $tablet) {
       display: flex;
