@@ -1,12 +1,16 @@
 .hotels {
   @media screen and (min-width: $tablet) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
   }
 
   .content {
     flex-grow: 1;
-    background-color: $background;
+    display: block;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-margin: 0;
+    margin-top: 13px;
   }
 }

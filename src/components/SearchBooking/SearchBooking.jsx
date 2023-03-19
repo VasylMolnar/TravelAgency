@@ -30,7 +30,7 @@ const SearchBooking = () => {
           ]}
         >
           <form
-            className="form"
+            className={menuHidden ? 'form mobile' : 'form'}
             onSubmit={e => {
               e.preventDefault();
               console.log('searchBooking');
@@ -42,20 +42,21 @@ const SearchBooking = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}
+              className="btn-select"
             >
               <p className="title">Шукати</p>
               <button
                 type="button"
                 className="menu-button"
                 aria-expanded="false"
-                onclick={e => setMenuHidden(!menuHidden)}
+                onClick={e => setMenuHidden(!menuHidden)}
                 style={{ paddingBottom: '20px' }}
               >
                 <SwapVerticalCircleIcon />
               </button>
             </div>
 
-            <div className="form__select ">
+            <div className={!menuHidden ? 'form__select is-hidden' : null}>
               <label className="form_item">
                 <span className="form_label">"Місце / назва помешкання:"</span>
                 <input

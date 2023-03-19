@@ -1,13 +1,13 @@
 import React from 'react';
 import SearchBooking from '../components/SearchBooking/SearchBooking';
+import HotelCards from '../components/HotelCards/HotelCards';
 
 const Hotels = () => {
   return (
     <main className="section hotels">
       <SearchBooking />
-
       <div className="content">
-        <h1>hello hotels</h1>
+        <HotelCards />
       </div>
     </main>
   );
