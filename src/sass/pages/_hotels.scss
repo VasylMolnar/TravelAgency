@@ -1,16 +1,15 @@
 .hotels {
-  @media screen and (min-width: $tablet) {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
+  .container {
+    @media screen and (min-width: $tablet) {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: row;
+    }
   }
 
   .content {
     flex-grow: 1;
     display: block;
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-margin: 0;
-    margin-top: 13px;
+    height: 100%;
   }
 }

@@ -5,9 +5,11 @@ import HotelCards from '../components/HotelCards/HotelCards';
 const Hotels = () => {
   return (
     <main className="section hotels">
-      <SearchBooking />
-      <div className="content">
-        <HotelCards />
+      <div className="container">
+        <SearchBooking />
+        <div className="content">
+          <HotelCards />
+        </div>
       </div>
     </main>
   );

@@ -1,16 +1,37 @@
 import React from 'react';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import { Link } from 'react-router-dom';
 
 let Card = ({ hotel }) => {
   return (
-    <div className="card">
-      <div className="card_photo">{hotel.img}</div>
+    <Link to={`/hotels/${hotel.id}`} style={{ textDecoration: 'none' }}>
+      <figure className="card">
+        <div className="card_content">
+          <div className="card_photo" style={{ maxWidth: '250px' }}>
+            {/* {hotel.img} */}
+            <img
+              src={require('../../img/1.jpg')}
+              alt="test"
+              className="card_img"
+            />
+          </div>
 
-      <div className="card_info">
-        <h1>{hotel.name}</h1>
-        <p>{hotel.description}</p>
-        <button className="btn btn-outline-primary">Відкрити</button>
-      </div>
-    </div>
+          <figcaption className="figcaption">
+            <h1 className="hotelName">{hotel.name}</h1>
+            <p>
+              {/* {hotel.reactions} */}
+              <StarOutlineIcon />
+              <StarOutlineIcon />
+              <StarOutlineIcon />
+              <StarOutlineIcon />
+            </p>
+            <p>{hotel.description}</p>
+
+            <h3 className="price">Price: {hotel.price}</h3>
+          </figcaption>
+        </div>
+      </figure>
+    </Link>
   );
 };
 
