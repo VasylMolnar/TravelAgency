@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+
 const Hotel = () => {
   const { pathname } = useLocation();
   //search data in redux or fetch hotel data by id

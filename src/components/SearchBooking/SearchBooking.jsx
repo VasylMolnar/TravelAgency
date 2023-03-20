@@ -11,6 +11,7 @@ const SearchBooking = () => {
   const [menuHidden, setMenuHidden] = useState(false);
 
   const [options, setOptions] = useState({
+    //save to localStorage
     min: '0',
     max: '100',
     adult: '1',

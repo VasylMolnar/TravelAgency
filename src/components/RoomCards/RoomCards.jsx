@@ -1,20 +1,19 @@
 import React from 'react';
 import Card from '../Card/Card';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const RoomCards = () => {
-  //select Room id from url and fetch data in rooms folder (in server)
-  //find rooms by Room id
-  const { id } = useParams();
-  console.log('Hotel:', id);
+  //select Hotel id from url and fetch data in rooms folder (in server)
+  //find rooms by Hotel id
+  //const { id } = useParams();
+  // console.log('Hotel:', id);
+  //fetch(id)
 
   const data = [
     {
       id: 1,
       name: 'Room 1',
       price: '100',
-      distance: '500',
-      address: 'Ukraine',
       cheapestPrice: '100',
       days: '5', //days user select
       description:
