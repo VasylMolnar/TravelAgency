@@ -1,14 +1,16 @@
 import React from 'react';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-let Card = ({ hotel }) => {
+let Card = ({ element }) => {
+  const { pathname } = useLocation();
+
   return (
-    <Link to={`/hotels/${hotel.id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`${pathname}/${element.id}`} style={{ textDecoration: 'none' }}>
       <figure className="card">
         <div className="card_content">
           <div className="card_photo" style={{ maxWidth: '250px' }}>
-            {/* {hotel.img} */}
+            {/* {element.img} */}
             <img
               src={require('../../img/1.jpg')}
               alt="test"
@@ -17,17 +19,19 @@ let Card = ({ hotel }) => {
           </div>
 
           <figcaption className="figcaption">
-            <h1 className="hotelName">{hotel.name}</h1>
+            <h1 className="hotelName">{element.name}</h1>
+            <span>{element.address}</span>
+
             <p>
-              {/* {hotel.reactions} */}
+              {/* {element.reactions} */}
               <StarOutlineIcon />
               <StarOutlineIcon />
               <StarOutlineIcon />
               <StarOutlineIcon />
             </p>
-            <p>{hotel.description}</p>
+            <p>{element.description}</p>
 
-            <h3 className="price">Price: {hotel.price}</h3>
+            <h3 className="price">Price: {element.price}</h3>
           </figcaption>
         </div>
       </figure>

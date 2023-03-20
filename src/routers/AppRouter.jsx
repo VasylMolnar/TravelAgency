@@ -5,15 +5,26 @@ import Missing from '../pages/Missing';
 import Gallery from '../pages/Gallery';
 import Hotels from '../pages/Hotels';
 import Hotel from '../pages/Hotel';
+import Rooms from '../pages/Rooms';
+import Room from '../pages/Room';
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route>
         <Route index element={<Home />} />
+
         <Route path="hotels">
           <Route index element={<Hotels />} />
-          <Route path=":id" element={<Hotel />} />
+
+          <Route path=":id">
+            <Route index element={<Hotel />} />
+
+            <Route path="rooms">
+              <Route index element={<Rooms />} />
+              <Route path=":id" element={<Room />} />
+            </Route>
+          </Route>
         </Route>
 
         <Route path="/gallery" element={<Gallery />} />

@@ -2,12 +2,17 @@ import React from 'react';
 import Card from '../Card/Card';
 
 const HotelCards = () => {
+  //select name and min max price for search hotel (props)
   //fetch data form server
   const data = [
     {
-      id: 1,
+      id: 1, //id hotel === id rooms folder in server{[room1; room2;room3]}
       name: 'Hotel 1',
       price: '100',
+      distance: '500',
+      address: 'Ukraine',
+      cheapestPrice: '100',
+      days: '5', //days user select
       description:
         'A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Hotels can range from small family-run businesses to large international chains. Most hotels list a variety of services, such as room service, laundry, and concierge. Some hotels also offer meeting and conference facilities, fitness centers, and spas.',
     },
@@ -44,7 +49,7 @@ const HotelCards = () => {
   return (
     <div className="hotelCards">
       {data.map(hotel => (
-        <Card hotel={hotel} key={hotel.id} />
+        <Card element={hotel} key={hotel.id} />
       ))}
     </div>
   );

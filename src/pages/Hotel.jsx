@@ -1,9 +1,9 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 const Hotel = () => {
-  const { id } = useParams();
-  //search and fetch hotel data by id
+  const { pathname } = useLocation();
+  //search data in redux or fetch hotel data by id
 
   const data = {
     id: 1,
@@ -37,34 +37,32 @@ const Hotel = () => {
           отримайте безкоштовне таксі в аеропорт
         </span>
 
-        <div className="hotelImages">
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-          <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-        </div>
-
-        <div className="hotelDetails">
-          <div className="hotelDetailsTexts">
-            <h1 className="hotelTitle">{data.title}</h1>
-            <p className="hotelDesc">{data.desc}</p>
+        <div className="hotel__content">
+          <div className="hotelImages">
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
           </div>
-          <div className="hotelDetailsPrice">
-            <h1>Ідеально підходить для {data.days} ночей.</h1>
-            {/* days user select */}
-            <span>
-              Цей готель розташований у самому серці міста відмінне розташування
-              оцінка 9,8!
-            </span>
-            <h2>
-              {/* <b>${days * data.cheapestPrice * options.room}</b> ({days} ночей) */}
-            </h2>
-            <button>Бронюйте зараз!</button>
+
+          <div className="hotelDetails">
+            <div className="hotelDetailsPrice">
+              <span>
+                Цей готель розташований у самому серці міста відмінне
+                розташування оцінка 9,8!
+              </span>
+
+              <p style={{ marginTop: '10px' }}>{data.description}</p>
+
+              <Link to={`${pathname}/rooms`}>
+                <button className="btn btn-primary">Переглянути кімнати</button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
