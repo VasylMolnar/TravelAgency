@@ -13,8 +13,10 @@
 @import '../components/Modal/index.scss';
 @import '../components/SearchBooking/index.scss';
 @import '../components/Card/index.scss';
+@import '../components/GalleryCard/index.scss';
 
 /*Pages style*/
 @import './pages/hotels';
 @import './pages/hotel';
 @import './pages/missing';
+@import './pages/gallery';
