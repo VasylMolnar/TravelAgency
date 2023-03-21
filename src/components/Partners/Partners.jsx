@@ -1,7 +1,8 @@
 import React from 'react';
 import { TbBrandBooking } from 'react-icons/tb';
-import { FaAirbnb } from 'react-icons/fa';
+import { FaAirbnb, FaTripadvisor } from 'react-icons/fa';
 import { SiRyanair, SiHotelsdotcom } from 'react-icons/si';
+import { GiPagoda } from 'react-icons/gi';
 
 const Partners = () => {
   return (
@@ -31,6 +32,17 @@ const Partners = () => {
           <li className="partners__li">
             <a href="/" className="item">
               <SiHotelsdotcom className="icon" />
+            </a>
+          </li>
+
+          <li className="partners__li">
+            <a href="/" className="item">
+              <GiPagoda className="icon" />
+            </a>
+          </li>
+          <li className="partners__li">
+            <a href="/" className="item">
+              <FaTripadvisor className="icon" />
             </a>
           </li>
         </ul>

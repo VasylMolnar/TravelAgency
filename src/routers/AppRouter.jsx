@@ -7,6 +7,7 @@ import Hotels from '../pages/Hotels';
 import Hotel from '../pages/Hotel';
 import Rooms from '../pages/Rooms';
 import Room from '../pages/Room';
+import UserPage from '../pages/UserPage';
 
 const AppRouter = () => {
   return (
@@ -26,6 +27,8 @@ const AppRouter = () => {
             </Route>
           </Route>
         </Route>
+
+        <Route path="/auth" element={<UserPage />} />
 
         <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<Missing />} />

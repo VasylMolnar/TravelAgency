@@ -4,7 +4,10 @@ import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-const Nav = ({ isOpen }) => {
+const Nav = ({ isOpen, setIsLogIn }) => {
+  //Auth form Redux
+  const isAuth = false;
+
   return (
     <div className={isOpen ? 'nav-menu isOpen' : 'nav-menu'}>
       <nav className="nav__bar">
@@ -41,12 +44,30 @@ const Nav = ({ isOpen }) => {
             +38 096 111 11 11
           </a>
         </li>
-        <li className="item">
-          <NavLink to="/auth" className="nav__link">
-            <AccountBoxIcon className="icon-contact" />
-            Профіль
-          </NavLink>
-        </li>
+
+        {isAuth ? (
+          <li className="item">
+            <NavLink to="/auth" className="nav__link">
+              <AccountBoxIcon className="icon-contact" />
+              Профіль
+              {/* user Name */}
+            </NavLink>
+          </li>
+        ) : (
+          <li className="item">
+            <button
+              className="nav__link"
+              style={{
+                border: 'none',
+                backgroundColor: 'white',
+              }}
+              onClick={() => setIsLogIn(true)}
+            >
+              <AccountBoxIcon className="icon-contact" />
+              LogIn
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

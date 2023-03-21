@@ -5,7 +5,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 const Modal = ({ isOpen, setIsOpen }) => {
-  return (
+  return ReactDOM.createPortal(
     <div className={isOpen ? 'backdropModal' : 'backdropModal is-hidden'}>
       <div className="modalContact">
         <form
@@ -65,7 +65,8 @@ const Modal = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
         />
       </div>
-    </div>
+    </div>,
+    document.getElementById('modal')
   );
 };
 
