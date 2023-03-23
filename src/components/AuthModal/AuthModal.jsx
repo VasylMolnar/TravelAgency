@@ -31,7 +31,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
             }
             onClick={() => setChangeContent(true)}
           >
-            LogIn
+            Вхід
           </button>
           <button
             className={
@@ -39,7 +39,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
             }
             onClick={() => setChangeContent(false)}
           >
-            Register
+            Реєстрація
           </button>
         </div>
 
