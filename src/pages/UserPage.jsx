@@ -5,12 +5,19 @@ import { userRegisterSchema } from '../utils/validationSchema';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import Rooms from './Rooms';
 import Table from '../components/UI/Table/Table';
 
 const UserPage = () => {
   // fetch user data from server
+
+  const data = {
+    id: 1, //user
+    idHotels: { 2: [1, 2, 4], 7: [2, 5], 8: [1] }, //hotels id(key) room(value)
+    idGallery: 3,
+    name: 'userName',
+    mail: 'test@gmail.com',
+    psw: '12345',
+  };
 
   return (
     <main className="section userPage">
@@ -105,10 +112,13 @@ const UserPage = () => {
         <div className="hotel_content">
           {/* list of hotel */}
           {/* namehotel Rooms(Flor) datastart dataend allMoney */}
-          <Table />
+          <Table data={data.idHotels} content="hotelContent" />
           {/* select table options from user data */}
         </div>
-        <div className="tickets_content">{/* list of tickets */}</div>
+        <div className="tickets_content">
+          {/* list of tickets */}
+          <Table data={data} content="ticketsContent" />
+        </div>
 
         <div className="gallery_content"></div>
       </div>

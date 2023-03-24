@@ -28,45 +28,106 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const Table = ({ data, content }) => {
+  //data this is hotel rooms id
+  //fetch or find in redux by id. hotel, find room by hotel id + room id or all rooms,we change fetch by content
+  const rows = [
+    {
+      name: 'Hotel 1',
+      rooms: [
+        {
+          id: '1',
+          room: '1',
+          dateStart: '12',
+          dateEnd: '13',
+          price: '100',
+        },
+        {
+          id: '2',
+          room: '13',
+          dateStart: '16',
+          dateEnd: '20',
+          price: '100',
+        },
+      ],
+    },
+    {
+      name: 'Hotel 2',
+      rooms: [
+        {
+          id: '13',
+          room: '3',
+          dateStart: '1',
+          dateEnd: '3',
+          price: '50',
+        },
+        {
+          id: '12',
+          room: '51',
+          dateStart: '2',
+          dateEnd: '25',
+          price: '100',
+        },
+      ],
+    },
+  ]; //example hotel and rooms
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  //Object.entries(data).map(([hotel, rooms]) => console.log(hotel, rooms));
 
-const Table = () => {
   return (
     <TableContainer component={Paper} style={{ marginTop: '50px' }}>
+      <p className="title" style={{ padding: '0' }}>
+        {content === 'hotelContent'
+          ? 'Інформація про Готель'
+          : 'Інформація про Польоти'}
+      </p>
+
       <TableMu sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Готель</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>
+              {content === 'hotelContent' ? 'Готель' : 'Аеропорт '}
+            </StyledTableCell>
+            <StyledTableCell>
+              {content === 'hotelContent' ? 'Кімнати' : 'Літак'}
+            </StyledTableCell>
+            <StyledTableCell>
+              {content === 'hotelContent' ? 'Дата початку' : 'Куди'}
+            </StyledTableCell>
+            <StyledTableCell>
+              {content === 'hotelContent' ? 'Дата кінця ' : 'Дата польоту'}
+            </StyledTableCell>
+            <StyledTableCell>Ціна</StyledTableCell>
+            <StyledTableCell>Опції</StyledTableCell>
           </TableRow>
         </TableHead>
 
-        {/* <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody> */}
+        <TableBody>
+          {rows.map(row => {
+            return row.rooms.map(el => (
+              <StyledTableRow key={el.id}>
+                <StyledTableCell component="th" scope="row">
+                  {row.name}
+                </StyledTableCell>
+
+                <StyledTableCell>{el.room}</StyledTableCell>
+                <StyledTableCell>{el.dateStart}</StyledTableCell>
+                <StyledTableCell>{el.dateEnd}</StyledTableCell>
+                <StyledTableCell>{el.price}</StyledTableCell>
+
+                <StyledTableCell style={{ width: '300px' }}>
+                  <button
+                    className="btn btn-outline-warning"
+                    style={{ marginRight: '10px' }}
+                  >
+                    Редагувати
+                  </button>
+                  <button className="btn btn-outline-danger">Скасувати</button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ));
+          })}
+        </TableBody>
       </TableMu>
     </TableContainer>
   );
