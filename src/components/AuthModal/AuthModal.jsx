@@ -9,9 +9,26 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useRegisterMutation,
+  useLoginMutation,
+} from '../../features/auth/authApiSlice';
+
+import { selectCurrentEmail } from '../../features/auth/authSlice';
 
 const AuthModal = ({ isLogIn, setIsLogIn }) => {
   const [changeContent, setChangeContent] = useState(true);
+
+  const data = useSelector(state => state.auth.email);
+
+  const handleRegistration = values => {
+    //console.log(values);
+  };
+
+  const handleLogIn = values => {
+    //console.log(values);
+  };
 
   return ReactDOM.createPortal(
     <div className={isLogIn ? 'backdropAuth' : 'backdropAuth is-hidden'}>
@@ -50,9 +67,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
           <div className="section_logIn">
             <Formik
               initialValues={{ email: '', password: '' }}
-              onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-              }}
+              onSubmit={handleLogIn}
               validationSchema={userLoginSchema}
             >
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
@@ -101,9 +116,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
           <div className="section_register">
             <Formik
               initialValues={{ name: '', email: '', password: '' }}
-              onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-              }}
+              onSubmit={handleRegistration}
               validationSchema={userRegisterSchema}
             >
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
