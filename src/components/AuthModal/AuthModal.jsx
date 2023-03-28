@@ -15,15 +15,14 @@ import {
   useLoginMutation,
 } from '../../features/auth/authApiSlice';
 
-import { selectCurrentEmail } from '../../features/auth/authSlice';
-
 const AuthModal = ({ isLogIn, setIsLogIn }) => {
   const [changeContent, setChangeContent] = useState(true);
 
-  const data = useSelector(state => state.auth.email);
+  const [register, { isLoading, isSuccess, isError }] = useRegisterMutation();
 
-  const handleRegistration = values => {
-    //console.log(values);
+  const handleRegistration = async values => {
+    console.log(values);
+    //    await register(values);
   };
 
   const handleLogIn = values => {

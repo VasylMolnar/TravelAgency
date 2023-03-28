@@ -8,39 +8,35 @@ import Hotel from '../pages/Hotel';
 import Rooms from '../pages/Rooms';
 import Room from '../pages/Room';
 import UserPage from '../pages/UserPage';
-import { Provider } from 'react-redux';
-import { store } from '../app/store';
 
 const AppRouter = () => {
   return (
-    <Provider store={store}>
-      <Routes>
-        <Route>
-          {/* public routes */}
-          <Route index element={<Home />} />
+    <Routes>
+      <Route>
+        {/* public routes */}
+        <Route index element={<Home />} />
 
-          <Route path="hotels">
-            <Route index element={<Hotels />} />
+        <Route path="hotels">
+          <Route index element={<Hotels />} />
 
-            <Route path=":id">
-              <Route index element={<Hotel />} />
+          <Route path=":id">
+            <Route index element={<Hotel />} />
 
-              <Route path="rooms">
-                <Route index element={<Rooms />} />
-                <Route path=":id" element={<Room />} />
-              </Route>
+            <Route path="rooms">
+              <Route index element={<Rooms />} />
+              <Route path=":id" element={<Room />} />
             </Route>
           </Route>
-
-          <Route path="/gallery" element={<Gallery />} />
-
-          {/* private routes */}
-          <Route path="/auth" element={<UserPage />} />
-
-          <Route path="*" element={<Missing />} />
         </Route>
-      </Routes>
-    </Provider>
+
+        <Route path="/gallery" element={<Gallery />} />
+
+        {/* private routes */}
+        <Route path="/auth" element={<UserPage />} />
+
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes>
   );
 };
 
