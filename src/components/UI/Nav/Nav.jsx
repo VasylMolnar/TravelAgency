@@ -6,7 +6,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const Nav = ({ isOpen, setIsLogIn }) => {
   //Auth form Redux
-  const isAuth = true;
+  const isAuth = false;
 
   return (
     <div className={isOpen ? 'nav-menu isOpen' : 'nav-menu'}>
