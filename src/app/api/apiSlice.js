@@ -1,36 +1,51 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { setCredentials, logOut } from '../../features/auth/authSlice';
+import { logOut, setCredentials } from '../../features/auth/authSlice';
+
+/*fetch data:
+    1: add AccessToken to headers and fetch data (req)
+    2: if error 403 we send req Refresh token (res) => (req)
+        2.1: if we have Access token form (req Refresh token) we save token and fetch data (res) => (req to data)
+        2.2: if we don't have Access token we dispatch LogOut (res)
+*/
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:1234',
-  credentials: 'include',
+  credentials: 'include', //fetch should send cookies and HTTP authorization headers with the req.
+  //1
   prepareHeaders: (headers, { getState }) => {
-    //select token from store (getState() - return all store)
-    const token = getState().auth.token;
-
+    const token = getState().auth.token; //or we can use useSelector
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
+
     return headers;
   },
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(args, api, extraOptions);
 
+  //2
   if (result?.error?.originalStatus === 403) {
+    //console.log('sending refresh token');
     // send refresh token to get new access token
-    const refreshResult = await baseQuery('/refresh', api, extraOptions);
 
-    if (refreshResult?.data) {
-      const user = api.getState().auth.user;
+    const refreshToken = await baseQuery('/refresh', api, extraOptions);
+    //console.log(refreshToken);
+
+    if (refreshToken?.data) {
+      //2.1
       // store the new token
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
+      const userData = api.getState().auth;
+
+      api.dispatch(
+        setCredentials({ ...userData, refreshToken: refreshToken.data })
+      );
+
       // retry the original query with new access token
-      result = await baseQuery(args, api, extraOptions);
+      return await baseQuery(args, api, extraOptions);
     } else {
-      //clean auth in FrontEnd
+      //2.2
       api.dispatch(logOut());
     }
   }
