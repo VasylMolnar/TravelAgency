@@ -10,13 +10,20 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  useLogInMutation,
+  useRegisterMutation,
+} from '../../features/auth/authApiSlice';
 
 const AuthModal = ({ isLogIn, setIsLogIn }) => {
   const [changeContent, setChangeContent] = useState(true);
 
+  //fn
+  const [register] = useRegisterMutation();
+
   const handleRegistration = async values => {
-    console.log(values);
-    //  await register(values);
+    const rez = await register(values);
+    console.log('', rez);
   };
 
   const handleLogIn = values => {
