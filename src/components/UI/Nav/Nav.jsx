@@ -3,10 +3,12 @@ import { NavLink } from 'react-router-dom';
 import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useSelector } from 'react-redux';
+import { selectCurrentToken } from '../../../features/auth/authSlice';
 
 const Nav = ({ isOpen, setIsLogIn }) => {
   //Auth form Redux
-  const isAuth = false;
+  const isAuth = useSelector(selectCurrentToken);
 
   return (
     <div className={isOpen ? 'nav-menu isOpen' : 'nav-menu'}>

@@ -1,5 +1,6 @@
 import { useState, React } from 'react';
 import ReactDOM from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import { Formik, FastField, ErrorMessage } from 'formik';
 import {
   userLoginSchema,
@@ -10,7 +11,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Report, Loading } from 'notiflix';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 import {
   useLogInMutation,
@@ -20,10 +21,9 @@ import {
 const AuthModal = ({ isLogIn, setIsLogIn }) => {
   const dispatch = useDispatch();
   const [changeContent, setChangeContent] = useState(true);
+  const navigate = useNavigate();
 
-  console.log(useSelector(state => state.auth));
-
-  //fn
+  //fn Api
   const [register] = useRegisterMutation();
   const [logIn] = useLogInMutation();
 
@@ -42,7 +42,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
         }, 500)
       : setTimeout(() => {
           Loading.remove();
-          Report.failure(`Реєстрація невдала.`, 'Перевірте введені дані');
+          Report.failure(`Реєстрація невдала.`, `${rez.error.data.message}`);
         }, 500);
   };
 
@@ -50,16 +50,18 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
     Loading.dots('Вхід у обліковий запис');
 
     const userData = await logIn(values);
-    console.log(userData);
+
     !userData?.error
       ? setTimeout(() => {
           dispatch(setCredentials(userData.data));
+          setIsLogIn(false);
+          navigate('/auth');
           Loading.remove();
           Report.success(`Відаємо ${userData.data.user} `, '');
         }, 500)
       : setTimeout(() => {
           Loading.remove();
-          Report.failure(`Вхід невдалий.`, 'Перевірте введені дані');
+          Report.failure(`Вхід невдалий.`, `${userData.error.data.message}`);
         }, 500);
   };
 

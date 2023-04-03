@@ -8,6 +8,7 @@ import Hotel from '../pages/Hotel';
 import Rooms from '../pages/Rooms';
 import Room from '../pages/Room';
 import UserPage from '../pages/UserPage';
+import RequireAuth from '../components/RequireAuth/RequireAuth';
 
 const AppRouter = () => {
   return (
@@ -32,7 +33,9 @@ const AppRouter = () => {
         <Route path="/gallery" element={<Gallery />} />
 
         {/* private routes */}
-        <Route path="/auth" element={<UserPage />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/auth" element={<UserPage />} />
+        </Route>
 
         <Route path="*" element={<Missing />} />
       </Route>

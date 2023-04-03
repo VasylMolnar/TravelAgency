@@ -6,17 +6,19 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import Table from '../components/UI/Table/Table';
+import { useSelector } from 'react-redux';
 
 const UserPage = () => {
-  // fetch user data from server
+  // select user data from Redux store
+  const currentUser = useSelector(state => state.auth);
+
+  const handleChange = values => {
+    console.log('', values);
+  };
 
   const data = {
     id: 1, //user
     idHotels: { 2: [1, 2, 4], 7: [2, 5], 8: [1] }, //hotels id(key) room(value)
-    idGallery: 3,
-    name: 'userName',
-    mail: 'test@gmail.com',
-    psw: '12345',
   };
 
   return (
@@ -38,20 +40,18 @@ const UserPage = () => {
                 marginBottom: '30px',
               }}
             >
-              Ігор Дем'яненко
+              {currentUser.user}
             </p>
           </div>
 
           <div className="userEdit">
             <Formik
               initialValues={{
-                name: 'User1',
-                email: 'test123@gmail.com',
-                password: '123213123',
+                user: currentUser.user,
+                email: currentUser.email,
+                pwd: '*************',
               }} //select data from server
-              onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-              }}
+              onSubmit={handleChange}
               validationSchema={userRegisterSchema}
             >
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
@@ -61,9 +61,9 @@ const UserPage = () => {
                   <label className="label">
                     <AccountCircleIcon className="icon" />
 
-                    <FastField type="text" name="name" placeholder="Імя:" />
+                    <FastField type="text" name="user" placeholder="Імя:" />
                     <ErrorMessage
-                      name="name"
+                      name="user"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
@@ -85,11 +85,11 @@ const UserPage = () => {
 
                     <FastField
                       type="password"
-                      name="password"
+                      name="pwd"
                       placeholder="Пароль:"
                     />
                     <ErrorMessage
-                      name="password"
+                      name="pwd"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
