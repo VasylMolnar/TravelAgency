@@ -10,7 +10,7 @@ import { logOut, setCredentials } from '../../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:1234',
-  //credentials: 'include', //fetch should send cookies and HTTP authorization headers with the req.
+  credentials: 'include', //fetch should send cookies and HTTP authorization headers (ACCESS TOKEN) with the req.
   //1
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token; //or we can use useSelector

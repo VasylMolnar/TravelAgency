@@ -7,13 +7,17 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import Table from '../components/UI/Table/Table';
 import { useSelector } from 'react-redux';
+import { useUpdateUserMutation } from '../features/auth/authApiSlice';
 
 const UserPage = () => {
   // select user data from Redux store
   const currentUser = useSelector(state => state.auth);
 
-  const handleChange = values => {
-    console.log('', values);
+  //fn
+  const [update] = useUpdateUserMutation();
+
+  const handleChange = async values => {
+    await update(values);
   };
 
   const data = {
@@ -49,7 +53,7 @@ const UserPage = () => {
               initialValues={{
                 user: currentUser.user,
                 email: currentUser.email,
-                pwd: '*************',
+                pwd: currentUser.pwd,
               }} //select data from server
               onSubmit={handleChange}
               validationSchema={userRegisterSchema}
