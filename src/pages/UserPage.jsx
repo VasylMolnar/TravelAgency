@@ -8,16 +8,26 @@ import PasswordIcon from '@mui/icons-material/Password';
 import Table from '../components/UI/Table/Table';
 import { useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../features/auth/authApiSlice';
+import { Report, Loading } from 'notiflix';
 
 const UserPage = () => {
   // select user data from Redux store
-  const currentUser = useSelector(state => state.auth);
+  const { id, username, email, password } = useSelector(state => state.auth);
 
   //fn
   const [update] = useUpdateUserMutation();
 
   const handleChange = async values => {
-    await update(values);
+    Loading.dots('Оновлення даних ... ');
+
+    try {
+      await update({ ...values, id });
+      Loading.remove();
+      Report.success('Користувача було оновлено', '');
+    } catch (e) {
+      Loading.remove();
+      Report.failure(e.message, '');
+    }
   };
 
   const data = {
@@ -44,16 +54,16 @@ const UserPage = () => {
                 marginBottom: '30px',
               }}
             >
-              {currentUser.user}
+              {username}
             </p>
           </div>
 
           <div className="userEdit">
             <Formik
               initialValues={{
-                user: currentUser.user,
-                email: currentUser.email,
-                pwd: currentUser.pwd,
+                username,
+                email,
+                password,
               }} //select data from server
               onSubmit={handleChange}
               validationSchema={userRegisterSchema}
@@ -65,9 +75,9 @@ const UserPage = () => {
                   <label className="label">
                     <AccountCircleIcon className="icon" />
 
-                    <FastField type="text" name="user" placeholder="Імя:" />
+                    <FastField type="text" name="username" placeholder="Імя:" />
                     <ErrorMessage
-                      name="user"
+                      name="username"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
@@ -89,11 +99,11 @@ const UserPage = () => {
 
                     <FastField
                       type="password"
-                      name="pwd"
+                      name="password"
                       placeholder="Пароль:"
                     />
                     <ErrorMessage
-                      name="pwd"
+                      name="password"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />

@@ -53,11 +53,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
     !userData?.error
       ? setTimeout(() => {
-          dispatch(setCredentials(userData.data));
+          dispatch(setCredentials({ ...userData.data, ...values }));
           setIsLogIn(false);
           navigate('/auth');
           Loading.remove();
-          Report.success(`Відаємо ${userData.data.user} `, '');
+          Report.success(`Відаємо ${userData.data.username} `, '');
         }, 500)
       : setTimeout(() => {
           Loading.remove();
@@ -101,7 +101,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
         >
           <div className="section_logIn">
             <Formik
-              initialValues={{ email: '', pwd: '' }}
+              initialValues={{ email: '', password: '' }}
               onSubmit={handleLogIn}
               validationSchema={userLoginSchema}
             >
@@ -125,11 +125,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
                     <FastField
                       type="password"
-                      name="pwd"
+                      name="password"
                       placeholder="Пароль:"
                     />
                     <ErrorMessage
-                      name="pwd"
+                      name="password"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
@@ -150,7 +150,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
           <div className="section_register">
             <Formik
-              initialValues={{ user: '', email: '', pwd: '' }}
+              initialValues={{ username: '', email: '', password: '' }}
               onSubmit={handleRegistration}
               validationSchema={userRegisterSchema}
             >
@@ -163,11 +163,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
                     <FastField
                       type="text"
-                      name="user"
+                      name="username"
                       placeholder="Ваше імя:"
                     />
                     <ErrorMessage
-                      name="user"
+                      name="username"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
@@ -189,11 +189,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
                     <FastField
                       type="password"
-                      name="pwd"
+                      name="password"
                       placeholder="Пароль:"
                     />
                     <ErrorMessage
-                      name="pwd"
+                      name="password"
                       component="div"
                       style={{ color: 'red', textTransform: 'upperCase' }}
                     />
