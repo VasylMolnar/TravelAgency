@@ -6,13 +6,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import Table from '../components/UI/Table/Table';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../features/auth/authApiSlice';
 import { Report, Loading } from 'notiflix';
+import { setCredentials } from '../features/auth/authSlice';
 
 const UserPage = () => {
   // select user data from Redux store
   const { id, username, email, password } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   //fn
   const [update] = useUpdateUserMutation();
@@ -20,14 +22,18 @@ const UserPage = () => {
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
 
-    try {
-      await update({ ...values, id });
-      Loading.remove();
-      Report.success('Користувача було оновлено', '');
-    } catch (e) {
-      Loading.remove();
-      Report.failure(e.message, '');
-    }
+    const updateData = await update({ ...values, id });
+
+    !updateData?.error
+      ? setTimeout(() => {
+          dispatch(setCredentials({ ...values }));
+          Loading.remove();
+          Report.success('Користувача було оновлено', '');
+        }, 500)
+      : setTimeout(() => {
+          Loading.remove();
+          Report.failure(updateData.error.data.message, '');
+        }, 500);
   };
 
   const data = {

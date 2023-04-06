@@ -9,6 +9,8 @@ import { selectCurrentToken } from '../../../features/auth/authSlice';
 const Nav = ({ isOpen, setIsLogIn }) => {
   //Auth form Redux
   const isAuth = useSelector(selectCurrentToken);
+  const a = useSelector(state => state.auth);
+  console.log(a);
 
   return (
     <div className={isOpen ? 'nav-menu isOpen' : 'nav-menu'}>
