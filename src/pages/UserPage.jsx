@@ -1,10 +1,11 @@
-import React from 'react';
+import { useState, React } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Formik, FastField, ErrorMessage } from 'formik';
 import { userRegisterSchema } from '../utils/validationSchema';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Table from '../components/UI/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../features/auth/authApiSlice';
@@ -12,6 +13,8 @@ import { Report, Loading } from 'notiflix';
 import { setCredentials } from '../features/auth/authSlice';
 
 const UserPage = () => {
+  const [canUpdate, setCanUpdate] = useState(false);
+
   // select user data from Redux store
   const { id, username, email, password } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -74,9 +77,27 @@ const UserPage = () => {
               onSubmit={handleChange}
               validationSchema={userRegisterSchema}
             >
-              {({ values, handleChange, handleSubmit, isSubmitting }) => (
+              {({
+                values,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                isChanging,
+              }) => (
                 <form onSubmit={handleSubmit} className="edit_profile">
-                  <h1 className="title">Редагувати профіль</h1>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <h1 className="title">Редагувати профіль</h1>
+
+                    <DriveFileRenameOutlineIcon
+                      type="button"
+                      onClick={() => setCanUpdate(!canUpdate)}
+                    />
+                  </div>
 
                   <label className="label">
                     <AccountCircleIcon className="icon" />
@@ -118,7 +139,7 @@ const UserPage = () => {
                   <button
                     className="btn btn-outline-primary"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={!canUpdate}
                     style={{ width: '85%' }}
                   >
                     Змінити

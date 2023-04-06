@@ -14,17 +14,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      // const { id, email, username, roles, password, accessToken } =
-      //   action.payload;
-
       return { ...state, ...action.payload };
-
-      // state.id = id;
-      // state.email = email;
-      // state.username = username;
-      // state.token = accessToken;
-      // state.roles = roles;
-      // state.password = password;
     },
 
     logOut: (state, action) => {

@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
   //credentials: 'include', //fetch should send cookies and HTTP authorization headers (ACCESS TOKEN) with the req.
   //1
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token; //or we can use useSelector
+    const token = getState().auth.accessToken; //or we can use useSelector
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
