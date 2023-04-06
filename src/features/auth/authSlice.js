@@ -21,7 +21,7 @@ const authSlice = createSlice({
       state.id = null;
       state.email = null;
       state.username = null;
-      state.token = null;
+      state.accessToken = null;
       state.roles = null;
       state.password = null;
     },

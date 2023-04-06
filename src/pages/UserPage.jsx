@@ -6,26 +6,31 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Table from '../components/UI/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { useUpdateUserMutation } from '../features/auth/authApiSlice';
+import {
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} from '../features/auth/authApiSlice';
 import { Report, Loading } from 'notiflix';
-import { setCredentials } from '../features/auth/authSlice';
+import { setCredentials, logOut } from '../features/auth/authSlice';
 
 const UserPage = () => {
+  const dispatch = useDispatch();
   const [canUpdate, setCanUpdate] = useState(false);
 
   // select user data from Redux store
   const { id, username, email, password } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
 
   //fn
-  const [update] = useUpdateUserMutation();
+  const [deleteUser] = useDeleteUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
 
-    const updateData = await update({ ...values, id });
+    const updateData = await updateUser({ ...values, id });
 
     !updateData?.error
       ? setTimeout(() => {
@@ -35,7 +40,37 @@ const UserPage = () => {
         }, 500)
       : setTimeout(() => {
           Loading.remove();
-          Report.failure(updateData.error.data.message, '');
+          Report.failure(
+            updateData.error.data.message || 'Помилка оновлення',
+            ''
+          );
+        }, 500);
+  };
+
+  const handleDelete = async () => {
+    Loading.dots('Видалення ваших даних ... ');
+
+    const confirmDelete = window.confirm('Підтвердити видалення.');
+
+    if (confirmDelete) {
+      var deleteData = await deleteUser({ id });
+    } else {
+      Loading.remove();
+      Report.info('Видалення скасовано', '');
+    }
+
+    !deleteData?.error && confirmDelete
+      ? setTimeout(() => {
+          dispatch(logOut());
+          Loading.remove();
+          Report.success('Користувача було видалено', '');
+        }, 500)
+      : setTimeout(() => {
+          Loading.remove();
+          Report.failure(
+            deleteData.error.data.message || 'Помилка видалення',
+            ''
+          );
         }, 500);
   };
 
@@ -93,10 +128,15 @@ const UserPage = () => {
                   >
                     <h1 className="title">Редагувати профіль</h1>
 
-                    <DriveFileRenameOutlineIcon
-                      type="button"
-                      onClick={() => setCanUpdate(!canUpdate)}
-                    />
+                    <div>
+                      <DriveFileRenameOutlineIcon
+                        type="button"
+                        onClick={() => setCanUpdate(!canUpdate)}
+                        style={{ marginRight: '10px' }}
+                      />
+
+                      <DeleteForeverIcon type="button" onClick={handleDelete} />
+                    </div>
                   </div>
 
                   <label className="label">

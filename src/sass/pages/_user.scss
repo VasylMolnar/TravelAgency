@@ -96,5 +96,11 @@
         }
       }
     }
+
+    .title {
+      @media screen and (max-width: $tablet) {
+        padding-top: 0px;
+      }
+    }
   }
 }

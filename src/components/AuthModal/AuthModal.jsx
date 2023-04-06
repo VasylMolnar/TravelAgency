@@ -61,7 +61,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
         }, 500)
       : setTimeout(() => {
           Loading.remove();
-          Report.failure(`Вхід невдалий.`, `${userData.error.data.message}`);
+          Report.failure(`Вхід невдалий.`, userData.error.data.message);
         }, 500);
   };
 
