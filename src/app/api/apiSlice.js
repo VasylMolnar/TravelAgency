@@ -10,11 +10,11 @@ import { logOut, setCredentials } from '../../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:1234',
-  credentials: 'include', //fetch should send and get cookies and HTTP authorization headers
+  credentials: 'include', //fetch should send and get cookies and HTTP authorization headers from SERVER (WEB security) check client send data to our server
   //1
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.accessToken; //or we can use useSelector
-    console.log(token);
+    //console.log("token",token);
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }

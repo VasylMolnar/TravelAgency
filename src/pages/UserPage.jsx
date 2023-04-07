@@ -53,25 +53,21 @@ const UserPage = () => {
     const confirmDelete = window.confirm('Підтвердити видалення.');
 
     if (confirmDelete) {
-      var deleteData = await deleteUser({ id });
+      await deleteUser({ id })
+        .then(data => {
+          dispatch(logOut());
+          Loading.remove();
+          Report.success('Користувача було видалено', '');
+        })
+        .catch(error => {
+          console.error('catch', error);
+          Loading.remove();
+          Report.failure(error || 'Помилка видалення', '');
+        });
     } else {
       Loading.remove();
       Report.info('Видалення скасовано', '');
     }
-
-    !deleteData?.error && confirmDelete
-      ? setTimeout(() => {
-          dispatch(logOut());
-          Loading.remove();
-          Report.success('Користувача було видалено', '');
-        }, 500)
-      : setTimeout(() => {
-          Loading.remove();
-          Report.failure(
-            deleteData.error.data.message || 'Помилка видалення',
-            ''
-          );
-        }, 500);
   };
 
   const data = {
