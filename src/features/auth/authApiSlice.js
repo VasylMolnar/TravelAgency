@@ -24,33 +24,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    logOut: builder.query({
-      query: () => '/logout',
-      method: 'GET',
-    }),
-
-    updateUser: builder.mutation({
-      query: ({ id, ...credentials }) => ({
-        url: `/user/${id}`,
-        method: 'PUT',
-        body: { ...credentials },
-      }),
-    }),
-
-    deleteUser: builder.mutation({
-      query: ({ id }) => ({
-        url: `/user/${id}`,
-        method: 'DELETE',
-        body: { id },
+    logOut: builder.mutation({
+      query: () => ({
+        url: '/logout',
+        method: 'POST',
+        body: {},
       }),
     }),
   }),
 });
 
-export const {
-  useLogOutQuery,
-  useLogInMutation,
-  useRegisterMutation,
-  useUpdateUserMutation,
-  useDeleteUserMutation,
-} = authApiSlice;
+export const { useLogInMutation, useRegisterMutation, useLogOutMutation, useRefreshTokenQuery } =
+  authApiSlice;

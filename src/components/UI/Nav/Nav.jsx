@@ -49,7 +49,7 @@ const Nav = ({ isOpen, setIsLogIn }) => {
 
         {isAuth ? (
           <li className="item">
-            <NavLink to="/auth" className="nav__link">
+            <NavLink to="/userPage" className="nav__link">
               <AccountBoxIcon className="icon-contact" />
               Профіль
               {/* user Name */}

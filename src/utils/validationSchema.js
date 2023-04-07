@@ -8,5 +8,5 @@ export const userLoginSchema = yup.object({
 export const userRegisterSchema = yup.object({
   username: yup.string().required(),
   email: yup.string().required().email(),
-  password: yup.string().required().min(7).max(20),
+  password: yup.string().required().min(7).max(14),
 });

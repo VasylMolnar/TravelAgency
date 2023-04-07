@@ -8,7 +8,7 @@ import { logOut, setCredentials } from '../../features/auth/authSlice';
         2.2: if we don't have Access token we dispatch LogOut (res)
 */
 
-const baseQuery = fetchBaseQuery({
+export const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:1234',
   credentials: 'include', //fetch should send and get cookies and HTTP authorization headers from SERVER (WEB security) check client send data to our server
   //1
@@ -36,9 +36,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     if (refreshToken?.data) {
       //2.1
       // store the new token
-      api.dispatch(
-        setCredentials({ accessToken: refreshToken.data.accessToken })
-      );
+      api.dispatch(setCredentials({ accessToken: refreshToken.data.accessToken }));
 
       // retry the original query with new access token
       return await baseQuery(args, api, extraOptions);

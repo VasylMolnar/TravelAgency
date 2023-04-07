@@ -2,10 +2,7 @@ import { useState, React } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { Formik, FastField, ErrorMessage } from 'formik';
-import {
-  userLoginSchema,
-  userRegisterSchema,
-} from '../../utils/validationSchema';
+import { userLoginSchema, userRegisterSchema } from '../../utils/validationSchema';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -13,10 +10,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Report, Loading } from 'notiflix';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
-import {
-  useLogInMutation,
-  useRegisterMutation,
-} from '../../features/auth/authApiSlice';
+import { useLogInMutation, useRegisterMutation } from '../../features/auth/authApiSlice';
+import jwt_decode from 'jwt-decode';
 
 const AuthModal = ({ isLogIn, setIsLogIn }) => {
   const dispatch = useDispatch();
@@ -35,10 +30,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
     !rez?.error
       ? setTimeout(() => {
           Loading.remove();
-          Report.success(
-            'Реєстрація успішна.',
-            'Можете увійти до свого обл. запису'
-          );
+          Report.success('Реєстрація успішна.', 'Можете увійти до свого обл. запису');
         }, 500)
       : setTimeout(() => {
           Loading.remove();
@@ -53,11 +45,13 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
 
     !userData?.error
       ? setTimeout(() => {
-          dispatch(setCredentials({ ...userData.data, ...values }));
+          const decoded = jwt_decode(userData.data.accessToken);
+
+          dispatch(setCredentials({ ...decoded.UserInfo, ...userData.data, ...values }));
           setIsLogIn(false);
-          navigate('/auth');
+          navigate('/userPage');
           Loading.remove();
-          Report.success(`Відаємо ${userData.data.username} `, '');
+          Report.success(`Вітаємо ${decoded.UserInfo.username} `, '');
         }, 500)
       : setTimeout(() => {
           Loading.remove();
@@ -68,27 +62,19 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
   return ReactDOM.createPortal(
     <div className={isLogIn ? 'backdropAuth' : 'backdropAuth is-hidden'}>
       <div className="authModal">
-        <button
-          type="submit"
-          className="btn cancelIcon"
-          onClick={() => setIsLogIn(false)}
-        >
+        <button type="submit" className="btn cancelIcon" onClick={() => setIsLogIn(false)}>
           <CancelIcon />
         </button>
 
         <div className="btn-list">
           <button
-            className={
-              changeContent ? 'btn btn-warning' : 'btn btn-outline-primary'
-            }
+            className={changeContent ? 'btn btn-warning' : 'btn btn-outline-primary'}
             onClick={() => setChangeContent(true)}
           >
             Вхід
           </button>
           <button
-            className={
-              !changeContent ? 'btn btn-warning' : 'btn btn-outline-primary'
-            }
+            className={!changeContent ? 'btn btn-warning' : 'btn btn-outline-primary'}
             onClick={() => setChangeContent(false)}
           >
             Реєстрація
@@ -123,11 +109,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
                   <label className="label">
                     <PasswordIcon className="icon" />
 
-                    <FastField
-                      type="password"
-                      name="password"
-                      placeholder="Пароль:"
-                    />
+                    <FastField type="password" name="password" placeholder="Пароль:" />
                     <ErrorMessage
                       name="password"
                       component="div"
@@ -161,11 +143,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
                   <label className="label">
                     <AccountCircleIcon className="icon" />
 
-                    <FastField
-                      type="text"
-                      name="username"
-                      placeholder="Ваше імя:"
-                    />
+                    <FastField type="text" name="username" placeholder="Ваше імя:" />
                     <ErrorMessage
                       name="username"
                       component="div"
@@ -187,11 +165,7 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
                   <label className="label">
                     <PasswordIcon className="icon" />
 
-                    <FastField
-                      type="password"
-                      name="password"
-                      placeholder="Пароль:"
-                    />
+                    <FastField type="password" name="password" placeholder="Пароль:" />
                     <ErrorMessage
                       name="password"
                       component="div"

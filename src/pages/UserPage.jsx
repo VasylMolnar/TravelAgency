@@ -9,11 +9,9 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Table from '../components/UI/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useUpdateUserMutation,
-  useDeleteUserMutation,
-} from '../features/auth/authApiSlice';
-import { Report, Loading } from 'notiflix';
+import { useLogOutMutation } from '../features/auth/authApiSlice';
+import { useUpdateUserMutation, useDeleteUserMutation } from '../features/user/userApiSlice';
+import { Report, Loading, Notify } from 'notiflix';
 import { setCredentials, logOut } from '../features/auth/authSlice';
 
 const UserPage = () => {
@@ -26,6 +24,7 @@ const UserPage = () => {
   //fn
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
+  const [logOutUser] = useLogOutMutation();
 
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
@@ -40,10 +39,7 @@ const UserPage = () => {
         }, 500)
       : setTimeout(() => {
           Loading.remove();
-          Report.failure(
-            updateData.error.data.message || 'Помилка оновлення',
-            ''
-          );
+          Report.failure(updateData.error.data.message || 'Помилка оновлення', '');
         }, 500);
   };
 
@@ -60,7 +56,6 @@ const UserPage = () => {
           Report.success('Користувача було видалено', '');
         })
         .catch(error => {
-          console.error('catch', error);
           Loading.remove();
           Report.failure(error || 'Помилка видалення', '');
         });
@@ -68,6 +63,12 @@ const UserPage = () => {
       Loading.remove();
       Report.info('Видалення скасовано', '');
     }
+  };
+
+  const handleLogOut = async () => {
+    await logOutUser();
+    dispatch(logOut());
+    Notify.success('😀 До зустрічі');
   };
 
   const data = {
@@ -87,7 +88,6 @@ const UserPage = () => {
               sx={{ width: 200, height: 200 }}
             />
 
-            <input className="custom-file-input" type="file" />
             <p
               style={{
                 marginTop: '30px',
@@ -96,6 +96,17 @@ const UserPage = () => {
             >
               {username}
             </p>
+
+            <input className="custom-file-input" type="file" style={{ marginBottom: '10px' }} />
+
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              style={{ width: '50%', marginBottom: '10px' }}
+              onClick={handleLogOut}
+            >
+              Вийти
+            </button>
           </div>
 
           <div className="userEdit">
@@ -108,13 +119,7 @@ const UserPage = () => {
               onSubmit={handleChange}
               validationSchema={userRegisterSchema}
             >
-              {({
-                values,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                isChanging,
-              }) => (
+              {({ values, handleChange, handleSubmit, isSubmitting, isChanging }) => (
                 <form onSubmit={handleSubmit} className="edit_profile">
                   <div
                     style={{
@@ -160,11 +165,7 @@ const UserPage = () => {
                   <label className="label">
                     <PasswordIcon className="icon" />
 
-                    <FastField
-                      type="password"
-                      name="password"
-                      placeholder="Пароль:"
-                    />
+                    <FastField type="password" name="password" placeholder="Пароль:" />
                     <ErrorMessage
                       name="password"
                       component="div"

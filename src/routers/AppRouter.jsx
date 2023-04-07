@@ -9,6 +9,8 @@ import Rooms from '../pages/Rooms';
 import Room from '../pages/Room';
 import UserPage from '../pages/UserPage';
 import RequireAuth from '../components/RequireAuth/RequireAuth';
+import allowedRoles from '../utils/roles_list.js';
+import PersistLogin from '../components/PersistLogin/PersistLogin';
 
 const AppRouter = () => {
   return (
@@ -33,8 +35,14 @@ const AppRouter = () => {
         <Route path="/gallery" element={<Gallery />} />
 
         {/* private routes */}
-        <Route element={<RequireAuth />}>
-          <Route path="/auth" element={<UserPage />} />
+        {/* Persist Login */}
+        <Route element={<PersistLogin />}>
+          {/* User routes */}
+          <Route element={<RequireAuth allowedRoles={[allowedRoles.User]} />}>
+            <Route path="/userPage" element={<UserPage />} />
+          </Route>
+
+          {/* Admin routes */}
         </Route>
 
         <Route path="*" element={<Missing />} />

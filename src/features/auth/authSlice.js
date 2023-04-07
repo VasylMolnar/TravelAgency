@@ -35,3 +35,4 @@ export default authSlice.reducer;
 export const selectCurrentEmail = state => state.auth.email;
 export const selectCurrentUser = state => state.auth.user;
 export const selectCurrentToken = state => state.auth.accessToken;
+export const selectCurrentRoles = state => state.auth.roles;
