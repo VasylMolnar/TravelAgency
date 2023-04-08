@@ -4,11 +4,10 @@ import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector } from 'react-redux';
-import { selectCurrentToken } from '../../../features/auth/authSlice';
+import { selectIsOpen } from '../../../features/modal/authModalSlice';
 
-const Nav = ({ isOpen, setIsLogIn }) => {
-  //Auth form Redux
-  const isAuth = useSelector(selectCurrentToken);
+const Nav = () => {
+  const isOpen = useSelector(selectIsOpen);
 
   return (
     <div className={isOpen ? 'nav-menu isOpen' : 'nav-menu'}>
@@ -47,32 +46,39 @@ const Nav = ({ isOpen, setIsLogIn }) => {
           </a>
         </li>
 
-        {isAuth ? (
-          <li className="item">
-            <NavLink to="/userPage" className="nav__link">
-              <AccountBoxIcon className="icon-contact" />
-              Профіль
-              {/* user Name */}
-            </NavLink>
-          </li>
-        ) : (
-          <li className="item">
-            <button
-              className="nav__link"
-              style={{
-                border: 'none',
-                backgroundColor: 'white',
-              }}
-              onClick={() => setIsLogIn(true)}
-            >
-              <AccountBoxIcon className="icon-contact" />
-              LogIn
-            </button>
-          </li>
-        )}
+        <li className="item">
+          <NavLink to="/userPage" className="nav__link">
+            <AccountBoxIcon className="icon-contact" />
+            Профіль
+            {/* user Name */}
+          </NavLink>
+        </li>
       </ul>
     </div>
   );
 };
 
 export default Nav;
+// {isAuth ? (
+//   <li className="item">
+//     <NavLink to="/userPage" className="nav__link">
+//       <AccountBoxIcon className="icon-contact" />
+//       Профіль
+//       {/* user Name */}
+//     </NavLink>
+//   </li>
+// ) : (
+//   <li className="item">
+//     <button
+//       className="nav__link"
+//       style={{
+//         border: 'none',
+//         backgroundColor: 'white',
+//       }}
+//       onClick={() => setIsLogIn(true)}
+//     >
+//       <AccountBoxIcon className="icon-contact" />
+//       LogIn
+//     </button>
+//   </li>
+// )}

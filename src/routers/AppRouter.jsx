@@ -34,8 +34,8 @@ const AppRouter = () => {
 
         <Route path="/gallery" element={<Gallery />} />
 
-        {/* private routes */}
         {/* Persist Login */}
+        {/* private routes */}
         <Route element={<PersistLogin />}>
           {/* User routes */}
           <Route element={<RequireAuth allowedRoles={[allowedRoles.User]} />}>

@@ -8,15 +8,20 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Report, Loading } from 'notiflix';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 import { useLogInMutation, useRegisterMutation } from '../../features/auth/authApiSlice';
+import { selectIsLogIn, setIsLogIn } from '../../features/modal/authModalSlice';
 import jwt_decode from 'jwt-decode';
 
-const AuthModal = ({ isLogIn, setIsLogIn }) => {
+const AuthModal = () => {
   const dispatch = useDispatch();
-  const [changeContent, setChangeContent] = useState(true);
   const navigate = useNavigate();
+
+  //select
+  const isLogIn = useSelector(selectIsLogIn);
+
+  const [changeContent, setChangeContent] = useState(true);
 
   //fn Api
   const [register] = useRegisterMutation();
@@ -47,8 +52,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
       ? setTimeout(() => {
           const decoded = jwt_decode(userData.data.accessToken);
 
+          //console.log('userData', userData);
+
           dispatch(setCredentials({ ...decoded.UserInfo, ...userData.data, ...values }));
-          setIsLogIn(false);
+          dispatch(setIsLogIn(false));
+
           navigate('/userPage');
           Loading.remove();
           Report.success(`Вітаємо ${decoded.UserInfo.username} `, '');
@@ -62,7 +70,11 @@ const AuthModal = ({ isLogIn, setIsLogIn }) => {
   return ReactDOM.createPortal(
     <div className={isLogIn ? 'backdropAuth' : 'backdropAuth is-hidden'}>
       <div className="authModal">
-        <button type="submit" className="btn cancelIcon" onClick={() => setIsLogIn(false)}>
+        <button
+          type="submit"
+          className="btn cancelIcon"
+          onClick={() => dispatch(setIsLogIn(false))}
+        >
           <CancelIcon />
         </button>
 
