@@ -114,7 +114,7 @@ const UserPage = () => {
               initialValues={{
                 username,
                 email,
-                password,
+                password: password || '*******',
               }} //select data from server
               onSubmit={handleChange}
               validationSchema={userRegisterSchema}
