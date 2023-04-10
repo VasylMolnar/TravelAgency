@@ -23,7 +23,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       },
 
       providesTags: (result, error, arg) => {
-        return [...result.ids.map(id => ({ type: 'Users', id }))];
+        return [
+          { type: 'Users', id: 'LIST' },
+          ...result.ids.map(id => ({ type: 'Users', id })),
+        ];
       },
     }),
 
@@ -70,13 +73,16 @@ export const {
 
 // Creates memoized selector
 const selectUsersData = createSelector(
-  userApiSlice.endpoints.getUser.select(),
-  postsResult => postsResult.data
+  userApiSlice.endpoints.getAllUsers.select(),
+  postsResult => {
+    // console.log('postsResult', postsResult);
+    return postsResult.data;
+  }
 );
 
-//selectors for Adapter
+// //selectors for Adapter
 export const {
   selectAll: selectAllUsers,
   selectById: selectUserById,
   selectIds: selectUsersIds,
-} = userAdapter.getSelectors(state => selectUsersData(state));
+} = userAdapter.getSelectors(state => selectUsersData(state) ?? initialState);
