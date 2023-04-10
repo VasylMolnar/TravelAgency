@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/TravelAgency/static/css/main.2983cac5.css",
-    "main.js": "/TravelAgency/static/js/main.298d145e.js",
+    "main.css": "/TravelAgency/static/css/main.61831d6f.css",
+    "main.js": "/TravelAgency/static/js/main.cb217ccb.js",
     "static/media/vid-1.mp4": "/TravelAgency/static/media/vid-1.1971a978c59e67858256.mp4",
     "static/media/Igor-desk2x.jpg": "/TravelAgency/static/media/Igor-desk2x.1deb04476516425e7ddb.jpg",
     "static/media/Nikolay-480.jpg": "/TravelAgency/static/media/Nikolay-480.4a65840186c3ab66fefe.jpg",
@@ -14,11 +14,11 @@
     "static/media/Mikhail-768.jpg": "/TravelAgency/static/media/Mikhail-768.b443230feecf30efa1cb.jpg",
     "static/media/1.jpg": "/TravelAgency/static/media/1.07529fc67ccd0f4e460c.jpg",
     "index.html": "/TravelAgency/index.html",
-    "main.2983cac5.css.map": "/TravelAgency/static/css/main.2983cac5.css.map",
-    "main.298d145e.js.map": "/TravelAgency/static/js/main.298d145e.js.map"
+    "main.61831d6f.css.map": "/TravelAgency/static/css/main.61831d6f.css.map",
+    "main.cb217ccb.js.map": "/TravelAgency/static/js/main.cb217ccb.js.map"
   },
   "entrypoints": [
-    "static/css/main.2983cac5.css",
-    "static/js/main.298d145e.js"
+    "static/css/main.61831d6f.css",
+    "static/js/main.cb217ccb.js"
   ]
 }
