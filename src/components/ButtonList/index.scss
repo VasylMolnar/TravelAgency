@@ -1,0 +1,16 @@
+.ButtonList {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+
+  .btn_item {
+    margin: 10px;
+  }
+
+  .btn {
+    width: 130px;
+    height: 40px;
+  }
+}

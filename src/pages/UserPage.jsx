@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLogOutMutation } from '../features/auth/authApiSlice';
 import { useUpdateUserMutation, useDeleteUserMutation } from '../features/user/userApiSlice';
 import { Report, Loading, Notify } from 'notiflix';
-import { setCredentials, logOut } from '../features/auth/authSlice';
+import { setCredentials, logOut, selectCurrentRoles } from '../features/auth/authSlice';
+import allowedRoles from '../utils/roles_list';
+import ButtonList from '../components/ButtonList/ButtonList';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const UserPage = () => {
 
   // select user data from Redux store
   const { id, username, email, password } = useSelector(state => state.auth);
+  const role = useSelector(selectCurrentRoles);
 
   //fn
   const [deleteUser] = useDeleteUserMutation();
@@ -187,18 +190,29 @@ const UserPage = () => {
           </div>
         </div>
 
-        <div className="hotel_content">
-          {/* list of hotel */}
-          {/* namehotel Rooms(Flor) datastart dataend allMoney */}
-          <Table data={data.idHotels} content="hotelContent" />
-          {/* select table options from user data */}
-        </div>
-        <div className="tickets_content">
-          {/* list of tickets */}
-          <Table data={data} content="ticketsContent" />
-        </div>
+        {role.includes(allowedRoles.Admin) ? (
+          <section className="section">
+            <div className="container">
+              <h1 className="title"> Admin Панель </h1>
+              <ButtonList />
+            </div>
+          </section>
+        ) : (
+          <>
+            <div className="hotel_content">
+              {/* list of hotel */}
+              {/* namehotel Rooms(Flor) datastart dataend allMoney */}
+              <Table data={data.idHotels} content="hotelContent" />
+              {/* select table options from user data */}
+            </div>
+            <div className="tickets_content">
+              {/* list of tickets */}
+              <Table data={data} content="ticketsContent" />
+            </div>
 
-        <div className="gallery_content"></div>
+            <div className="gallery_content"></div>
+          </>
+        )}
       </div>
     </main>
   );
