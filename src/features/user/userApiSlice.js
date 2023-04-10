@@ -1,5 +1,5 @@
 import { apiSlice } from '../../app/api/apiSlice';
-
+import { createEntityAdapter } from '@reduxjs/toolkit';
 /*
     //Admin
     1. Get All Users 
@@ -9,6 +9,9 @@ import { apiSlice } from '../../app/api/apiSlice';
     3. Delete User by id
     4. Update User by id
 */
+
+const userAdapter = createEntityAdapter({});
+const initialState = userAdapter.getInitialState();
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
