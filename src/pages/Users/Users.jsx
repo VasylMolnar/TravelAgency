@@ -6,9 +6,8 @@ import UserCard from '../../components/UserCard/UserCard';
 
 const Users = () => {
   //fetch Users data
-  const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
+  const { isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
 
-  console.log(data);
   //select Users IDS
   const orderedPostIds = useSelector(selectUsersIds);
 

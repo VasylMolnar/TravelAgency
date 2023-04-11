@@ -1,3 +1,4 @@
+import { result } from 'lodash';
 import { apiSlice } from '../../app/api/apiSlice';
 
 /*
@@ -22,6 +23,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { ...credentials },
       }),
+
+      invalidatesTags: ['Users'],
     }),
 
     logOut: builder.mutation({
@@ -34,5 +37,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLogInMutation, useRegisterMutation, useLogOutMutation, useRefreshTokenQuery } =
-  authApiSlice;
+export const {
+  useLogInMutation,
+  useRegisterMutation,
+  useLogOutMutation,
+  useRefreshTokenQuery,
+} = authApiSlice;
