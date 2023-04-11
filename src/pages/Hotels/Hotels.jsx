@@ -1,7 +1,8 @@
 import React from 'react';
-import Card from '../Card/Card';
+import SearchBooking from '../../components/SearchBooking/SearchBooking';
+import Card from '../../components/Card/Card';
 
-const HotelCards = () => {
+const Hotels = () => {
   //select name and min max price for search hotel (props)
   //fetch data form server
   const data = [
@@ -47,12 +48,17 @@ const HotelCards = () => {
   ];
 
   return (
-    <div className="hotelCards">
-      {data.map(hotel => (
-        <Card element={hotel} key={hotel.id} />
-      ))}
-    </div>
+    <main className="section hotels">
+      <div className="container">
+        <SearchBooking />
+        <div className="content">
+          {data.map(hotel => (
+            <Card element={hotel} key={hotel.id} />
+          ))}
+        </div>
+      </div>
+    </main>
   );
 };
 
-export default HotelCards;
+export default Hotels;

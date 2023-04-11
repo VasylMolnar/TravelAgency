@@ -1,20 +1,27 @@
 import { useState, React } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Formik, FastField, ErrorMessage } from 'formik';
-import { userRegisterSchema } from '../utils/validationSchema';
+import { userRegisterSchema } from '../../utils/validationSchema';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PasswordIcon from '@mui/icons-material/Password';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Table from '../components/UI/Table/Table';
+import Table from '../../components/UI/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLogOutMutation } from '../features/auth/authApiSlice';
-import { useUpdateUserMutation, useDeleteUserMutation } from '../features/user/userApiSlice';
+import { useLogOutMutation } from '../../features/auth/authApiSlice';
+import {
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} from '../../features/user/userApiSlice';
 import { Report, Loading, Notify } from 'notiflix';
-import { setCredentials, logOut, selectCurrentRoles } from '../features/auth/authSlice';
-import allowedRoles from '../utils/roles_list';
-import ButtonList from '../components/ButtonList/ButtonList';
+import {
+  setCredentials,
+  logOut,
+  selectCurrentRoles,
+} from '../../features/auth/authSlice';
+import allowedRoles from '../../utils/roles_list';
+import ButtonList from '../../components/ButtonList/ButtonList';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -86,7 +93,7 @@ const UserPage = () => {
           <div className="user">
             <Avatar
               className="img"
-              src={require('../img/team/Igor-desk2x.jpg')}
+              src={require('../../img/team/Igor-desk2x.jpg')}
               alt="Remy Sharp"
               sx={{ width: 200, height: 200 }}
             />
@@ -100,7 +107,11 @@ const UserPage = () => {
               {username}
             </p>
 
-            <input className="custom-file-input" type="file" style={{ marginBottom: '10px' }} />
+            <input
+              className="custom-file-input"
+              type="file"
+              style={{ marginBottom: '10px' }}
+            />
 
             <button
               type="button"

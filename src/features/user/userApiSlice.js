@@ -23,10 +23,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       },
 
       providesTags: (result, error, arg) => {
-        return [
-          { type: 'Users', id: 'LIST' },
-          ...result.ids.map(id => ({ type: 'Users', id })),
-        ];
+        return [...result.ids.map(id => ({ type: 'Users', id }))];
       },
     }),
 

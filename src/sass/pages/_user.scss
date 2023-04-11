@@ -104,3 +104,10 @@
     }
   }
 }
+
+.userList {
+  .userList_cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

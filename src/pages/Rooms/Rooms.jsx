@@ -1,8 +1,8 @@
 import React from 'react';
-import Card from '../Card/Card';
-import { useParams } from 'react-router-dom';
+import SearchBooking from '../../components/SearchBooking/SearchBooking';
+import Card from '../../components/Card/Card';
 
-const RoomCards = () => {
+const Rooms = () => {
   //select Hotel id from url and fetch data in rooms folder (in server)
   //find rooms by Hotel id
   //const { id } = useParams();
@@ -50,12 +50,17 @@ const RoomCards = () => {
   ];
 
   return (
-    <div className="RoomCards">
-      {data.map(room => (
-        <Card element={room} key={room.id} />
-      ))}
-    </div>
+    <main className="section hotels">
+      <div className="container">
+        <SearchBooking />
+        <div className="content">
+          {data.map(room => (
+            <Card element={room} key={room.id} />
+          ))}
+        </div>
+      </div>
+    </main>
   );
 };
 
-export default RoomCards;
+export default Rooms;

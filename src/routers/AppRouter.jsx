@@ -3,17 +3,17 @@ import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Missing from '../pages/Missing';
 import Gallery from '../pages/Gallery';
-import Hotels from '../pages/Hotels';
-import Hotel from '../pages/Hotel';
-import Rooms from '../pages/Rooms';
-import Room from '../pages/Room';
-import UserPage from '../pages/UserPage';
+import Hotels from '../pages/Hotels/Hotels';
+import HotelPage from '../pages/Hotels/HotelPage';
+import Rooms from '../pages/Rooms/Rooms';
+import RoomPage from '../pages/Rooms/RoomPage';
+import UserPage from '../pages/Users/UserPage';
+import Users from '../pages/Users/Users';
 import RequireAuth from '../components/RequireAuth/RequireAuth';
 import allowedRoles from '../utils/roles_list.js';
 import PersistLogin from '../components/PersistLogin/PersistLogin';
-import HotelList from '../pages/HotelList';
-import RoomList from '../pages/RoomList';
-import UserList from '../pages/UserList';
+import HotelList from '../pages/List/HotelList';
+import RoomList from '../pages/List/RoomList';
 
 const AppRouter = () => {
   return (
@@ -26,11 +26,11 @@ const AppRouter = () => {
           <Route index element={<Hotels />} />
 
           <Route path=":id">
-            <Route index element={<Hotel />} />
+            <Route index element={<HotelPage />} />
 
             <Route path="rooms">
               <Route index element={<Rooms />} />
-              <Route path=":id" element={<Room />} />
+              <Route path=":id" element={<RoomPage />} />
             </Route>
           </Route>
         </Route>
@@ -49,7 +49,7 @@ const AppRouter = () => {
               <Route element={<RequireAuth allowedRoles={[allowedRoles.Admin]} />}>
                 <Route path="hotelList" element={<HotelList />} />
                 <Route path="roomList" element={<RoomList />} />
-                <Route path="userList" element={<UserList />} />
+                <Route path="userList" element={<Users />} />
               </Route>
             </Route>
           </Route>

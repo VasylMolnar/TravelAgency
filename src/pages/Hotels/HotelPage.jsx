@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 
-const Hotel = () => {
+const HotelPage = () => {
   const { pathname } = useLocation();
   //search data in redux or fetch hotel data by id
 
@@ -34,28 +34,28 @@ const Hotel = () => {
         </div>
 
         <span className="hotelPriceHighlight">
-          Забронюйте проживання ${data.cheapestPrice} у цій власності та
-          отримайте безкоштовне таксі в аеропорт
+          Забронюйте проживання ${data.cheapestPrice} у цій власності та отримайте
+          безкоштовне таксі в аеропорт
         </span>
 
         <div className="hotel__content">
           <div className="hotelImages">
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
           </div>
 
           <div className="hotelDetails">
             <div className="hotelDetailsPrice">
               <span>
-                Цей готель розташований у самому серці міста відмінне
-                розташування оцінка 9,8!
+                Цей готель розташований у самому серці міста відмінне розташування оцінка
+                9,8!
               </span>
 
               <p style={{ marginTop: '10px' }}>{data.description}</p>
@@ -71,4 +71,4 @@ const Hotel = () => {
   );
 };
 
-export default Hotel;
+export default HotelPage;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-const Room = () => {
+const RoomPage = () => {
   const { id } = useParams();
   //search data in redux or fetch room data by id
 
@@ -35,15 +35,15 @@ const Room = () => {
 
         <div className="hotel__content">
           <div className="hotelImages">
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
-            <img src={require('../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
+            <img src={require('../../img/2.jpg')} alt="" className="hotelImg" />
           </div>
 
           <div className="hotelDetails">
@@ -53,8 +53,8 @@ const Room = () => {
               </h1>
               {/* days user select */}
               <span>
-                Цей готель розташований у самому серці міста відмінне
-                розташування оцінка 9,8!
+                Цей готель розташований у самому серці міста відмінне розташування оцінка
+                9,8!
               </span>
 
               <h2>
@@ -100,4 +100,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default RoomPage;
