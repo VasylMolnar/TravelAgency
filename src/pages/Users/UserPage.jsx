@@ -23,6 +23,8 @@ import {
 import allowedRoles from '../../utils/roles_list';
 import ButtonList from '../../components/ButtonList/ButtonList';
 
+import axios from 'axios';
+
 const UserPage = () => {
   const dispatch = useDispatch();
   const [canUpdate, setCanUpdate] = useState(false);
@@ -81,6 +83,20 @@ const UserPage = () => {
     Notify.success('😀 До зустрічі');
   };
 
+  const changeImage = async e => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetch('http://localhost:1234/user/642c52e7c73a96951598364a/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.error(error));
+  };
+
   const data = {
     id: 1, //user
     idHotels: { 2: [1, 2, 4], 7: [2, 5], 8: [1] }, //hotels id(key) room(value)
@@ -93,7 +109,7 @@ const UserPage = () => {
           <div className="user">
             <Avatar
               className="img"
-              src={require('../../img/team/Igor-desk2x.jpg')}
+              src={require('../../img/avatar.jpg')}
               alt="Remy Sharp"
               sx={{ width: 200, height: 200 }}
             />
@@ -110,7 +126,9 @@ const UserPage = () => {
             <input
               className="custom-file-input"
               type="file"
+              name="image"
               style={{ marginBottom: '10px' }}
+              onChange={e => changeImage(e)}
             />
 
             <button
