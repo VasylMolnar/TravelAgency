@@ -8,13 +8,14 @@ import PasswordIcon from '@mui/icons-material/Password';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Table from '../../components/UI/Table/Table';
+import { Report, Loading, Notify } from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLogOutMutation } from '../../features/auth/authApiSlice';
 import {
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useUploadImgMutation,
 } from '../../features/user/userApiSlice';
-import { Report, Loading, Notify } from 'notiflix';
 import {
   setCredentials,
   logOut,
@@ -22,8 +23,6 @@ import {
 } from '../../features/auth/authSlice';
 import allowedRoles from '../../utils/roles_list';
 import ButtonList from '../../components/ButtonList/ButtonList';
-
-import axios from 'axios';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -37,6 +36,7 @@ const UserPage = () => {
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [logOutUser] = useLogOutMutation();
+  const [uploadIMG] = useUploadImgMutation();
 
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
@@ -88,12 +88,8 @@ const UserPage = () => {
     const formData = new FormData();
     formData.append('image', file);
 
-    fetch('http://localhost:1234/user/642c52e7c73a96951598364a/', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(response => response.text())
-      .then(result => console.log(result))
+    await uploadIMG({ formData, id })
+      .then(response => console.log(response.data.message))
       .catch(error => console.error(error));
   };
 
