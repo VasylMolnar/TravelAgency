@@ -83,10 +83,17 @@ const UserPage = () => {
     Notify.success('😀 До зустрічі');
   };
 
-  const changeImage = async e => {
+  const changeImage = async (e, folder) => {
     const file = e.target.files[0];
+    // file.folderName = folder;
+    // console.log('', file);
     const formData = new FormData();
     formData.append('image', file);
+    formData.append('folder', 'Avatar');
+
+    // for (const key of formData) {
+    //   console.log(key);
+    // }
 
     await uploadIMG({ formData, id })
       .then(response => console.log(response.data.message))
@@ -124,7 +131,7 @@ const UserPage = () => {
               type="file"
               name="image"
               style={{ marginBottom: '10px' }}
-              onChange={e => changeImage(e)}
+              onChange={e => changeImage(e, 'Avatar')}
             />
 
             <button
