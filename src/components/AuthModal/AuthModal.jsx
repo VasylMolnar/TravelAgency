@@ -50,7 +50,7 @@ const AuthModal = () => {
 
     !userData?.error
       ? setTimeout(() => {
-          const decoded = jwt_decode(userData.data.accessToken);
+          const decoded = jwt_decode(userData.data.accessToken); //decoded Token take secret info
 
           //console.log('userData', userData);
 

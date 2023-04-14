@@ -15,6 +15,7 @@ import {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useUploadImgMutation,
+  useGetUserQuery,
 } from '../../features/user/userApiSlice';
 import {
   setCredentials,
@@ -29,8 +30,9 @@ const UserPage = () => {
   const [canUpdate, setCanUpdate] = useState(false);
 
   // select user data from Redux store
-  const { id, username, email, password } = useSelector(state => state.auth);
+  const { id } = useSelector(state => state.auth);
   const role = useSelector(selectCurrentRoles);
+  const { data, isSuccess } = useGetUserQuery(id);
 
   //fn
   const [deleteUser] = useDeleteUserMutation();
@@ -85,167 +87,173 @@ const UserPage = () => {
 
   const changeImage = async (e, folder) => {
     const file = e.target.files[0];
-    // file.folderName = folder;
-    // console.log('', file);
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('folder', 'Avatar');
+    formData.append('folder', folder);
 
     // for (const key of formData) {
     //   console.log(key);
     // }
 
     await uploadIMG({ formData, id })
-      .then(response => console.log(response.data.message))
-      .catch(error => console.error(error));
+      .then(response => {
+        Loading.remove();
+        Report.success('Користувача було оновлено', '');
+      })
+      .catch(error => {
+        Loading.remove();
+        Report.failure(error, '');
+      });
   };
 
-  const data = {
+  const dataForm = {
     id: 1, //user
     idHotels: { 2: [1, 2, 4], 7: [2, 5], 8: [1] }, //hotels id(key) room(value)
   };
 
   return (
     <main className="section userPage">
-      <div className="container">
-        <div className="user_content">
-          <div className="user">
-            <Avatar
-              className="img"
-              src={require('../../img/avatar.jpg')}
-              alt="Remy Sharp"
-              sx={{ width: 200, height: 200 }}
-            />
+      {isSuccess && (
+        <div className="container">
+          <div className="user_content">
+            <div className="user">
+              <Avatar
+                className="img"
+                src={data.avatar}
+                alt="Remy Sharp"
+                sx={{ width: 200, height: 200 }}
+              />
 
-            <p
-              style={{
-                marginTop: '30px',
-                marginBottom: '30px',
-              }}
-            >
-              {username}
-            </p>
+              <p
+                style={{
+                  marginTop: '30px',
+                  marginBottom: '30px',
+                }}
+              >
+                {data.username}
+              </p>
 
-            <input
-              className="custom-file-input"
-              type="file"
-              name="image"
-              style={{ marginBottom: '10px' }}
-              onChange={e => changeImage(e, 'Avatar')}
-            />
+              <input
+                className="custom-file-input"
+                type="file"
+                name="image"
+                style={{ marginBottom: '10px' }}
+                onChange={e => changeImage(e, 'Avatar')}
+              />
 
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              style={{ width: '50%', marginBottom: '10px' }}
-              onClick={handleLogOut}
-            >
-              Вийти
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                style={{ width: '50%', marginBottom: '10px' }}
+                onClick={handleLogOut}
+              >
+                Вийти
+              </button>
+            </div>
 
-          <div className="userEdit">
-            <Formik
-              initialValues={{
-                username,
-                email,
-                password: password || '*******',
-              }} //select data from server
-              onSubmit={handleChange}
-              validationSchema={userRegisterSchema}
-            >
-              {({ values, handleChange, handleSubmit, isSubmitting, isChanging }) => (
-                <form onSubmit={handleSubmit} className="edit_profile">
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <h1 className="title">Редагувати профіль</h1>
+            <div className="userEdit">
+              <Formik
+                initialValues={{
+                  username: data.username,
+                  email: data.email,
+                  password: data.password || '*******',
+                }} //select data from server
+                onSubmit={handleChange}
+                validationSchema={userRegisterSchema}
+              >
+                {({ values, handleChange, handleSubmit, isSubmitting, isChanging }) => (
+                  <form onSubmit={handleSubmit} className="edit_profile">
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <h1 className="title">Редагувати профіль</h1>
 
-                    <div>
-                      <DriveFileRenameOutlineIcon
-                        type="button"
-                        onClick={() => setCanUpdate(!canUpdate)}
-                        style={{ marginRight: '10px' }}
-                      />
+                      <div>
+                        <DriveFileRenameOutlineIcon
+                          type="button"
+                          onClick={() => setCanUpdate(!canUpdate)}
+                          style={{ marginRight: '10px' }}
+                        />
 
-                      <DeleteForeverIcon type="button" onClick={handleDelete} />
+                        <DeleteForeverIcon type="button" onClick={handleDelete} />
+                      </div>
                     </div>
-                  </div>
 
-                  <label className="label">
-                    <AccountCircleIcon className="icon" />
+                    <label className="label">
+                      <AccountCircleIcon className="icon" />
 
-                    <FastField type="text" name="username" placeholder="Імя:" />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      style={{ color: 'red', textTransform: 'upperCase' }}
-                    />
-                  </label>
+                      <FastField type="text" name="username" placeholder="Імя:" />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        style={{ color: 'red', textTransform: 'upperCase' }}
+                      />
+                    </label>
 
-                  <label className="label">
-                    <MailOutlineIcon className="icon" />
+                    <label className="label">
+                      <MailOutlineIcon className="icon" />
 
-                    <FastField type="email" name="email" placeholder="Пошта:" />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      style={{ color: 'red', textTransform: 'upperCase' }}
-                    />
-                  </label>
+                      <FastField type="email" name="email" placeholder="Пошта:" />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        style={{ color: 'red', textTransform: 'upperCase' }}
+                      />
+                    </label>
 
-                  <label className="label">
-                    <PasswordIcon className="icon" />
+                    <label className="label">
+                      <PasswordIcon className="icon" />
 
-                    <FastField type="password" name="password" placeholder="Пароль:" />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      style={{ color: 'red', textTransform: 'upperCase' }}
-                    />
-                  </label>
+                      <FastField type="password" name="password" placeholder="Пароль:" />
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        style={{ color: 'red', textTransform: 'upperCase' }}
+                      />
+                    </label>
 
-                  <button
-                    className="btn btn-outline-primary"
-                    type="submit"
-                    disabled={!canUpdate}
-                    style={{ width: '85%' }}
-                  >
-                    Змінити
-                  </button>
-                </form>
-              )}
-            </Formik>
+                    <button
+                      className="btn btn-outline-primary"
+                      type="submit"
+                      disabled={!canUpdate}
+                      style={{ width: '85%' }}
+                    >
+                      Змінити
+                    </button>
+                  </form>
+                )}
+              </Formik>
+            </div>
           </div>
+
+          {role.includes(allowedRoles.Admin) ? (
+            <section className="section">
+              <div className="container">
+                <h1 className="title"> Admin Панель </h1>
+                <ButtonList />
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="hotel_content">
+                {/* list of hotel */}
+                {/* namehotel Rooms(Flor) datastart dataend allMoney */}
+                <Table data={dataForm.idHotels} content="hotelContent" />
+                {/* select table options from user data */}
+              </div>
+              <div className="tickets_content">
+                {/* list of tickets */}
+                <Table data={dataForm} content="ticketsContent" />
+              </div>
+
+              <div className="gallery_content"></div>
+            </>
+          )}
         </div>
-
-        {role.includes(allowedRoles.Admin) ? (
-          <section className="section">
-            <div className="container">
-              <h1 className="title"> Admin Панель </h1>
-              <ButtonList />
-            </div>
-          </section>
-        ) : (
-          <>
-            <div className="hotel_content">
-              {/* list of hotel */}
-              {/* namehotel Rooms(Flor) datastart dataend allMoney */}
-              <Table data={data.idHotels} content="hotelContent" />
-              {/* select table options from user data */}
-            </div>
-            <div className="tickets_content">
-              {/* list of tickets */}
-              <Table data={data} content="ticketsContent" />
-            </div>
-
-            <div className="gallery_content"></div>
-          </>
-        )}
-      </div>
+      )}
     </main>
   );
 };

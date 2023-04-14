@@ -18,7 +18,7 @@ const Users = () => {
           Список Користувачів
         </h1>
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
-        {error && (Report.failure('Error', `${error}`), Loading.remove())}
+        {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
         <div className="userList_cards">
           {isSuccess && !isError && orderedPostIds.map(id => <UserCard id={id} />)}
