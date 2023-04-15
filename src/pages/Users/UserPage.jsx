@@ -1,4 +1,4 @@
-import { useState, React } from 'react';
+import { useState, React, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Formik, FastField, ErrorMessage } from 'formik';
 import { userRegisterSchema } from '../../utils/validationSchema';
@@ -17,11 +17,7 @@ import {
   useUploadImgMutation,
   useGetUserQuery,
 } from '../../features/user/userApiSlice';
-import {
-  setCredentials,
-  logOut,
-  selectCurrentRoles,
-} from '../../features/auth/authSlice';
+import { logOut, selectCurrentRoles } from '../../features/auth/authSlice';
 import allowedRoles from '../../utils/roles_list';
 import ButtonList from '../../components/ButtonList/ButtonList';
 
@@ -29,10 +25,10 @@ const UserPage = () => {
   const dispatch = useDispatch();
   const [canUpdate, setCanUpdate] = useState(false);
 
-  // select user data from Redux store
+  // select user data from Redux Api
   const { id } = useSelector(state => state.auth);
-  const role = useSelector(selectCurrentRoles);
   const { data, isSuccess } = useGetUserQuery(id);
+  const role = useSelector(selectCurrentRoles);
 
   //fn
   const [deleteUser] = useDeleteUserMutation();
@@ -47,7 +43,6 @@ const UserPage = () => {
 
     !updateData?.error
       ? setTimeout(() => {
-          dispatch(setCredentials({ ...values }));
           Loading.remove();
           Report.success('Користувача було оновлено', '');
         }, 500)
@@ -119,7 +114,7 @@ const UserPage = () => {
             <div className="user">
               <Avatar
                 className="img"
-                src={data.avatar}
+                src={require('../../img/avatar.jpg')}
                 alt="Remy Sharp"
                 sx={{ width: 200, height: 200 }}
               />

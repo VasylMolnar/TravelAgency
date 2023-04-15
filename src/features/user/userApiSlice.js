@@ -18,13 +18,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
     getUser: builder.query({
       query: id => `/user/${id}`,
 
-      // transformResponse: responseData => {
-      //   return userAdapter.setAll(initialState, responseData);
-      // },
-
-      // providesTags: (result, error, arg) => {
-      //   return [...result.ids.map(id => ({ type: 'Users', id }))];
-      // },
+      providesTags: (result, error, arg) => {
+        const id = result.id;
+        return [{ type: 'Users', id }];
+      },
     }),
 
     getAllUsers: builder.query({
@@ -77,6 +74,7 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useUploadImgMutation,
+  useGetIMGQuery,
 } = userApiSlice;
 
 // Creates memoized selector

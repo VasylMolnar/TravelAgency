@@ -54,7 +54,7 @@ const AuthModal = () => {
 
           //console.log('userData', userData);
 
-          dispatch(setCredentials({ ...decoded.UserInfo, ...userData.data, ...values }));
+          dispatch(setCredentials({ ...decoded.UserInfo, ...userData.data }));
           dispatch(setIsLogIn(false));
 
           navigate('/userPage');
