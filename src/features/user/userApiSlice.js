@@ -1,5 +1,6 @@
 import { apiSlice } from '../../app/api/apiSlice';
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { uint8ArrayToBase64 } from '../../utils/base64String';
 /*
     //Admin
     1. Get All Users 
@@ -18,7 +19,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
     getUser: builder.query({
       query: id => `/user/${id}`,
 
+      transformResponse: response => {
+        const base64String = uint8ArrayToBase64(response);
+
+        // Return data URL
+        return { imageUrl: `data:image/png;base64,${base64String}` };
+      },
+
       providesTags: (result, error, arg) => {
+        console.log('', result);
         const id = result.id;
         return [{ type: 'Users', id }];
       },
@@ -63,7 +72,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
     uploadImg: builder.mutation({
       query: ({ formData, id }) => ({
-        url: `/user/${id}`,
+        url: `/user/${id}/uploads`,
         method: 'POST',
         body: formData,
       }),

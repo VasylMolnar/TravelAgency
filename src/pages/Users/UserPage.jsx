@@ -29,14 +29,13 @@ const UserPage = () => {
   const { id } = useSelector(state => state.auth);
   const { data, isSuccess } = useGetUserQuery(id);
   const role = useSelector(selectCurrentRoles);
+  console.log(data);
 
   //fn Api
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [logOutUser] = useLogOutMutation();
   const [uploadIMG] = useUploadImgMutation();
-
-  //можливо буде помилка у Адміна при отримані всіх Користувачів
 
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
@@ -116,7 +115,8 @@ const UserPage = () => {
             <div className="user">
               <Avatar
                 className="img"
-                src={require('../../img/avatar.jpg')}
+                //src={require('../../img/avatar.jpg')}
+                src={data.imageUrl}
                 alt="Remy Sharp"
                 sx={{ width: 200, height: 200 }}
               />
