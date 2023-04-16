@@ -1,6 +1,6 @@
 import { apiSlice } from '../../app/api/apiSlice';
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import { uint8ArrayToBase64 } from '../../utils/base64String';
+import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
 /*
     //Admin
     1. Get All Users 
@@ -20,14 +20,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: id => `/user/${id}`,
 
       transformResponse: response => {
-        const base64String = uint8ArrayToBase64(response);
+        if (response?.avatar?.data) {
+          const base64String = uint8ArrayToBase64(response.avatar.data.data);
 
-        // Return data URL
-        return { imageUrl: `data:image/png;base64,${base64String}` };
+          // Return data URL
+          return { ...response, imageUrl: `data:image/png;base64,${base64String}` };
+        }
+        return response;
       },
 
       providesTags: (result, error, arg) => {
-        console.log('', result);
+        // console.log('', result);
         const id = result.id;
         return [{ type: 'Users', id }];
       },

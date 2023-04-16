@@ -29,7 +29,6 @@ const UserPage = () => {
   const { id } = useSelector(state => state.auth);
   const { data, isSuccess } = useGetUserQuery(id);
   const role = useSelector(selectCurrentRoles);
-  console.log(data);
 
   //fn Api
   const [deleteUser] = useDeleteUserMutation();
@@ -117,7 +116,6 @@ const UserPage = () => {
                 className="img"
                 //src={require('../../img/avatar.jpg')}
                 src={data.imageUrl}
-                alt="Remy Sharp"
                 sx={{ width: 200, height: 200 }}
               />
 

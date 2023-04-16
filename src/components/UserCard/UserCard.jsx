@@ -9,12 +9,15 @@ import { Avatar, Card } from 'antd';
 import { Loading, Report } from 'notiflix';
 import { useDispatch } from 'react-redux';
 import { FcApproval, FcExpired } from 'react-icons/fc';
-
 const { Meta } = Card;
 
 let UserCard = ({ id }) => {
   const dispatch = useDispatch();
-  const { username, email, date } = useSelector(state => selectUserById(state, id));
+  const { username, email, date, imageUrl } = useSelector(state =>
+    selectUserById(state, id)
+  );
+
+  console.log(imageUrl);
 
   //Api fn
   const [deleteUser] = useDeleteUserMutation();
@@ -42,6 +45,7 @@ let UserCard = ({ id }) => {
 
   const currentYear = new Date().getFullYear().toString();
   const regDate = date.split('-')[0];
+  //                src={data.imageUrl}
 
   return (
     <Card

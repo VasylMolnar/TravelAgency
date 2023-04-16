@@ -52,8 +52,6 @@ const AuthModal = () => {
       ? setTimeout(() => {
           const decoded = jwt_decode(userData.data.accessToken); //decoded Token take secret info
 
-          //console.log('userData', userData);
-
           dispatch(setCredentials({ ...decoded.UserInfo, ...userData.data }));
           dispatch(setIsLogIn(false));
 
