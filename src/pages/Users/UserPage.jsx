@@ -30,11 +30,13 @@ const UserPage = () => {
   const { data, isSuccess } = useGetUserQuery(id);
   const role = useSelector(selectCurrentRoles);
 
-  //fn
+  //fn Api
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [logOutUser] = useLogOutMutation();
   const [uploadIMG] = useUploadImgMutation();
+
+  //можливо буде помилка у Адміна при отримані всіх Користувачів
 
   const handleChange = async values => {
     Loading.dots('Оновлення даних ... ');
@@ -156,7 +158,14 @@ const UserPage = () => {
                 onSubmit={handleChange}
                 validationSchema={userRegisterSchema}
               >
-                {({ values, handleChange, handleSubmit, isSubmitting, isChanging }) => (
+                {({
+                  values,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  isChanging,
+                  setFieldValue,
+                }) => (
                   <form onSubmit={handleSubmit} className="edit_profile">
                     <div
                       style={{
@@ -202,7 +211,12 @@ const UserPage = () => {
                     <label className="label">
                       <PasswordIcon className="icon" />
 
-                      <FastField type="password" name="password" placeholder="Пароль:" />
+                      <FastField
+                        type="password"
+                        name="password"
+                        placeholder="Пароль:"
+                        onClick={() => setFieldValue('password', '')}
+                      />
                       <ErrorMessage
                         name="password"
                         component="div"

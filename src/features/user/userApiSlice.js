@@ -53,7 +53,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: { id },
       }),
 
-      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
+      invalidatesTags: (result, error, arg) => {
+        if (result.roles.includes('5150')) {
+          //Admin
+          return [{ type: 'Users', id: arg.id }];
+        }
+      },
     }),
 
     uploadImg: builder.mutation({
