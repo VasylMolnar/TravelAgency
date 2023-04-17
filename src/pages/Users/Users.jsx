@@ -9,7 +9,7 @@ const Users = () => {
   const { isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
 
   //select Users IDS
-  const orderedPostIds = useSelector(selectUsersIds);
+  const orderedUsersIds = useSelector(selectUsersIds);
 
   return (
     <main className="section userList" style={{ backgroundColor: '#f5f5f5' }}>
@@ -21,7 +21,7 @@ const Users = () => {
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
         <div className="userList_cards">
-          {isSuccess && !isError && orderedPostIds.map(id => <UserCard id={id} />)}
+          {isSuccess && !isError && orderedUsersIds.map(id => <UserCard id={id} />)}
         </div>
       </div>
     </main>
