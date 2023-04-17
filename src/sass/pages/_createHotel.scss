@@ -1,0 +1,9 @@
+.hotelList {
+  .btnList {
+    margin-top: 10px;
+
+    @media screen and (min-width: $desktop) {
+      margin-top: 90px;
+    }
+  }
+}

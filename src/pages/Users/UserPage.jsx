@@ -115,7 +115,7 @@ const UserPage = () => {
               <Avatar
                 className="img"
                 //src={require('../../img/avatar.jpg')}
-                src={data.imageUrl}
+                src={data.imageUrl || require('../../img/avatar.jpg')}
                 sx={{ width: 200, height: 200 }}
               />
 

@@ -40,7 +40,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: () => `/user`,
 
       transformResponse: responseData => {
-        return userAdapter.setAll(initialState, responseData);
+        const newResponse = responseData.map(item => {
+          if (item?.avatar?.data) {
+            const base64String = uint8ArrayToBase64(item.avatar.data.data);
+
+            // Return data URL
+            return { ...item, imageUrl: `data:image/png;base64,${base64String}` };
+          }
+
+          return item;
+        });
+
+        return userAdapter.setAll(initialState, newResponse);
       },
 
       providesTags: (result, error, arg) => {

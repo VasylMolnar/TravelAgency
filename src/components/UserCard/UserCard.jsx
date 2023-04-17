@@ -17,8 +17,6 @@ let UserCard = ({ id }) => {
     selectUserById(state, id)
   );
 
-  console.log(imageUrl);
-
   //Api fn
   const [deleteUser] = useDeleteUserMutation();
 
@@ -45,7 +43,6 @@ let UserCard = ({ id }) => {
 
   const currentYear = new Date().getFullYear().toString();
   const regDate = date.split('-')[0];
-  //                src={data.imageUrl}
 
   return (
     <Card
@@ -55,7 +52,7 @@ let UserCard = ({ id }) => {
         <img
           className="img"
           alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          src={imageUrl || require('../../img/avatar.jpg')}
         />
       }
       actions={[
