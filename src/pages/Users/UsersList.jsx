@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux';
 import { Report, Loading } from 'notiflix';
 import UserCard from '../../components/UserCard/UserCard';
 
-const Users = () => {
+const UsersList = () => {
+  //for admin page User list
+
   //fetch Users data
   const { isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
 
@@ -28,4 +30,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersList;

@@ -7,6 +7,7 @@ const initialState = hotelAdapter.getInitialState();
 
 export const hotelApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    //User
     getAllHotels: builder.query({
       query: () => `/hotel`,
 
@@ -29,10 +30,23 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
         return [...result.ids.map(id => ({ type: 'Hotels', id }))];
       },
     }),
+
+    //Admin
+    deleteHotel: builder.mutation({
+      query: ({ id }) => ({
+        url: `/hotel/${id}`,
+        method: 'DELETE',
+        body: { id },
+      }),
+
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Hotels', id: arg.id }];
+      },
+    }),
   }),
 });
 
-export const { useGetAllHotelsQuery } = hotelApiSlice;
+export const { useGetAllHotelsQuery, useDeleteHotelMutation } = hotelApiSlice;
 
 // Creates memoized selector
 const selectHotelsData = createSelector(

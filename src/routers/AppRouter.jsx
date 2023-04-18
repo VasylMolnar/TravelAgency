@@ -8,7 +8,7 @@ import HotelPage from '../pages/Hotels/HotelPage';
 import Rooms from '../pages/Rooms/Rooms';
 import RoomPage from '../pages/Rooms/RoomPage';
 import UserPage from '../pages/Users/UserPage';
-import Users from '../pages/Users/Users';
+import UsersList from '../pages/Users/UsersList';
 import RequireAuth from '../components/RequireAuth/RequireAuth';
 import allowedRoles from '../utils/roles_list.js';
 import PersistLogin from '../components/PersistLogin/PersistLogin';
@@ -48,7 +48,7 @@ const AppRouter = () => {
               <Route element={<RequireAuth allowedRoles={[allowedRoles.Admin]} />}>
                 <Route path="hotelList" element={<HotelList />} />
                 {/* <Route path="roomList" element={<RoomList />} /> */}
-                <Route path="userList" element={<Users />} />
+                <Route path="userList" element={<UsersList />} />
               </Route>
             </Route>
           </Route>

@@ -6,6 +6,7 @@ import {
 } from '../../features/hotel/hotelApiSlice';
 import { Report, Loading } from 'notiflix';
 import HotelCard from '../../components/HotelCard/HotelCard';
+import HotelModal from '../../components/HotelModal/HotelModal';
 
 const HotelList = () => {
   //fetch Hotels data
@@ -28,6 +29,8 @@ const HotelList = () => {
           {isSuccess && !isError && orderedHotelsIds.map(id => <HotelCard id={id} />)}
         </div>
       </div>
+
+      <HotelModal />
     </main>
   );
 };
