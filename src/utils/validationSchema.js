@@ -10,3 +10,13 @@ export const userRegisterSchema = yup.object({
   email: yup.string().required().email(),
   password: yup.string().required().min(7).max(100),
 });
+
+export const hotelSchema = yup.object({
+  hotelName: yup.string().required(),
+  country: yup.string().required(),
+  city: yup.string().required(),
+  address: yup.string().required(),
+  price: yup.number().required().positive().integer(),
+  capacity: yup.number().required().positive().integer(),
+  description: yup.string().required(),
+});

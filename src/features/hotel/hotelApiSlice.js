@@ -43,10 +43,21 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Hotels', id: arg.id }];
       },
     }),
+
+    createHotel: builder.mutation({
+      query: ({ formData }) => ({
+        url: `/hotel`,
+        method: 'POST',
+        body: formData,
+      }),
+
+      invalidatesTags: ['Hotels'],
+    }),
   }),
 });
 
-export const { useGetAllHotelsQuery, useDeleteHotelMutation } = hotelApiSlice;
+export const { useGetAllHotelsQuery, useDeleteHotelMutation, useCreateHotelMutation } =
+  hotelApiSlice;
 
 // Creates memoized selector
 const selectHotelsData = createSelector(

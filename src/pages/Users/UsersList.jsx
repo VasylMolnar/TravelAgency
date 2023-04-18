@@ -23,7 +23,9 @@ const UsersList = () => {
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
         <div className="userList_cards">
-          {isSuccess && !isError && orderedUsersIds.map(id => <UserCard id={id} />)}
+          {isSuccess &&
+            !isError &&
+            orderedUsersIds.map(id => <UserCard id={id} key={id} />)}
         </div>
       </div>
     </main>

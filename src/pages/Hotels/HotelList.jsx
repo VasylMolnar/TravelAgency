@@ -26,7 +26,9 @@ const HotelList = () => {
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
         <div className="userList_cards">
-          {isSuccess && !isError && orderedHotelsIds.map(id => <HotelCard id={id} />)}
+          {isSuccess &&
+            !isError &&
+            orderedHotelsIds.map(id => <HotelCard id={id} key={id} />)}
         </div>
       </div>
 
