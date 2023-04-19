@@ -11,19 +11,14 @@ let Card = ({ element }) => {
         <div className="card_content">
           <div className="card_photo" style={{ maxWidth: '250px' }}>
             {/* {element.img} */}
-            <img
-              src={require('../../img/1.jpg')}
-              alt="test"
-              className="card_img"
-            />
+            <img src={element.imagesUrl[0]} alt="test" className="card_img" />
           </div>
 
           <figcaption className="figcaption">
             <h1 className="hotelName">{element.name}</h1>
-            <span>{element.address}</span>
+            <span>Адрес: {element.address}</span>
 
             <p>
-              {/* {element.reactions} */}
               <StarOutlineIcon />
               <StarOutlineIcon />
               <StarOutlineIcon />
@@ -31,7 +26,7 @@ let Card = ({ element }) => {
             </p>
             <p>{element.description}</p>
 
-            <h3 className="price">Price: {element.price}</h3>
+            <h3 className="price">Ціна: {element.price}</h3>
           </figcaption>
         </div>
       </figure>

@@ -7,17 +7,19 @@ const initialState = hotelAdapter.getInitialState();
 
 export const hotelApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    //User
+    //User and Admin
     getAllHotels: builder.query({
       query: () => `/hotel`,
 
       transformResponse: responseData => {
         const newResponse = responseData.map(item => {
-          if (item?.img?.data) {
-            const base64String = uint8ArrayToBase64(item.img.data.data);
-
-            // Return data URL
-            return { ...item, imageUrl: `data:image/png;base64,${base64String}` };
+          if (item?.img.length !== 0) {
+            const base64StringArray = item.img.map(imgData => {
+              return `data:image/png;base64,${uint8ArrayToBase64(imgData.data.data)}`;
+            });
+            // console.log('', base64StringArray);
+            // Return data Array of URL
+            return { ...item, imagesUrl: base64StringArray };
           }
 
           return item;

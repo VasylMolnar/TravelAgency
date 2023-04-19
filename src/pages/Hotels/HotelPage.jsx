@@ -1,10 +1,23 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import { selectHotelById } from '../../features/hotel/hotelApiSlice';
+import { useSelector } from 'react-redux';
 
 const HotelPage = () => {
+  const { id } = useParams();
   const { pathname } = useLocation();
-  //search data in redux or fetch hotel data by id
+
+  const {
+    address,
+    city,
+    country,
+    description,
+    id: HotelId,
+    imagesUrl,
+    name,
+    price,
+  } = useSelector(state => selectHotelById(state, id));
 
   const data = {
     id: 1,
@@ -22,20 +35,18 @@ const HotelPage = () => {
     <main className="section hotel">
       <div className="container">
         <div className="hotelWrapper">
-          <h1 className="hotelTitle">{data.name}</h1>
+          <h1 className="hotelTitle">{name}</h1>
           <div className="hotelAddress">
             <HomeIcon />
-            <span>{data.address}</span>
+            <span>{address}</span>
           </div>
 
-          <span className="hotelDistance">
-            Чудове розташування – {data.distance}m від центру
-          </span>
+          <span className="hotelDistance">Чудове розташування – 100m від центру</span>
         </div>
 
         <span className="hotelPriceHighlight">
-          Забронюйте проживання ${data.cheapestPrice} у цій власності та отримайте
-          безкоштовне таксі в аеропорт
+          Забронюйте проживання ${price} у цій власності та отримайте безкоштовне таксі в
+          аеропорт
         </span>
 
         <div className="hotel__content">
@@ -58,7 +69,7 @@ const HotelPage = () => {
                 9,8!
               </span>
 
-              <p style={{ marginTop: '10px' }}>{data.description}</p>
+              <p style={{ marginTop: '10px' }}>{description}</p>
 
               <Link to={`${pathname}/rooms`}>
                 <button className="btn btn-primary">Переглянути кімнати</button>

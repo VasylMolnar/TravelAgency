@@ -20,11 +20,9 @@ let HotelCard = ({ id }) => {
   const dispatch = useDispatch();
 
   //selector
-  const { hotelName, country, description } = useSelector(state =>
+  const { name, country, description, imagesUrl } = useSelector(state =>
     selectHotelById(state, id)
   );
-
-  console.log(useSelector(state => selectHotelById(state, id)));
 
   //fn Api
   const [deleteHotel] = useDeleteHotelMutation();
@@ -55,13 +53,13 @@ let HotelCard = ({ id }) => {
       <Card sx={{ maxWidth: 345 }} id="ant_card">
         <Link to={`/hotels/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
           <CardMedia
-            sx={{ height: 140 }}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title={hotelName}
+            sx={{ height: 200 }}
+            image={imagesUrl[0] || require('../../img/avatar.jpg')}
+            title={name}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {hotelName}
+              {name}
             </Typography>
             <Typography gutterBottom variant="p" component="div">
               {country}

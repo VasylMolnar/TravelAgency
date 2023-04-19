@@ -11,6 +11,7 @@ import { FcPlus } from 'react-icons/fc';
 import { setOpenHotel } from '../../features/modal/hotelModalSlice';
 
 const HotelList = () => {
+  //for admin other style
   const dispatch = useDispatch();
 
   //fetch Hotels data
@@ -44,19 +45,21 @@ const HotelList = () => {
             </div>
           </>
         ) : (
-          <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
-            Список Готелів
-          </h1>
+          <>
+            <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
+              Список Готелів
+            </h1>
+
+            {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
+            {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
+
+            <div className="userList_cards">
+              {isSuccess &&
+                !isError &&
+                orderedHotelsIds.map(id => <HotelCard id={id} key={id} />)}
+            </div>
+          </>
         )}
-
-        {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
-        {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
-
-        <div className="userList_cards">
-          {isSuccess &&
-            !isError &&
-            orderedHotelsIds.map(id => <HotelCard id={id} key={id} />)}
-        </div>
       </div>
 
       <HotelModal />

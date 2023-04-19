@@ -50,7 +50,7 @@ const HotelModal = () => {
       >
         <Formik
           initialValues={{
-            hotelName: '',
+            name: '',
             country: '',
             city: '',
             address: '',
@@ -64,10 +64,10 @@ const HotelModal = () => {
           {({ values, errors, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <label className="label">
-                <FastField type="text" name="hotelName" placeholder="Назва Готелю:" />
+                <FastField type="text" name="name" placeholder="Назва Готелю:" />
 
                 <ErrorMessage
-                  name="hotelName"
+                  name="name"
                   component="div"
                   style={{ color: 'red', textTransform: 'upperCase' }}
                 />

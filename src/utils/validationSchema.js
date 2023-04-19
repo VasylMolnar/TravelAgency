@@ -12,7 +12,7 @@ export const userRegisterSchema = yup.object({
 });
 
 export const hotelSchema = yup.object({
-  hotelName: yup.string().required(),
+  name: yup.string().required(),
   country: yup.string().required(),
   city: yup.string().required(),
   address: yup.string().required(),
