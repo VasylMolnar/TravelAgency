@@ -24,6 +24,8 @@ let HotelCard = ({ id }) => {
     selectHotelById(state, id)
   );
 
+  console.log(useSelector(state => selectHotelById(state, id)));
+
   //fn Api
   const [deleteHotel] = useDeleteHotelMutation();
 

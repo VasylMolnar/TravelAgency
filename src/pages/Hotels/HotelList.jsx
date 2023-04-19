@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   useGetAllHotelsQuery,
   selectHotelsIds,
@@ -7,8 +7,12 @@ import {
 import { Report, Loading } from 'notiflix';
 import HotelCard from '../../components/HotelCard/HotelCard';
 import HotelModal from '../../components/HotelModal/HotelModal';
+import { FcPlus } from 'react-icons/fc';
+import { setOpenHotel } from '../../features/modal/hotelModalSlice';
 
 const HotelList = () => {
+  const dispatch = useDispatch();
+
   //fetch Hotels data
   const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
 
@@ -18,9 +22,32 @@ const HotelList = () => {
   return (
     <main className="hotelList section">
       <div className="container">
-        <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
-          Список Готелів
-        </h1>
+        {orderedHotelsIds.length === 0 ? (
+          <>
+            <p className="title" style={{ color: 'red' }}>
+              Список порожній
+            </p>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <button className="btn btn-outline-secondary" style={{ border: 'none' }}>
+                <FcPlus
+                  style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+                  onClick={() => dispatch(setOpenHotel(true))}
+                />
+              </button>
+            </div>
+          </>
+        ) : (
+          <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
+            Список Готелів
+          </h1>
+        )}
 
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
