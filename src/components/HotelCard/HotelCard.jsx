@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setOpenHotel } from '../../features/modal/hotelModalSlice';
+import { setOpenHotel, setUpdateHotelId } from '../../features/modal/hotelModalSlice';
 import {
   selectHotelById,
   useDeleteHotelMutation,
 } from '../../features/hotel/hotelApiSlice';
+import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,7 +13,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Link } from 'react-router-dom';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { Loading, Report } from 'notiflix';
 
 let HotelCard = ({ id }) => {
@@ -82,6 +83,12 @@ let HotelCard = ({ id }) => {
           <AddCircleOutlineIcon
             key="setting"
             onClick={() => dispatch(setOpenHotel(true))}
+          />
+          <DriveFileRenameOutlineIcon
+            onClick={() => {
+              dispatch(setOpenHotel(true));
+              dispatch(setUpdateHotelId(id));
+            }}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />
         </CardActions>

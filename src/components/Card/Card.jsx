@@ -5,6 +5,8 @@ import { Link, useLocation } from 'react-router-dom';
 let Card = ({ element }) => {
   const { pathname } = useLocation();
 
+  //change for room (address)
+
   return (
     <Link to={`${pathname}/${element.id}`} style={{ textDecoration: 'none' }}>
       <figure className="card">

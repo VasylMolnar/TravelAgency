@@ -23,6 +23,9 @@ const HotelList = () => {
   return (
     <main className="hotelList section">
       <div className="container">
+        {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
+        {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
+
         {orderedHotelsIds.length === 0 ? (
           <>
             <p className="title" style={{ color: 'red' }}>
@@ -49,9 +52,6 @@ const HotelList = () => {
             <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
               Список Готелів
             </h1>
-
-            {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
-            {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
             <div className="userList_cards">
               {isSuccess &&

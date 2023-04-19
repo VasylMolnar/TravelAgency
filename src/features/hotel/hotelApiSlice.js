@@ -7,6 +7,13 @@ const initialState = hotelAdapter.getInitialState();
 
 export const hotelApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    getHotel: builder.mutation({
+      query: ({ id }) => ({
+        url: `/hotel/${id}`,
+        method: 'GET',
+      }),
+    }),
+
     //User and Admin
     getAllHotels: builder.query({
       query: () => `/hotel`,
@@ -46,6 +53,16 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
       },
     }),
 
+    updateHotel: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/hotel/${id}`,
+        method: 'PUT',
+        body: formData,
+      }),
+
+      providesTags: (result, error, arg) => [{ type: 'Hotels', id: arg.id }],
+    }),
+
     createHotel: builder.mutation({
       query: ({ formData }) => ({
         url: `/hotel`,
@@ -58,8 +75,13 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllHotelsQuery, useDeleteHotelMutation, useCreateHotelMutation } =
-  hotelApiSlice;
+export const {
+  useGetAllHotelsQuery,
+  useGetHotelMutation,
+  useDeleteHotelMutation,
+  useCreateHotelMutation,
+  useUpdateHotelMutation,
+} = hotelApiSlice;
 
 // Creates memoized selector
 const selectHotelsData = createSelector(

@@ -7,29 +7,12 @@ import { useSelector } from 'react-redux';
 const HotelPage = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
+  //room
 
-  const {
-    address,
-    city,
-    country,
-    description,
-    id: HotelId,
-    imagesUrl,
-    name,
-    price,
-  } = useSelector(state => selectHotelById(state, id));
-
-  const data = {
-    id: 1,
-    name: 'Hotel 1',
-    price: '100',
-    distance: '500',
-    address: 'Ukraine',
-    cheapestPrice: '100',
-    days: '5', //days user select
-    description:
-      'A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Hotels can range from small family-run businesses to large international chains. Most hotels list a variety of services, such as room service, laundry, and concierge. Some hotels also offer meeting and conference facilities, fitness centers, and spas.',
-  };
+  //selector
+  const { address, city, country, description, imagesUrl, name, price } = useSelector(
+    state => selectHotelById(state, id)
+  );
 
   return (
     <main className="section hotel">
@@ -38,6 +21,8 @@ const HotelPage = () => {
           <h1 className="hotelTitle">{name}</h1>
           <div className="hotelAddress">
             <HomeIcon />
+            <span>{country}</span>
+            <span>{city}</span>
             <span>{address}</span>
           </div>
 
@@ -51,15 +36,9 @@ const HotelPage = () => {
 
         <div className="hotel__content">
           <div className="hotelImages">
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
-            <img src={require('../../img/1.jpg')} alt="" className="hotelImg" />
+            {imagesUrl.map(item => {
+              return <img src={item} alt={name} className="hotelImg" />;
+            })}
           </div>
 
           <div className="hotelDetails">

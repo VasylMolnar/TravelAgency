@@ -21,6 +21,7 @@ const Hotels = () => {
     <main className="section hotels">
       <div className="container">
         <SearchBooking />
+        {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
 
         {dataAllHotels.length === 0 ? (
           <div className="missing">
@@ -32,7 +33,6 @@ const Hotels = () => {
           </div>
         ) : (
           <>
-            {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
             {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
             {isSuccess && !isError && (
