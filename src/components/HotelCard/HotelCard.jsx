@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setOpenHotel, setUpdateHotelId } from '../../features/modal/hotelModalSlice';
+//import { setOpenHotel, setUpdateHotelId } from '../../features/modal/hotelModalSlice';
 import {
   selectHotelById,
   useDeleteHotelMutation,
@@ -16,9 +16,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { Loading, Report } from 'notiflix';
 
-let HotelCard = ({ id }) => {
+let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
   //for admin page Hotel Card list other style
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //selector
   const { name, country, description, imagesUrl } = useSelector(state =>
@@ -82,12 +82,15 @@ let HotelCard = ({ id }) => {
         >
           <AddCircleOutlineIcon
             key="setting"
-            onClick={() => dispatch(setOpenHotel(true))}
+            //onClick={() => dispatch(setOpenHotel(true))}
+            onClick={() => setIsOpenModal(true)}
           />
           <DriveFileRenameOutlineIcon
             onClick={() => {
-              dispatch(setOpenHotel(true));
-              dispatch(setUpdateHotelId(id));
+              setUpdateHotelId(id);
+              setIsOpenModal(true);
+              // dispatch(setOpenHotel(true));
+              // dispatch(setUpdateHotelId(id));
             }}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />

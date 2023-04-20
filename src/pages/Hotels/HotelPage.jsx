@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 const HotelPage = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
-  //room
+
+  // connect room
 
   //selector
   const { address, city, country, description, imagesUrl, name, price } = useSelector(

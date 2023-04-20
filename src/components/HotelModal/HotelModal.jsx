@@ -12,44 +12,44 @@ import { Formik, FastField, ErrorMessage } from 'formik';
 import { hotelSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 
-const HotelModal = () => {
+const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotelId }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [files, setFile] = useState();
   const [hotelData, setHotelData] = useState({});
-  const openHotelModal = useSelector(selectIsOpenHotel);
 
-  //select hotel Id for Update Hotel Data
-  const id = useSelector(selectHotelId);
+  //select is Open Modal
+  //const openHotelModal = useSelector(selectIsOpenHotel);
+
+  //select hotel Id form (HOTELMODAL) for Update Hotel Data
+  //const id = useSelector(selectHotelId);
 
   //fn Api
   const [createHotel] = useCreateHotelMutation();
-  const [dataHotel] = useGetHotelMutation();
+  const [dataUpdateHotel] = useGetHotelMutation();
 
   useEffect(() => {
     const selectCurrentHotel = async () => {
       Loading.dots('Завантаження');
 
-      await dataHotel({ id })
+      await dataUpdateHotel(updateHotelId)
         .then(result => {
           Loading.dots('Заватнаження');
           Loading.remove();
 
-          setUpdateHotelId(null);
-          setHotelData({ ...result.data });
+          setHotelData({ ...hotelData, ...result.data });
+          setLoading(false);
         })
         .catch(error => {
           Loading.remove();
-          // Report.failure(error, '');
         });
     };
 
-    if (id) {
+    if (updateHotelId) {
       selectCurrentHotel();
+      setLoading(true);
     }
-  }, [id]);
-
-  console.log('hotelData', hotelData.name);
+  }, [updateHotelId]);
 
   //in this fn we can create or update Hotel data
   const handleCreate = async values => {
@@ -85,8 +85,16 @@ const HotelModal = () => {
             <Modal
               title="Створення готелю"
               centered
-              open={openHotelModal}
-              onCancel={() => dispatch(setOpenHotel(false))}
+              open={isOpenModal}
+              onCancel={() => {
+                setIsOpenModal(false);
+                setUpdateHotelId(null);
+
+                // if (updateHotelId) {
+                //   dispatch(setUpdateHotelId(null));
+                //   //document.location.reload();
+                // }
+              }}
               className="hotelModal"
             >
               <Formik
@@ -203,10 +211,3 @@ const HotelModal = () => {
 };
 
 export default HotelModal;
-// name: '',
-// country: '',
-// city: '',
-// address: '',
-// price: '',
-// capacity: '',
-// description: '',

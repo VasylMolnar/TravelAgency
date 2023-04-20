@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, React } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useGetAllHotelsQuery,
@@ -10,7 +10,12 @@ import HotelModal from '../../components/HotelModal/HotelModal';
 import { FcPlus } from 'react-icons/fc';
 import { setOpenHotel } from '../../features/modal/hotelModalSlice';
 
+import { selectIsOpenHotel } from '../../features/modal/hotelModalSlice';
+
 const HotelList = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [updateHotelId, setUpdateHotelId] = useState(null);
+
   //for admin other style
   const dispatch = useDispatch();
 
@@ -56,13 +61,27 @@ const HotelList = () => {
             <div className="userList_cards">
               {isSuccess &&
                 !isError &&
-                orderedHotelsIds.map(id => <HotelCard id={id} key={id} />)}
+                orderedHotelsIds.map(id => (
+                  <HotelCard
+                    id={id}
+                    key={id}
+                    setUpdateHotelId={setUpdateHotelId}
+                    setIsOpenModal={setIsOpenModal}
+                  />
+                ))}
             </div>
           </>
         )}
       </div>
 
-      <HotelModal />
+      {isOpenModal && (
+        <HotelModal
+          isOpenModal={isOpenModal}
+          setIsOpenModal={setIsOpenModal}
+          updateHotelId={updateHotelId}
+          setUpdateHotelId={setUpdateHotelId}
+        />
+      )}
     </main>
   );
 };

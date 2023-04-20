@@ -8,7 +8,7 @@ const initialState = hotelAdapter.getInitialState();
 export const hotelApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getHotel: builder.mutation({
-      query: ({ id }) => ({
+      query: id => ({
         url: `/hotel/${id}`,
         method: 'GET',
       }),
