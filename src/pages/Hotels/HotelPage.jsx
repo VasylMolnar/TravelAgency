@@ -8,8 +8,6 @@ const HotelPage = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
 
-  // connect room
-
   //selector
   const { address, city, country, description, imagesUrl, name, price } = useSelector(
     state => selectHotelById(state, id)
@@ -37,8 +35,8 @@ const HotelPage = () => {
 
         <div className="hotel__content">
           <div className="hotelImages">
-            {imagesUrl.map(item => {
-              return <img src={item} alt={name} className="hotelImg" />;
+            {imagesUrl.map((item, index) => {
+              return <img src={item} alt={name} className="hotelImg" key={index} />;
             })}
           </div>
 

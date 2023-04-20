@@ -6,13 +6,11 @@ import {
   useCreateHotelMutation,
   useUpdateHotelMutation,
 } from '../../features/hotel/hotelApiSlice';
-import { useDispatch } from 'react-redux';
 import { Formik, FastField, ErrorMessage } from 'formik';
 import { hotelSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 
 const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotelId }) => {
-  const dispatch = useDispatch();
   const [files, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [hotelData, setHotelData] = useState({});

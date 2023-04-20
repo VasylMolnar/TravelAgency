@@ -2,21 +2,23 @@ import { apiSlice } from '../../app/api/apiSlice';
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
 
-const hotelAdapter = createEntityAdapter({});
-const initialState = hotelAdapter.getInitialState();
+const roomAdapter = createEntityAdapter({});
+const initialState = roomAdapter.getInitialState();
 
-export const hotelApiSlice = apiSlice.injectEndpoints({
+export const roomApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    /////////////id getRoom,getAllRooms,createRoom,deleteRoom,updateRoom,
+
     //User and Admin
-    getHotel: builder.mutation({
+    getRoom: builder.mutation({
       query: id => ({
-        url: `/hotel/${id}`,
+        url: `/room/${id}`,
         method: 'GET',
       }),
     }),
 
-    getAllHotels: builder.query({
-      query: () => `/hotel`,
+    getAllRooms: builder.query({
+      query: () => `/room`,
 
       transformResponse: responseData => {
         const newResponse = responseData.map(item => {
@@ -32,62 +34,62 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
           return item;
         });
 
-        return hotelAdapter.setAll(initialState, newResponse);
+        return roomAdapter.setAll(initialState, newResponse);
       },
 
       providesTags: (result, error, arg) => {
-        return [...result.ids.map(id => ({ type: 'Hotels', id }))];
+        return [...result.ids.map(id => ({ type: 'Rooms', id }))];
       },
     }),
 
     //Admin
-    createHotel: builder.mutation({
+    createRoom: builder.mutation({
       query: ({ formData }) => ({
-        url: `/hotel`,
+        url: `/room`,
         method: 'POST',
         body: formData,
       }),
 
-      invalidatesTags: ['Hotels'],
+      invalidatesTags: ['Rooms'],
     }),
 
-    deleteHotel: builder.mutation({
+    deleteRoom: builder.mutation({
       query: ({ id }) => ({
-        url: `/hotel/${id}`,
+        url: `/room/${id}`,
         method: 'DELETE',
         body: { id },
       }),
 
       invalidatesTags: (result, error, arg) => {
-        return [{ type: 'Hotels', id: arg.id }];
+        return [{ type: 'Rooms', id: arg.id }];
       },
     }),
 
-    updateHotel: builder.mutation({
+    updateRoom: builder.mutation({
       query: ({ id, formData }) => ({
-        url: `/hotel/${id}`,
+        url: `/room/${id}`,
         method: 'PUT',
         body: formData,
       }),
 
       invalidatesTags: (result, error, arg) => {
-        return [{ type: 'Hotels', id: arg.id }];
+        return [{ type: 'Rooms', id: arg.id }];
       },
     }),
   }),
 });
 
 export const {
-  useGetAllHotelsQuery,
-  useGetHotelMutation,
-  useDeleteHotelMutation,
-  useCreateHotelMutation,
-  useUpdateHotelMutation,
-} = hotelApiSlice;
+  useGetRoomMutation,
+  useGetAllRoomsQuery,
+  useCreateRoomMutation,
+  useDeleteRoomMutation,
+  useUpdateRoomMutation,
+} = roomApiSlice;
 
 // Creates memoized selector
-const selectHotelsData = createSelector(
-  hotelApiSlice.endpoints.getAllHotels.select(),
+const selectRoomsData = createSelector(
+  roomApiSlice.endpoints.getAllRooms.select(),
   postsResult => {
     return postsResult.data;
   }
@@ -95,7 +97,7 @@ const selectHotelsData = createSelector(
 
 //selectors for Adapter
 export const {
-  selectAll: selectAllHotels,
-  selectById: selectHotelById,
-  selectIds: selectHotelsIds,
-} = hotelAdapter.getSelectors(state => selectHotelsData(state) ?? initialState);
+  selectAll: selectAllRooms,
+  selectById: selectRoomById,
+  selectIds: selectRoomsIds,
+} = roomAdapter.getSelectors(state => selectRoomsData(state) ?? initialState);

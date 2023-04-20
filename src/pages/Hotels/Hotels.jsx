@@ -14,7 +14,7 @@ const Hotels = () => {
   //fetch Hotels data used RTK Query
   const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
 
-  //select Users IDS
+  //select All Hotels
   const dataAllHotels = useSelector(selectAllHotels);
 
   return (
