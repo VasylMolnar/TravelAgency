@@ -1,32 +1,26 @@
 import { useState, React, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal } from 'antd';
-import { selectIsOpenHotel, setOpenHotel } from '../../features/modal/hotelModalSlice';
 import {
   useGetHotelMutation,
   useCreateHotelMutation,
+  useUpdateHotelMutation,
 } from '../../features/hotel/hotelApiSlice';
-import { selectHotelId, setUpdateHotelId } from '../../features/modal/hotelModalSlice.js';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, FastField, ErrorMessage } from 'formik';
 import { hotelSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 
 const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotelId }) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const [files, setFile] = useState();
+  const [loading, setLoading] = useState(false);
   const [hotelData, setHotelData] = useState({});
-
-  //select is Open Modal
-  //const openHotelModal = useSelector(selectIsOpenHotel);
-
-  //select hotel Id form (HOTELMODAL) for Update Hotel Data
-  //const id = useSelector(selectHotelId);
 
   //fn Api
   const [createHotel] = useCreateHotelMutation();
   const [dataUpdateHotel] = useGetHotelMutation();
+  const [updateHotel] = useUpdateHotelMutation();
 
   useEffect(() => {
     const selectCurrentHotel = async () => {
@@ -51,7 +45,29 @@ const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotel
     }
   }, [updateHotelId]);
 
-  //in this fn we can create or update Hotel data
+  const handleUpdate = async values => {
+    const file = files;
+    const formData = new FormData();
+
+    for (let item of file) {
+      formData.append('image', item);
+    }
+    formData.append('values', JSON.stringify(values));
+
+    Loading.dots('Оновленя Готелю');
+
+    //send data
+    await updateHotel({ id: updateHotelId, formData })
+      .then(response => {
+        Loading.remove();
+        Report.success('Готель було оновлено', '');
+      })
+      .catch(error => {
+        Loading.remove();
+        Report.failure(error, '');
+      });
+  };
+
   const handleCreate = async values => {
     const file = files;
     const formData = new FormData();
@@ -63,8 +79,6 @@ const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotel
 
     Loading.dots('Створення Готелю');
     //send data
-
-    dispatch(setUpdateHotelId(null));
 
     await createHotel({ formData })
       .then(response => {
@@ -89,11 +103,6 @@ const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotel
               onCancel={() => {
                 setIsOpenModal(false);
                 setUpdateHotelId(null);
-
-                // if (updateHotelId) {
-                //   dispatch(setUpdateHotelId(null));
-                //   //document.location.reload();
-                // }
               }}
               className="hotelModal"
             >
@@ -107,7 +116,7 @@ const HotelModal = ({ isOpenModal, setIsOpenModal, updateHotelId, setUpdateHotel
                   capacity: hotelData.capacity || '',
                   description: hotelData.description || '',
                 }}
-                onSubmit={handleCreate}
+                onSubmit={updateHotelId ? handleUpdate : handleCreate}
                 validationSchema={hotelSchema}
               >
                 {({ values, errors, handleChange, handleSubmit }) => (

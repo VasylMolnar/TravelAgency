@@ -8,16 +8,13 @@ import { Report, Loading } from 'notiflix';
 import HotelCard from '../../components/HotelCard/HotelCard';
 import HotelModal from '../../components/HotelModal/HotelModal';
 import { FcPlus } from 'react-icons/fc';
-import { setOpenHotel } from '../../features/modal/hotelModalSlice';
-
-import { selectIsOpenHotel } from '../../features/modal/hotelModalSlice';
 
 const HotelList = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [updateHotelId, setUpdateHotelId] = useState(null);
-
   //for admin other style
   const dispatch = useDispatch();
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [updateHotelId, setUpdateHotelId] = useState(null); //for update Hotel
 
   //fetch Hotels data
   const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
@@ -47,7 +44,7 @@ const HotelList = () => {
               <button className="btn btn-outline-secondary" style={{ border: 'none' }}>
                 <FcPlus
                   style={{ width: '50px', height: '50px', cursor: 'pointer' }}
-                  onClick={() => dispatch(setOpenHotel(true))}
+                  onClick={() => dispatch(setIsOpenModal(true))}
                 />
               </button>
             </div>

@@ -60,7 +60,9 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
         body: formData,
       }),
 
-      providesTags: (result, error, arg) => [{ type: 'Hotels', id: arg.id }],
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Hotels', id: arg.id }];
+      },
     }),
 
     createHotel: builder.mutation({

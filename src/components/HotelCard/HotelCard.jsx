@@ -18,7 +18,6 @@ import { Loading, Report } from 'notiflix';
 
 let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
   //for admin page Hotel Card list other style
-  // const dispatch = useDispatch();
 
   //selector
   const { name, country, description, imagesUrl } = useSelector(state =>
@@ -89,8 +88,6 @@ let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
             onClick={() => {
               setUpdateHotelId(id);
               setIsOpenModal(true);
-              // dispatch(setOpenHotel(true));
-              // dispatch(setUpdateHotelId(id));
             }}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />
