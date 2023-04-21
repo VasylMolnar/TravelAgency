@@ -20,3 +20,11 @@ export const hotelSchema = yup.object({
   capacity: yup.number().required().positive().integer(),
   description: yup.string().required(),
 });
+
+export const roomSchema = yup.object({
+  roomNumber: yup.number().required().positive().integer(),
+  roomFloor: yup.number().required().positive().integer(),
+  price: yup.number().required().positive().integer(),
+  capacity: yup.number().required().positive().integer(),
+  description: yup.string().required(),
+});

@@ -13,6 +13,7 @@ import RequireAuth from '../components/RequireAuth/RequireAuth';
 import allowedRoles from '../utils/roles_list.js';
 import PersistLogin from '../components/PersistLogin/PersistLogin';
 import HotelList from '../pages/Hotels/HotelList';
+import RoomList from '../pages/Rooms/RoomList';
 
 const AppRouter = () => {
   return (
@@ -46,8 +47,11 @@ const AppRouter = () => {
 
               {/* Admin routes */}
               <Route element={<RequireAuth allowedRoles={[allowedRoles.Admin]} />}>
-                <Route path="hotelList" element={<HotelList />} />
-                {/* <Route path="roomList" element={<RoomList />} /> */}
+                <Route path="hotelList">
+                  <Route index element={<HotelList />} />
+                  <Route path="roomList/:id" element={<RoomList />} />
+                </Route>
+
                 <Route path="userList" element={<UsersList />} />
               </Route>
             </Route>

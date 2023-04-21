@@ -18,7 +18,10 @@ export const roomApiSlice = apiSlice.injectEndpoints({
     }),
 
     getAllRooms: builder.query({
-      query: () => `/room`,
+      query: ({ id }) => ({
+        url: `/room/${id}`,
+        method: 'GET',
+      }),
 
       transformResponse: responseData => {
         const newResponse = responseData.map(item => {
@@ -44,8 +47,8 @@ export const roomApiSlice = apiSlice.injectEndpoints({
 
     //Admin
     createRoom: builder.mutation({
-      query: ({ formData }) => ({
-        url: `/room`,
+      query: ({ hotelId, formData }) => ({
+        url: `/room/${hotelId}`,
         method: 'POST',
         body: formData,
       }),

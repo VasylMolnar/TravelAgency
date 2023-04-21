@@ -1,34 +1,34 @@
 import { useState, React } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useGetAllHotelsQuery,
-  selectHotelsIds,
-} from '../../features/hotel/hotelApiSlice';
+import { useGetAllRoomsQuery, selectRoomsIds } from '../../features/room/roomApiSlice';
+import RoomCard from '../../components/RoomCard/RoomCard';
 import { Report, Loading } from 'notiflix';
-import HotelCard from '../../components/HotelCard/HotelCard';
-import HotelModal from '../../components/HotelModal/HotelModal';
 import { FcPlus } from 'react-icons/fc';
+import RoomModal from '../../components/RoomModal/RoomModal';
 
-const HotelList = () => {
+const RoomList = () => {
   //for admin other style
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [updateHotelId, setUpdateHotelId] = useState(null); //for update Hotel
+  const [updateRoomId, setUpdateRoomId] = useState(null); //for update Room
 
-  //fetch Hotels data
-  const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
+  //fetch Rooms data
+  const { isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({ id });
 
-  //select Hotels IDS
-  const orderedHotelsIds = useSelector(selectHotelsIds);
+  //select Rooms IDS
+  const orderedRoomIds = useSelector(selectRoomsIds);
+  console.log(orderedRoomIds);
 
   return (
-    <main className="hotelList section">
+    <main className="roomList section">
       <div className="container">
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
-        {orderedHotelsIds.length === 0 ? (
+        {orderedRoomIds.length === 0 ? (
           <>
             <p className="title" style={{ color: 'red' }}>
               Список порожній
@@ -52,35 +52,35 @@ const HotelList = () => {
         ) : (
           <>
             <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
-              Список Готелів
+              Список Кімнат
             </h1>
 
             <div className="userList_cards">
               {isSuccess &&
                 !isError &&
-                orderedHotelsIds.map(id => (
-                  <HotelCard
+                orderedRoomIds.map(id => (
+                  <RoomCard
                     id={id}
                     key={id}
-                    setUpdateHotelId={setUpdateHotelId}
+                    setUpdateRoomId={setUpdateRoomId}
                     setIsOpenModal={setIsOpenModal}
                   />
                 ))}
             </div>
           </>
         )}
-      </div>
 
-      {isOpenModal && (
-        <HotelModal
-          isOpenModal={isOpenModal}
-          setIsOpenModal={setIsOpenModal}
-          updateHotelId={updateHotelId}
-          setUpdateHotelId={setUpdateHotelId}
-        />
-      )}
+        {isOpenModal && (
+          <RoomModal
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            updateRoomId={updateRoomId}
+            setUpdateRoomId={setUpdateRoomId}
+          />
+        )}
+      </div>
     </main>
   );
 };
 
-export default HotelList;
+export default RoomList;

@@ -5,7 +5,7 @@ import {
   selectHotelById,
   useDeleteHotelMutation,
 } from '../../features/hotel/hotelApiSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,10 +14,12 @@ import Typography from '@mui/material/Typography';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { Loading, Report } from 'notiflix';
 
 let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
   //for admin page Hotel Card list other style
+  const navigate = useNavigate();
 
   //selector
   const { name, country, description, imagesUrl } = useSelector(state =>
@@ -89,6 +91,9 @@ let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
               setUpdateHotelId(id);
               setIsOpenModal(true);
             }}
+          />
+          <MeetingRoomIcon
+            onClick={() => navigate(`/userPage/hotelList/roomList/${id}`)}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />
         </CardActions>
