@@ -5,6 +5,8 @@ import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
 const roomAdapter = createEntityAdapter({});
 const initialState = roomAdapter.getInitialState();
 
+let roomData = {};
+
 export const roomApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     /////////////id getRoom,getAllRooms,createRoom,deleteRoom,updateRoom,
@@ -41,6 +43,8 @@ export const roomApiSlice = apiSlice.injectEndpoints({
       },
 
       providesTags: (result, error, arg) => {
+        roomData = { ...result };
+        // console.log(roomData);
         return [...result.ids.map(id => ({ type: 'Rooms', id }))];
       },
     }),
@@ -103,4 +107,6 @@ export const {
   selectAll: selectAllRooms,
   selectById: selectRoomById,
   selectIds: selectRoomsIds,
-} = roomAdapter.getSelectors(state => selectRoomsData(state) ?? initialState);
+} = roomAdapter.getSelectors(state => selectRoomsData(roomData) ?? initialState);
+
+console.log(roomAdapter);

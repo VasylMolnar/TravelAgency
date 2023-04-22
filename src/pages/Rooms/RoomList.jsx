@@ -1,7 +1,7 @@
 import { useState, React } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetAllRoomsQuery, selectRoomsIds } from '../../features/room/roomApiSlice';
+import { useGetAllRoomsQuery } from '../../features/room/roomApiSlice';
 import RoomCard from '../../components/RoomCard/RoomCard';
 import { Report, Loading } from 'notiflix';
 import { FcPlus } from 'react-icons/fc';
@@ -9,18 +9,17 @@ import RoomModal from '../../components/RoomModal/RoomModal';
 
 const RoomList = () => {
   //for admin other style
-  const dispatch = useDispatch();
   const { id } = useParams();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateRoomId, setUpdateRoomId] = useState(null); //for update Room
 
   //fetch Rooms data
-  const { isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({ id });
+  const { data, isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({ id });
 
-  //select Rooms IDS
-  const orderedRoomIds = useSelector(selectRoomsIds);
-  console.log(orderedRoomIds);
+  if (isSuccess) {
+    console.log('data', data);
+  }
 
   return (
     <main className="roomList section">
@@ -28,7 +27,26 @@ const RoomList = () => {
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
-        {orderedRoomIds.length === 0 ? (
+        {isSuccess && data.ids.length > 0 ? (
+          <>
+            <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
+              Список Кімнат
+            </h1>
+
+            <div className="userList_cards">
+              {isSuccess &&
+                !isError &&
+                data.ids.map(id => (
+                  <RoomCard
+                    id={id}
+                    key={id}
+                    setUpdateRoomId={setUpdateRoomId}
+                    setIsOpenModal={setIsOpenModal}
+                  />
+                ))}
+            </div>
+          </>
+        ) : (
           <>
             <p className="title" style={{ color: 'red' }}>
               Список порожній
@@ -47,25 +65,6 @@ const RoomList = () => {
                   onClick={() => setIsOpenModal(true)}
                 />
               </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
-              Список Кімнат
-            </h1>
-
-            <div className="userList_cards">
-              {isSuccess &&
-                !isError &&
-                orderedRoomIds.map(id => (
-                  <RoomCard
-                    id={id}
-                    key={id}
-                    setUpdateRoomId={setUpdateRoomId}
-                    setIsOpenModal={setIsOpenModal}
-                  />
-                ))}
             </div>
           </>
         )}

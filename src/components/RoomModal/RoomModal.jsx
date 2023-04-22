@@ -74,7 +74,10 @@ const RoomModal = ({ isOpenModal, setIsOpenModal, updateRoomId, setUpdateRoomId 
     for (let item of file) {
       formData.append('image', item);
     }
-    formData.append('values', JSON.stringify(values));
+    formData.append(
+      'values',
+      JSON.stringify({ hotelId: hotelId, hotelRooms: [{ ...values }] })
+    );
 
     Loading.dots('Створення Кімнати');
     //send data
