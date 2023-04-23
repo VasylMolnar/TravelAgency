@@ -1,23 +1,31 @@
 import { apiSlice } from '../../app/api/apiSlice';
-import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
-
-const roomAdapter = createEntityAdapter({});
-const initialState = roomAdapter.getInitialState();
 
 export const roomApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    /////////////id getRoom,getAllRooms,createRoom,deleteRoom,updateRoom,
-
     //fetch data by Hotel ID
+
     //User and Admin
+    //hotelID + RoomID
     getRoom: builder.mutation({
-      query: id => ({
-        url: `/room/${id}`,
+      query: ({ hotelId, roomId }) => ({
+        url: `/room/${hotelId}/${roomId}`,
         method: 'GET',
       }),
+
+      transformResponse: responseData => {
+        // console.log('responseData', responseData);
+        const base64StringArray = responseData?.img?.map(imgData => {
+          return `data:image/png;base64,${uint8ArrayToBase64(imgData.data.data)}`;
+        });
+        // console.log('', base64StringArray);
+        // Return data Array of URL
+
+        return { ...responseData, imagesUrl: base64StringArray };
+      },
     }),
 
+    //hotelID
     getAllRooms: builder.query({
       query: ({ id }) => ({
         url: `/room/${id}`,
@@ -25,7 +33,7 @@ export const roomApiSlice = apiSlice.injectEndpoints({
       }),
 
       transformResponse: responseData => {
-        console.log('getAllRoomsByHotelId', responseData);
+        // console.log('getAllRoomsByHotelId', responseData);
         const newResponse = responseData.map(item => {
           if (item?.img.length !== 0) {
             const base64StringArray = item.img.map(imgData => {
@@ -39,7 +47,6 @@ export const roomApiSlice = apiSlice.injectEndpoints({
           return item;
         });
 
-        //return roomAdapter.setAll(initialState, newResponse);
         return newResponse;
       },
 
@@ -54,6 +61,7 @@ export const roomApiSlice = apiSlice.injectEndpoints({
     }),
 
     //Admin
+    //hotelID
     createRoom: builder.mutation({
       query: ({ hotelId, formData }) => ({
         url: `/room/${hotelId}`,
@@ -64,11 +72,12 @@ export const roomApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Rooms'],
     }),
 
+    //hotelID + RoomID
     deleteRoom: builder.mutation({
-      query: ({ id }) => ({
-        url: `/room/${id}`,
+      query: ({ hotelId, roomId }) => ({
+        url: `/room/${hotelId}/${roomId}`,
         method: 'DELETE',
-        body: { id },
+        body: { hotelId, roomId },
       }),
 
       invalidatesTags: (result, error, arg) => {
@@ -76,9 +85,10 @@ export const roomApiSlice = apiSlice.injectEndpoints({
       },
     }),
 
+    //hotelID + RoomID
     updateRoom: builder.mutation({
-      query: ({ id, formData }) => ({
-        url: `/room/${id}`,
+      query: ({ hotelId, roomId, formData }) => ({
+        url: `/room/${hotelId}/${roomId}`,
         method: 'PUT',
         body: formData,
       }),

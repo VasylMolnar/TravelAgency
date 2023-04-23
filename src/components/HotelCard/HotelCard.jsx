@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-//import { setOpenHotel, setUpdateHotelId } from '../../features/modal/hotelModalSlice';
 import {
   selectHotelById,
   useDeleteHotelMutation,
@@ -81,11 +80,7 @@ let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
             cursor: 'pointer',
           }}
         >
-          <AddCircleOutlineIcon
-            key="setting"
-            //onClick={() => dispatch(setOpenHotel(true))}
-            onClick={() => setIsOpenModal(true)}
-          />
+          <AddCircleOutlineIcon key="setting" onClick={() => setIsOpenModal(true)} />
           <DriveFileRenameOutlineIcon
             onClick={() => {
               setUpdateHotelId(id);
@@ -93,10 +88,7 @@ let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
             }}
           />
           <MeetingRoomIcon
-            onClick={() => {
-              sessionStorage.setItem('hotelID', id);
-              navigate(`/userPage/hotelList/roomList/${id}`);
-            }}
+            onClick={() => navigate(`/userPage/hotelList/roomList/${id}`)}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />
         </CardActions>

@@ -19,17 +19,17 @@ const RoomList = () => {
     id,
   });
 
-  if (isSuccess) {
-    console.log('data', data);
-  }
+  // if (isSuccess) {
+  //   console.log('data', data);
+  // }
 
   return (
-    <main className="roomList section">
+    <main className="userList section">
       <div className="container">
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
-        {/* {isSuccess && data.ids.length > 0 ? (
+        {isSuccess && data.length > 0 ? (
           <>
             <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
               Список Кімнат
@@ -38,10 +38,10 @@ const RoomList = () => {
             <div className="userList_cards">
               {isSuccess &&
                 !isError &&
-                data.ids.map(id => (
+                data.map(item => (
                   <RoomCard
-                    id={id}
-                    key={id}
+                    data={item}
+                    key={item.id}
                     setUpdateRoomId={setUpdateRoomId}
                     setIsOpenModal={setIsOpenModal}
                   />
@@ -69,7 +69,7 @@ const RoomList = () => {
               </button>
             </div>
           </>
-        )} */}
+        )}
 
         {isOpenModal && (
           <RoomModal

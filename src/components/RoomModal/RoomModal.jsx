@@ -25,7 +25,7 @@ const RoomModal = ({ isOpenModal, setIsOpenModal, updateRoomId, setUpdateRoomId 
     const selectCurrentRoom = async () => {
       Loading.dots('Завантаження');
 
-      await dataUpdateRoom(updateRoomId)
+      await dataUpdateRoom({ hotelId, roomId: updateRoomId })
         .then(result => {
           Loading.dots('Заватнаження');
           Loading.remove();
@@ -56,7 +56,7 @@ const RoomModal = ({ isOpenModal, setIsOpenModal, updateRoomId, setUpdateRoomId 
     Loading.dots('Оновленя Готелю');
 
     //send data
-    await updateRoom({ id: updateRoomId, formData })
+    await updateRoom({ hotelId, roomId: updateRoomId, formData })
       .then(response => {
         Loading.remove();
         Report.success('Готель було оновлено', '');

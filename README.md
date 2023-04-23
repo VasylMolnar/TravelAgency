@@ -1,5 +1,4 @@
-Card.jsx (custom to room); HotelPage.jsx (booking btn); Rooms.jsx (select All room and
-booking) Hotels.jsx
+Search, Booking and Gallery
 
 # Getting Started with Create React App
 

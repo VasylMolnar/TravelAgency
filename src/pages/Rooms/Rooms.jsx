@@ -7,87 +7,44 @@ import { Report, Loading } from 'notiflix';
 
 const Rooms = () => {
   //select Hotel id from url and fetch data in rooms folder (in server)
+  //for User other style
   const { id } = useParams();
 
-  //fetch Rooms data by Hotels id  used RTK Query
-  const { isLoading, isSuccess, isError, error } = useGetAllRoomsQuery();
+  //fetch Rooms data
+  const { data, isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({
+    id,
+  });
 
-  //select All Hotels
-  const dataAllRooms = {};
-
-  // const data = [
-  //   {
-  //     id: 1,
-  //     name: 'Room 1',
-  //     price: '100',
-  //     cheapestPrice: '100',
-  //     days: '5', //days user select
-  //     description:
-  //       'A Room is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Rooms can range from small family-run businesses to large international chains. Most Rooms list a variety of services, such as room service, laundry, and concierge. Some Rooms also offer meeting and conference facilities, fitness centers, and spas.',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Room 2',
-  //     price: '100',
-  //     description:
-  //       'A Room is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Rooms can range from small family-run businesses to large international chains. Most Rooms list a variety of services, such as room service, laundry, and concierge. Some Rooms also offer meeting and conference facilities, fitness centers, and spas.',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Room 3',
-  //     price: '100',
-  //     description:
-  //       'A Room is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Rooms can range from small family-run businesses to large international chains. Most Rooms list a variety of services, such as room service, laundry, and concierge. Some Rooms also offer meeting and conference facilities, fitness centers, and spas.',
-  //   },
-  //   {
-  //     id: 4,
-  //     name: 'Room 4',
-  //     price: '100',
-  //     description:
-  //       'A Room is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Rooms can range from small family-run businesses to large international chains. Most Rooms list a variety of services, such as room service, laundry, and concierge. Some Rooms also offer meeting and conference facilities, fitness centers, and spas.',
-  //   },
-  //   {
-  //     id: 5,
-  //     name: 'Room 5',
-  //     price: '100',
-  //     description:
-  //       'A Room is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists. Rooms can range from small family-run businesses to large international chains. Most Rooms list a variety of services, such as room service, laundry, and concierge. Some Rooms also offer meeting and conference facilities, fitness centers, and spas.',
-  //   },
-  // ];
+  // if (isSuccess) {
+  //   console.log('data', data);
+  // }
 
   return (
     <main className="section hotels">
       <div className="container">
         <SearchBooking />
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
+        {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
-        {dataAllRooms.length === 0 ? (
-          <div className="missing">
-            <section className="section">
-              <p className="title" style={{ color: 'red' }}>
-                Список порожній
-              </p>
-            </section>
+        {isSuccess && data.length > 0 ? (
+          <div>
+            <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
+              Список Кімнат
+            </h1>
+
+            <div className="userList_cards">
+              {isSuccess &&
+                !isError &&
+                data.map(item => <Card element={item} key={item.id} />)}
+            </div>
           </div>
         ) : (
-          <>
-            {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
-
-            {isSuccess && !isError && (
-              <div className="content">
-                {dataAllRooms.map(hotel => (
-                  <Card element={hotel} key={hotel.id} />
-                ))}
-              </div>
-            )}
-          </>
+          <div style={{ width: '100%' }}>
+            <p className="title" style={{ color: 'red' }}>
+              Список порожній
+            </p>
+          </div>
         )}
-
-        <div className="content">
-          {/* {data.map(room => (
-            <Card element={room} key={room.id} />
-          ))} */}
-        </div>
       </div>
     </main>
   );

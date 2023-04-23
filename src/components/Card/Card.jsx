@@ -17,8 +17,14 @@ let Card = ({ element }) => {
           </div>
 
           <figcaption className="figcaption">
-            <h1 className="hotelName">{element.name}</h1>
-            <span>Адрес: {element.address}</span>
+            <h1 className="hotelName">
+              {element.name || `Номер кімнати: ${element.roomNumber}`}
+            </h1>
+            <span>
+              {element.address
+                ? `Адрес: ${element.address}`
+                : `Поверх: ${element.roomFloor}`}
+            </span>
 
             <p>
               <StarOutlineIcon />
@@ -26,9 +32,14 @@ let Card = ({ element }) => {
               <StarOutlineIcon />
               <StarOutlineIcon />
             </p>
-            <p>{element.description}</p>
+            <p> {element.description.split('').slice(0, 431)}</p>
 
-            <h3 className="price">Ціна: {element.price}</h3>
+            <h3 className="price">
+              {element.address
+                ? `Найдешевший номер: ${element.price}`
+                : `Ціна: ${element.price}`}
+              $
+            </h3>
           </figcaption>
         </div>
       </figure>
