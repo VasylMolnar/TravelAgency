@@ -93,7 +93,10 @@ let HotelCard = ({ id, setUpdateHotelId, setIsOpenModal }) => {
             }}
           />
           <MeetingRoomIcon
-            onClick={() => navigate(`/userPage/hotelList/roomList/${id}`)}
+            onClick={() => {
+              sessionStorage.setItem('hotelID', id);
+              navigate(`/userPage/hotelList/roomList/${id}`);
+            }}
           />
           <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(id)} />
         </CardActions>

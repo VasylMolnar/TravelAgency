@@ -15,7 +15,9 @@ const RoomList = () => {
   const [updateRoomId, setUpdateRoomId] = useState(null); //for update Room
 
   //fetch Rooms data
-  const { data, isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({ id });
+  const { data, isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({
+    id,
+  });
 
   if (isSuccess) {
     console.log('data', data);
@@ -27,7 +29,7 @@ const RoomList = () => {
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
-        {isSuccess && data.ids.length > 0 ? (
+        {/* {isSuccess && data.ids.length > 0 ? (
           <>
             <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
               Список Кімнат
@@ -67,7 +69,7 @@ const RoomList = () => {
               </button>
             </div>
           </>
-        )}
+        )} */}
 
         {isOpenModal && (
           <RoomModal

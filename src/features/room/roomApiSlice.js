@@ -5,12 +5,11 @@ import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
 const roomAdapter = createEntityAdapter({});
 const initialState = roomAdapter.getInitialState();
 
-let roomData = {};
-
 export const roomApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     /////////////id getRoom,getAllRooms,createRoom,deleteRoom,updateRoom,
 
+    //fetch data by Hotel ID
     //User and Admin
     getRoom: builder.mutation({
       query: id => ({
@@ -26,6 +25,7 @@ export const roomApiSlice = apiSlice.injectEndpoints({
       }),
 
       transformResponse: responseData => {
+        console.log('getAllRoomsByHotelId', responseData);
         const newResponse = responseData.map(item => {
           if (item?.img.length !== 0) {
             const base64StringArray = item.img.map(imgData => {
@@ -39,13 +39,17 @@ export const roomApiSlice = apiSlice.injectEndpoints({
           return item;
         });
 
-        return roomAdapter.setAll(initialState, newResponse);
+        //return roomAdapter.setAll(initialState, newResponse);
+        return newResponse;
       },
 
       providesTags: (result, error, arg) => {
-        roomData = { ...result };
-        // console.log(roomData);
-        return [...result.ids.map(id => ({ type: 'Rooms', id }))];
+        return [
+          ...result.map(item => {
+            const id = item.id;
+            return { type: 'Rooms', id };
+          }),
+        ];
       },
     }),
 
@@ -88,25 +92,8 @@ export const roomApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetRoomMutation,
-  useGetAllRoomsQuery,
   useCreateRoomMutation,
   useDeleteRoomMutation,
   useUpdateRoomMutation,
+  useGetAllRoomsQuery,
 } = roomApiSlice;
-
-// Creates memoized selector
-const selectRoomsData = createSelector(
-  roomApiSlice.endpoints.getAllRooms.select(),
-  postsResult => {
-    return postsResult.data;
-  }
-);
-
-//selectors for Adapter
-export const {
-  selectAll: selectAllRooms,
-  selectById: selectRoomById,
-  selectIds: selectRoomsIds,
-} = roomAdapter.getSelectors(state => selectRoomsData(roomData) ?? initialState);
-
-console.log(roomAdapter);
