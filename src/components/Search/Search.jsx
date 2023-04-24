@@ -3,6 +3,7 @@ import Input from '../UI/Input/Input';
 import { debounce } from 'lodash';
 
 const Search = ({ setSearch }) => {
+  //for gallery
   return (
     <form
       className="search"

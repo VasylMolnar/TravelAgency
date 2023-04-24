@@ -3,21 +3,27 @@ import SearchIcon from '@mui/icons-material/Search';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
 
 const SearchBooking = () => {
   const [optionsHidden, setOptionsHidden] = useState(false);
-  const [menuHidden, setMenuHidden] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState(false); //for mobile style btn
 
   const [options, setOptions] = useState({
     //save to localStorage
-    min: '0',
-    max: '100',
-    adult: '1',
-    children: '0',
-    room: '1',
+    searchValue: '',
+    dataEnd: null,
+    dataOff: '',
+    min: '',
+    max: '',
+    adult: '',
+    children: '',
+    room: '',
   });
+
+  const searchBooking = () => {
+    console.log(options);
+  };
 
   return (
     <div className="searchBooking">
@@ -31,10 +37,10 @@ const SearchBooking = () => {
           ]}
         >
           <form
-            className={menuHidden ? 'form mobile' : 'form'}
+            className={mobileSearch ? 'form mobile' : 'form'}
             onSubmit={e => {
               e.preventDefault();
-              console.log('searchBooking');
+              searchBooking();
             }}
           >
             <div
@@ -45,19 +51,20 @@ const SearchBooking = () => {
               }}
               className="btn-select"
             >
+              {/* for mobile style btn */}
               <p className="title">Шукати</p>
               <button
                 type="button"
                 className="menu-button"
                 aria-expanded="false"
-                onClick={e => setMenuHidden(!menuHidden)}
+                onClick={e => setMobileSearch(!mobileSearch)}
                 style={{ paddingBottom: '20px' }}
               >
                 <SwapVerticalCircleIcon />
               </button>
             </div>
 
-            <div className={!menuHidden ? 'form__select is-hidden' : null}>
+            <div className={!mobileSearch ? 'form__select is-hidden' : null}>
               <label className="form_item">
                 <span className="form_label">"Місце / назва помешкання:"</span>
                 <input
@@ -65,16 +72,32 @@ const SearchBooking = () => {
                   placeholder="Буковель"
                   className="form-input"
                   name="name"
+                  value={options.searchValue}
+                  onChange={e => {
+                    setOptions({ ...options, searchValue: e.target.value });
+                  }}
                 />
                 <SearchIcon className="icon" />
               </label>
 
               <DemoItem label="Дата заїзду" required name="data_end">
-                <DatePicker />
+                <input
+                  type="date"
+                  name="dataEnd"
+                  className="form-input"
+                  style={{ paddingLeft: '10px' }}
+                  onChange={e => console.log(e.target.value)}
+                  format=""
+                />
               </DemoItem>
 
               <DemoItem label="Дата виїзду" required name="data_off">
-                <DatePicker />
+                <input
+                  type="date"
+                  name="dataOff"
+                  className="form-input"
+                  style={{ paddingLeft: '10px' }}
+                />
               </DemoItem>
 
               <div className="options">
@@ -90,15 +113,14 @@ const SearchBooking = () => {
                 </button>
 
                 <div
-                  className={
-                    optionsHidden ? 'options_list' : 'options_list is-hidden'
-                  }
+                  className={optionsHidden ? 'options_list' : 'options_list is-hidden'}
                 >
                   <input
                     className="form-input"
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Дорослі"
+                    value={options.adult}
                     onChange={e => {
                       setOptions({ ...options, adult: e.target.value });
                     }}
@@ -108,6 +130,7 @@ const SearchBooking = () => {
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Діти"
+                    value={options.children}
                     onChange={e => {
                       setOptions({ ...options, children: e.target.value });
                     }}
@@ -117,6 +140,7 @@ const SearchBooking = () => {
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Кімнати"
+                    value={options.room}
                     onChange={e => {
                       setOptions({ ...options, room: e.target.value });
                     }}
@@ -126,6 +150,7 @@ const SearchBooking = () => {
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Max"
+                    value={options.max}
                     onChange={e => {
                       setOptions({ ...options, max: e.target.value });
                     }}
@@ -135,6 +160,7 @@ const SearchBooking = () => {
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Min"
+                    value={options.min}
                     onChange={e => {
                       setOptions({ ...options, min: e.target.value });
                     }}

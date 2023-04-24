@@ -1,5 +1,5 @@
 import { useState, React } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   useGetAllHotelsQuery,
   selectHotelsIds,
@@ -11,7 +11,6 @@ import { FcPlus } from 'react-icons/fc';
 
 const HotelList = () => {
   //for admin other style
-  const dispatch = useDispatch();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateHotelId, setUpdateHotelId] = useState(null); //for update Hotel
