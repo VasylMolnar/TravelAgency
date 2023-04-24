@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, React } from 'react';
 import SearchBooking from '../../components/SearchBooking/SearchBooking';
 import Card from '../../components/Card/Card';
 import { useSelector } from 'react-redux';
@@ -7,9 +7,22 @@ import {
   selectAllHotels,
 } from '../../features/hotel/hotelApiSlice';
 import { Report, Loading } from 'notiflix';
+import useSort from '../../hooks/useSort';
 
 const Hotels = () => {
   //select name and min max price for search hotel (props)
+
+  const [options, setOptions] = useState({
+    //save to localStorage
+    searchValue: '',
+    dataEnd: '',
+    dataOff: '',
+    min: '',
+    max: '',
+    adult: '',
+    children: '',
+    room: '',
+  });
 
   //fetch Hotels data used RTK Query
   const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
@@ -17,13 +30,17 @@ const Hotels = () => {
   //select All Hotels
   const dataAllHotels = useSelector(selectAllHotels);
 
+  //sort by SearchValue, Min, Max
+  const sorterData = useSort(options, dataAllHotels);
+  console.log(sorterData);
+
   return (
     <main className="section hotels">
       <div className="container">
-        <SearchBooking />
+        <SearchBooking options={options} setOptions={setOptions} />
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
 
-        {dataAllHotels.length === 0 ? (
+        {sorterData.length === 0 ? (
           <div className="missing">
             <section className="section">
               <p className="title" style={{ color: 'red' }}>
@@ -37,7 +54,7 @@ const Hotels = () => {
 
             {isSuccess && !isError && (
               <div className="content">
-                {dataAllHotels.map(hotel => (
+                {sorterData.map(hotel => (
                   <Card element={hotel} key={hotel.id} />
                 ))}
               </div>

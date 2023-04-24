@@ -4,25 +4,33 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
-const SearchBooking = () => {
+const SearchBooking = ({ options, setOptions }) => {
   const [optionsHidden, setOptionsHidden] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false); //for mobile style btn
 
-  const [options, setOptions] = useState({
-    //save to localStorage
-    searchValue: '',
-    dataEnd: null,
-    dataOff: '',
-    min: '',
-    max: '',
-    adult: '',
-    children: '',
-    room: '',
-  });
+  const searchBooking = async e => {
+    e.preventDefault();
 
-  const searchBooking = () => {
-    console.log(options);
+    const { searchValue, adult, dataOff, dataEnd, children, min, max, room } =
+      e.currentTarget.elements;
+
+    await setOptions({
+      ...options,
+      ...{
+        searchValue: searchValue.value,
+        adult: adult.value,
+        dataOff: dataOff.value,
+        dataEnd: dataEnd.value,
+        children: children.value,
+        min: min.value,
+        max: max.value,
+        room: room.value,
+      },
+    });
+
+    sessionStorage.setItem('searchValues', JSON.stringify(options));
   };
 
   return (
@@ -39,8 +47,7 @@ const SearchBooking = () => {
           <form
             className={mobileSearch ? 'form mobile' : 'form'}
             onSubmit={e => {
-              e.preventDefault();
-              searchBooking();
+              searchBooking(e);
             }}
           >
             <div
@@ -71,27 +78,21 @@ const SearchBooking = () => {
                   type="name"
                   placeholder="Буковель"
                   className="form-input"
-                  name="name"
-                  value={options.searchValue}
-                  onChange={e => {
-                    setOptions({ ...options, searchValue: e.target.value });
-                  }}
+                  name="searchValue"
                 />
                 <SearchIcon className="icon" />
               </label>
 
-              <DemoItem label="Дата заїзду" required name="data_end">
+              <DemoItem label="Дата заїзду" name="data_end">
                 <input
                   type="date"
                   name="dataEnd"
                   className="form-input"
                   style={{ paddingLeft: '10px' }}
-                  onChange={e => console.log(e.target.value)}
-                  format=""
                 />
               </DemoItem>
 
-              <DemoItem label="Дата виїзду" required name="data_off">
+              <DemoItem label="Дата виїзду" name="data_off">
                 <input
                   type="date"
                   name="dataOff"
@@ -120,55 +121,48 @@ const SearchBooking = () => {
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Дорослі"
-                    value={options.adult}
-                    onChange={e => {
-                      setOptions({ ...options, adult: e.target.value });
-                    }}
+                    name="adult"
+                    min="1"
                   />
                   <input
                     className="form-input"
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Діти"
-                    value={options.children}
-                    onChange={e => {
-                      setOptions({ ...options, children: e.target.value });
-                    }}
+                    name="children"
+                    min="0"
                   />
                   <input
                     className="form-input"
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Кімнати"
-                    value={options.room}
-                    onChange={e => {
-                      setOptions({ ...options, room: e.target.value });
-                    }}
+                    name="room"
+                    min="1"
                   />
                   <input
                     className="form-input"
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Max"
-                    value={options.max}
-                    onChange={e => {
-                      setOptions({ ...options, max: e.target.value });
-                    }}
+                    name="max"
+                    min="0"
                   />
                   <input
                     className="form-input"
                     style={{ paddingLeft: '10px' }}
                     type="number"
                     placeholder="Min"
-                    value={options.min}
-                    onChange={e => {
-                      setOptions({ ...options, min: e.target.value });
-                    }}
+                    name="min"
                   />
                 </div>
               </div>
 
-              <button className="btn btn-primary">Знайти</button>
+              <div className="btnList">
+                <button type="submit" className="btn btn-primary">
+                  Знайти
+                </button>
+              </div>
             </div>
           </form>
         </DemoContainer>
