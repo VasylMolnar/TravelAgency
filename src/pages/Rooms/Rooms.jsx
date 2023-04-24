@@ -1,9 +1,10 @@
-import React from 'react';
+import { useState, React } from 'react';
 import SearchBooking from '../../components/SearchBooking/SearchBooking';
 import Card from '../../components/Card/Card';
 import { useParams } from 'react-router-dom';
 import { useGetAllRoomsQuery } from '../../features/room/roomApiSlice';
 import { Report, Loading } from 'notiflix';
+import useSort from '../../hooks/useSort';
 
 const Rooms = () => {
   //select Hotel id from url and fetch data in rooms folder (in server)
@@ -15,14 +16,9 @@ const Rooms = () => {
     id,
   });
 
-  // if (isSuccess) {
-  //   console.log('data', data);
-  // }
-
   return (
-    <main className="section hotels">
+    <main className="section hotel">
       <div className="container">
-        <SearchBooking />
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
 
@@ -32,7 +28,10 @@ const Rooms = () => {
               Список Кімнат
             </h1>
 
-            <div className="userList_cards">
+            <div
+              className="userList_cards"
+              style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
+            >
               {isSuccess &&
                 !isError &&
                 data.map(item => <Card element={item} key={item.id} />)}

@@ -4,7 +4,6 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 const SearchBooking = ({ options, setOptions }) => {
   const [optionsHidden, setOptionsHidden] = useState(false);
@@ -30,7 +29,19 @@ const SearchBooking = ({ options, setOptions }) => {
       },
     });
 
-    sessionStorage.setItem('searchValues', JSON.stringify(options));
+    sessionStorage.setItem(
+      'searchValues',
+      JSON.stringify({
+        searchValue: searchValue.value,
+        adult: adult.value,
+        dataOff: dataOff.value,
+        dataEnd: dataEnd.value,
+        children: children.value,
+        min: min.value,
+        max: max.value,
+        room: room.value,
+      })
+    );
   };
 
   return (

@@ -36,6 +36,9 @@ const RoomPage = () => {
   }, []);
 
   //booking
+  const handleBooking = () => {
+    console.log('hi');
+  };
 
   return (
     <>
@@ -82,7 +85,9 @@ const RoomPage = () => {
                     кімната, кондиціонер, телевізор, холодильник, безкоштовний Wi-Fi тощо,
                     що робить перебування більш комфортним.
                   </p>
-                  <button className="btn btn-primary">Бронюйте зараз!</button>
+                  <button className="btn btn-primary" onClick={() => handleBooking()}>
+                    Бронюйте зараз!
+                  </button>
                 </div>
               </div>
             </div>

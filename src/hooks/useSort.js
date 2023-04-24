@@ -3,9 +3,6 @@ import { useMemo } from 'react';
 const useSort = (options, data) => {
   const { searchValue, min, max } = options;
 
-  if (min) {
-    console.log('hi');
-  }
   return useMemo(() => {
     return data.filter(item => {
       if (min || max) {

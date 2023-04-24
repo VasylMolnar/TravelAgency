@@ -32,7 +32,6 @@ const Hotels = () => {
 
   //sort by SearchValue, Min, Max
   const sorterData = useSort(options, dataAllHotels);
-  console.log(sorterData);
 
   return (
     <main className="section hotels">

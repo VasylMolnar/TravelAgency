@@ -1,4 +1,4 @@
-Search, Booking and Gallery
+Booking and Gallery
 
 # Getting Started with Create React App
 
