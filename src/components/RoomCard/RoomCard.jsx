@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import LuggageIcon from '@mui/icons-material/Luggage';
 import { Loading, Report } from 'notiflix';
 
 let RoomCard = ({ data, setUpdateRoomId, setIsOpenModal }) => {
@@ -86,6 +87,7 @@ let RoomCard = ({ data, setUpdateRoomId, setIsOpenModal }) => {
             setIsOpenModal(true);
           }}
         />
+        <LuggageIcon />
         <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(roomId)} />
       </CardActions>
     </Card>

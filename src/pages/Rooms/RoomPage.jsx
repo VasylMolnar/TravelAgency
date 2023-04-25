@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useGetRoomMutation } from '../../features/room/roomApiSlice';
 import { Loading, Report } from 'notiflix';
+import BookingModal from '../../components/BookingModal/BookingModal';
 
 const RoomPage = () => {
   const { pathname } = useLocation();
@@ -10,6 +11,7 @@ const RoomPage = () => {
   const roomId = ids[4];
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState({});
+  const [isBooking, setIsBooking] = useState(false);
 
   //fetch Rooms data
   const [dataRoom] = useGetRoomMutation();
@@ -34,11 +36,6 @@ const RoomPage = () => {
     setLoading(true);
     selectCurrentRoom();
   }, []);
-
-  //booking
-  const handleBooking = () => {
-    console.log('hi');
-  };
 
   return (
     <>
@@ -85,7 +82,7 @@ const RoomPage = () => {
                     кімната, кондиціонер, телевізор, холодильник, безкоштовний Wi-Fi тощо,
                     що робить перебування більш комфортним.
                   </p>
-                  <button className="btn btn-primary" onClick={() => handleBooking()}>
+                  <button className="btn btn-primary" onClick={() => setIsBooking(true)}>
                     Бронюйте зараз!
                   </button>
                 </div>
@@ -124,6 +121,8 @@ const RoomPage = () => {
           </div>
         </main>
       )}
+
+      {isBooking && <BookingModal isBooking={isBooking} setIsBooking={setIsBooking} />}
     </>
   );
 };
