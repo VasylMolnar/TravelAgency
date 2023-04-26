@@ -12,7 +12,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import LuggageIcon from '@mui/icons-material/Luggage';
 import { Loading, Report } from 'notiflix';
 
-let RoomCard = ({ data, setUpdateRoomId, setIsOpenModal }) => {
+let RoomCard = ({ data, setUpdateRoomId, setIsOpenModal, setIsBookingTable }) => {
   //for Admin
   const { id: hotelId } = useParams();
   const roomId = data.id;
@@ -87,7 +87,12 @@ let RoomCard = ({ data, setUpdateRoomId, setIsOpenModal }) => {
             setIsOpenModal(true);
           }}
         />
-        <LuggageIcon />
+        <LuggageIcon
+          onClick={() => {
+            setIsBookingTable(true);
+            setUpdateRoomId(roomId);
+          }}
+        />
         <DeleteForeverIcon key="ellipsis" onClick={() => handleDelete(roomId)} />
       </CardActions>
     </Card>

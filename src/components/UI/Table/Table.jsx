@@ -29,6 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Table = ({ data, content }) => {
+  //for user booking table
   //data this is hotel rooms id
   //fetch or find in redux by id. hotel, find room by hotel id + room id or all rooms,we change fetch by content
   const rows = [
@@ -77,9 +78,7 @@ const Table = ({ data, content }) => {
   return (
     <TableContainer component={Paper} style={{ marginTop: '50px' }}>
       <p className="title" style={{ padding: '0' }}>
-        {content === 'hotelContent'
-          ? 'Інформація про Готель'
-          : 'Інформація про Польоти'}
+        {content === 'hotelContent' ? 'Інформація про Готель' : 'Інформація про Польоти'}
       </p>
 
       <TableMu sx={{ minWidth: 700 }} aria-label="customized table">

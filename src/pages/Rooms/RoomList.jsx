@@ -6,11 +6,13 @@ import RoomCard from '../../components/RoomCard/RoomCard';
 import { Report, Loading } from 'notiflix';
 import { FcPlus } from 'react-icons/fc';
 import RoomModal from '../../components/RoomModal/RoomModal';
+import AdminTable from '../../components/UI/Table/AdminTable';
 
 const RoomList = () => {
   //for admin other style
   const { id } = useParams();
 
+  const [isBookingTable, setIsBookingTable] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateRoomId, setUpdateRoomId] = useState(null); //for update Room
 
@@ -28,7 +30,6 @@ const RoomList = () => {
       <div className="container">
         {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
         {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
-
         {isSuccess && data.length > 0 ? (
           <>
             <h1 className="title" style={{ marginTop: '10px', paddingBottom: '10px' }}>
@@ -44,6 +45,7 @@ const RoomList = () => {
                     key={item.id}
                     setUpdateRoomId={setUpdateRoomId}
                     setIsOpenModal={setIsOpenModal}
+                    setIsBookingTable={setIsBookingTable}
                   />
                 ))}
             </div>
@@ -71,11 +73,22 @@ const RoomList = () => {
           </>
         )}
 
+        {/* create and update room */}
         {isOpenModal && (
           <RoomModal
             isOpenModal={isOpenModal}
             setIsOpenModal={setIsOpenModal}
             updateRoomId={updateRoomId}
+            setUpdateRoomId={setUpdateRoomId}
+          />
+        )}
+
+        {/* table for get and update, delete booking */}
+        {isBookingTable && (
+          <AdminTable
+            isBookingTable={isBookingTable}
+            setIsBookingTable={setIsBookingTable}
+            roomId={updateRoomId}
             setUpdateRoomId={setUpdateRoomId}
           />
         )}

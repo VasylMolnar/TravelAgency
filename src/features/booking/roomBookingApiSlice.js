@@ -19,7 +19,12 @@ export const roomBooking = apiSlice.injectEndpoints({
     }),
 
     //admin
-    getAllBookingByRoom: builder.query({}),
+    getAllBookingByRoom: builder.mutation({
+      query: ({ hotelId, roomId, newValue }) => ({
+        url: `/booking/${hotelId}/${roomId}`,
+        method: 'GET',
+      }),
+    }),
 
     //Hotel ID + Room ID + Booking ID
     //admin
@@ -34,7 +39,7 @@ export const roomBooking = apiSlice.injectEndpoints({
 
 export const {
   useGetAllBookingByHotelQuery,
-  useGetAllBookingByRoomQuery,
+  useGetAllBookingByRoomMutation,
   useGetBookingQuery,
   useCreateBookingMutation,
   useDeleteBookingMutation,
