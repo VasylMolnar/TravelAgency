@@ -101,11 +101,6 @@ const UserPage = () => {
       });
   };
 
-  const dataForm = {
-    id: 1, //user
-    idHotels: { 2: [1, 2, 4], 7: [2, 5], 8: [1] }, //hotels id(key) room(value)
-  };
-
   return (
     <main className="section userPage">
       {isSuccess && (
@@ -246,15 +241,11 @@ const UserPage = () => {
           ) : (
             <>
               <div className="hotel_content">
-                {/* list of hotel */}
-                {/* namehotel Rooms(Flor) datastart dataend allMoney */}
-                <Table data={dataForm.idHotels} content="hotelContent" />
-                {/* select table options from user data */}
+                <Table content="hotelContent" />
               </div>
-              <div className="tickets_content">
-                {/* list of tickets */}
+              {/* <div className="tickets_content">
                 <Table data={dataForm} content="ticketsContent" />
-              </div>
+              </div> */}
 
               <div className="gallery_content"></div>
             </>
@@ -266,4 +257,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-//Table

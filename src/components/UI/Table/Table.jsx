@@ -1,134 +1,148 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import TableMu from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { useEffect, useState, React } from 'react';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link, useNavigate } from 'react-router-dom';
+import { Loading, Report, Notify } from 'notiflix';
+import {
+  useGetBookingMutation,
+  useDeleteBookingMutation,
+} from '../../../features/booking/roomBookingApiSlice';
+import { useSelector } from 'react-redux';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-const Table = ({ data, content }) => {
+const Table = ({ content }) => {
+  const navigate = useNavigate();
   //for user booking table
-  //data this is hotel rooms id
-  //fetch or find in redux by id. hotel, find room by hotel id + room id or all rooms,we change fetch by content
-  const rows = [
-    {
-      name: 'Hotel 1',
-      rooms: [
-        {
-          id: '1',
-          room: '1',
-          dateStart: '12',
-          dateEnd: '13',
-          price: '100',
-        },
-        {
-          id: '2',
-          room: '13',
-          dateStart: '16',
-          dateEnd: '20',
-          price: '100',
-        },
-      ],
-    },
-    {
-      name: 'Hotel 2',
-      rooms: [
-        {
-          id: '13',
-          room: '3',
-          dateStart: '1',
-          dateEnd: '3',
-          price: '50',
-        },
-        {
-          id: '12',
-          room: '51',
-          dateStart: '2',
-          dateEnd: '25',
-          price: '100',
-        },
-      ],
-    },
-  ]; //example hotel and rooms
+  const userID = useSelector(state => state.auth.id);
+  const [bookingData, setBookingData] = useState([]);
 
-  //Object.entries(data).map(([hotel, rooms]) => console.log(hotel, rooms));
+  //fn Api
+  const [getBooking] = useGetBookingMutation();
+  const [deleteBooking] = useDeleteBookingMutation();
+
+  useEffect(() => {
+    const selectBooking = async () => {
+      Loading.dots('Завантаження');
+
+      await getBooking({ userID })
+        .then(result => {
+          Loading.remove();
+          setBookingData([...result.data]);
+        })
+        .catch(error => {
+          Loading.remove();
+        });
+    };
+
+    if (userID) {
+      selectBooking();
+    }
+  }, [userID]);
+
+  const handleDeleteBooking = async (hotelId, roomId, bookingId, cardID) => {
+    Loading.dots('Видалення');
+    const confirmDelete = window.confirm('Підтвердити видалення.');
+
+    if (confirmDelete) {
+      await deleteBooking({ hotelId, roomId, bookingId, userID, cardID })
+        .then(data => {
+          Loading.remove();
+          Report.success('Бронювання було видалено', '');
+          navigate('/hotels');
+          setTimeout(() => {
+            Notify.success('Можливо ви виберете щось інше!');
+          }, 300);
+        })
+        .catch(error => {
+          Loading.remove();
+          Report.failure(error || 'Помилка видалення', '');
+        });
+    } else {
+      Loading.remove();
+      Report.info('Видалення скасовано', '');
+    }
+  };
 
   return (
-    <TableContainer component={Paper} style={{ marginTop: '50px' }}>
-      <p className="title" style={{ padding: '0' }}>
-        {content === 'hotelContent' ? 'Інформація про Готель' : 'Інформація про Польоти'}
-      </p>
+    <>
+      {bookingData.length > 0 && (
+        <TableContainer component={Paper} style={{ marginTop: '50px', padding: '30px' }}>
+          <div className="table-responsive">
+            <table className="table table-hover">
+              <thead>
+                <tr>
+                  {content === 'hotelContent' ? (
+                    <>
+                      <th scope="col">#</th>
+                      <th scope="col">Готель</th>
+                      <th scope="col">Кімната</th>
+                      <th scope="col">Заселення</th>
+                      <th scope="col">Виселення</th>
+                      <th scope="col">Ціна</th>
+                      <th scope="col">Редагувати</th>
+                      <th scope="col">Видалити</th>
+                    </>
+                  ) : (
+                    <>
+                      <th scope="col">#</th>
+                      <th scope="col">Авіакомпанія</th>
+                      <th scope="col">Квиток</th>
+                      <th scope="col">Відліт</th>
+                      <th scope="col">Приліт</th>
+                      <th scope="col">Ціна</th>
+                    </>
+                  )}
+                </tr>
+              </thead>
 
-      <TableMu sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>
-              {content === 'hotelContent' ? 'Готель' : 'Аеропорт '}
-            </StyledTableCell>
-            <StyledTableCell>
-              {content === 'hotelContent' ? 'Кімнати' : 'Літак'}
-            </StyledTableCell>
-            <StyledTableCell>
-              {content === 'hotelContent' ? 'Дата початку' : 'Куди'}
-            </StyledTableCell>
-            <StyledTableCell>
-              {content === 'hotelContent' ? 'Дата кінця ' : 'Дата польоту'}
-            </StyledTableCell>
-            <StyledTableCell>Ціна</StyledTableCell>
-            <StyledTableCell>Опції</StyledTableCell>
-          </TableRow>
-        </TableHead>
+              {bookingData.map((item, index) => (
+                <tbody key={item.booking._id}>
+                  <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      <Link to={`/hotels/${item.hotelId}`}>Готель</Link>
+                    </td>
+                    <td>
+                      <Link to={`/hotels/${item.hotelId}/rooms/${item.roomId}`}>
+                        Кімната
+                      </Link>
+                    </td>
 
-        <TableBody>
-          {rows.map(row => {
-            return row.rooms.map(el => (
-              <StyledTableRow key={el.id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
+                    <td>{item.booking.dataEnd}</td>
+                    <td>{item.booking.dataOff}</td>
+                    <td>{item.booking.finalPrice}</td>
 
-                <StyledTableCell>{el.room}</StyledTableCell>
-                <StyledTableCell>{el.dateStart}</StyledTableCell>
-                <StyledTableCell>{el.dateEnd}</StyledTableCell>
-                <StyledTableCell>{el.price}</StyledTableCell>
+                    <td style={{ width: '50px' }}>
+                      <button
+                        className="btn btn-warning"
+                        //onClick={() => handleDeleteBooking(booking._id)}
+                      >
+                        Редагувати
+                      </button>
+                    </td>
 
-                <StyledTableCell style={{ width: '300px' }}>
-                  <button
-                    className="btn btn-outline-warning"
-                    style={{ marginRight: '10px' }}
-                  >
-                    Редагувати
-                  </button>
-                  <button className="btn btn-outline-danger">Скасувати</button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ));
-          })}
-        </TableBody>
-      </TableMu>
-    </TableContainer>
+                    <td style={{ width: '50px' }}>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleDeleteBooking(
+                            item.hotelId,
+                            item.roomId,
+                            item.booking._id,
+                            item.cardId
+                          )
+                        }
+                      >
+                        Видалити
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+            </table>
+          </div>
+        </TableContainer>
+      )}
+    </>
   );
 };
 

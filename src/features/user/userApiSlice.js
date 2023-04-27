@@ -93,6 +93,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
       invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
     }),
+
+    booking: builder.mutation({
+      query: ({ userID, userValue }) => ({
+        url: `/user/${userID}/booking`,
+        method: 'PUT',
+        body: { ...userValue },
+      }),
+
+      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
+    }),
   }),
 });
 
@@ -103,6 +113,7 @@ export const {
   useUpdateUserMutation,
   useUploadImgMutation,
   useGetIMGQuery,
+  useBookingMutation,
 } = userApiSlice;
 
 // Creates memoized selector

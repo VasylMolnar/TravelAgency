@@ -1,7 +1,10 @@
 import { useState, React, useEffect } from 'react';
 import { Modal } from 'antd';
 import { Loading, Report } from 'notiflix';
-import { useGetAllBookingByRoomMutation } from '../../../features/booking/roomBookingApiSlice';
+import {
+  useGetAllBookingByRoomMutation,
+  useDeleteBookingMutation,
+} from '../../../features/booking/roomBookingApiSlice';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -24,6 +27,28 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
 
   //fn Api
   const [getBooking] = useGetAllBookingByRoomMutation();
+  const [deleteBooking] = useDeleteBookingMutation();
+
+  const handleDeleteBooking = async bookingId => {
+    Loading.dots('Видалення');
+    const confirmDelete = window.confirm('Підтвердити видалення.');
+
+    if (confirmDelete) {
+      await deleteBooking({ hotelId: id, roomId, bookingId })
+        .then(data => {
+          Loading.remove();
+          Report.success('Бронювання було видалено', '');
+          setIsBookingTable(false);
+        })
+        .catch(error => {
+          Loading.remove();
+          Report.failure(error || 'Помилка видалення', '');
+        });
+    } else {
+      Loading.remove();
+      Report.info('Видалення скасовано', '');
+    }
+  };
 
   useEffect(() => {
     const selectCurrentRoom = async () => {
@@ -31,7 +56,6 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
 
       await getBooking({ hotelId: id, roomId })
         .then(result => {
-          Loading.dots('Заватнаження');
           Loading.remove();
 
           setBookingData(result.data);
@@ -63,7 +87,7 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
             }}
             className="AdminTable"
           >
-            <div class="table-responsive">
+            <div className="table-responsive">
               <table className="table table-hover">
                 <thead>
                   <tr>
@@ -80,7 +104,6 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
                     <tr>
                       <th scope="row">{index + 1}</th>
                       <td>
-                        {/* <Link to="/userPage/userList/">Користувач</Link> */}
                         <Link to={`/userPage/userList/${booking.userID}`}>
                           Користувач
                         </Link>
@@ -88,11 +111,14 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
                       <td>{booking.dataEnd}</td>
                       <td>{booking.dataOff}</td>
                       <td>{booking.finalPrice}</td>
+
                       <td>
-                        <button class="btn btn-warning">Змінити</button>
-                      </td>
-                      <td>
-                        <button class="btn btn-danger">Видалити</button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleDeleteBooking(booking._id)}
+                        >
+                          Видалити
+                        </button>
                       </td>
                     </tr>
                   </tbody>

@@ -55,6 +55,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Users', 'Hotels', 'Rooms'], //to save data cache
+  tagTypes: ['Users', 'Hotels', 'Rooms', 'Booking'], //to save data cache
   endpoints: builder => ({}),
 });

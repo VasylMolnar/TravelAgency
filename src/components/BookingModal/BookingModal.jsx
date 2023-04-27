@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { selectCurrentUserId } from '../../features/auth/authSlice';
 import { useSelector } from 'react-redux';
+import { useBookingMutation } from '../../features/user/userApiSlice';
 
 const BookingModal = ({ isBooking, setIsBooking }) => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
   //fn Api booking
   const [createBooking] = useCreateBookingMutation();
   const [dataRoom] = useGetRoomMutation();
+  const [createBookingUser] = useBookingMutation();
 
   //get current room data
   useEffect(() => {
@@ -49,7 +51,7 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
       selectCurrentRoom();
       setLoading(true);
     }
-  }, [isBooking]);
+  }, []);
 
   const handleBooking = async value => {
     if (!userID) navigate('/userPage');
@@ -61,6 +63,16 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
     await createBooking({ hotelId, roomId, newValue })
       .then(response => {
         Report.success('Бронювання успішне', '');
+        Loading.remove();
+        setIsBooking(false);
+      })
+      .catch(error => {
+        Loading.remove();
+        Report.failure(error, '');
+      });
+
+    await createBookingUser({ userID, userValue: { hotelId, roomId } })
+      .then(response => {
         Loading.remove();
       })
       .catch(error => {
