@@ -20,6 +20,7 @@ import {
 import { logOut, selectCurrentRoles } from '../../features/auth/authSlice';
 import allowedRoles from '../../utils/roles_list';
 import ButtonList from '../../components/ButtonList/ButtonList';
+import GalleryUser from '../../components/GalleryUser/GalleryUser';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -243,11 +244,10 @@ const UserPage = () => {
               <div className="hotel_content">
                 <Table content="hotelContent" />
               </div>
-              {/* <div className="tickets_content">
-                <Table content="ticketsContent" />
-              </div> */}
 
-              <div className="gallery_content"></div>
+              <div className="gallery_content">
+                <GalleryUser userID={id} userName={data.username} />
+              </div>
             </>
           )}
         </div>

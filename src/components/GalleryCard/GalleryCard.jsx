@@ -5,18 +5,14 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Box from '@mui/material/Box';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 
-let GalleryCard = ({ item }) => {
+let GalleryCard = ({ item, userName, userID }) => {
+  ////userID
   return (
     <ImageListItem>
-      <img
-        src={`${item.img}?w=248&fit=crop&auto=format`}
-        srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        alt={item.title}
-        loading="lazy"
-      />
+      <img src={item.data} srcSet={item.data} alt={userName} loading="lazy" />
       <ImageListItemBar
-        title={item.title}
-        subtitle={item.author}
+        title={userName}
+        subtitle={'TRAVELING'}
         actionIcon={
           <Box
             sx={{
