@@ -29,12 +29,15 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
   const [getBooking] = useGetAllBookingByRoomMutation();
   const [deleteBooking] = useDeleteBookingMutation();
 
-  const handleDeleteBooking = async bookingId => {
+  const handleDeleteBooking = async bookingIdHotel => {
+    //in Room bookingIdHotel delete in Hotel + Room list {HotelID:'123', Rooms:[{RoomId:"123"...., _id: bookingIdHotel:'123'}]}
+    //in User bookingIdUser delete in User + Hotel + Room list {HotelID:'123',Rooms:[{RoomId:"123", _id: bookingIdUser:'123'}]}
+
     Loading.dots('Видалення');
     const confirmDelete = window.confirm('Підтвердити видалення.');
 
     if (confirmDelete) {
-      await deleteBooking({ hotelId: id, roomId, bookingId })
+      await deleteBooking({ hotelId: id, roomId, bookingIdHotel })
         .then(data => {
           Loading.remove();
           Report.success('Бронювання було видалено', '');
@@ -115,7 +118,7 @@ const AdminTable = ({ setIsBookingTable, isBookingTable, roomId, setUpdateRoomId
                       <td>
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDeleteBooking(booking._id)}
+                          onClick={() => handleDeleteBooking(booking._id, booking.userID)}
                         >
                           Видалити
                         </button>

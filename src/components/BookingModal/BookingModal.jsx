@@ -4,30 +4,32 @@ import { Formik, FastField, ErrorMessage } from 'formik';
 import { bookingSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCreateBookingMutation } from '../../features/booking/roomBookingApiSlice';
+import {
+  useCreateBookingMutation,
+  useUpdateBookingMutation,
+} from '../../features/booking/roomBookingApiSlice';
 import { useGetRoomMutation } from '../../features/room/roomApiSlice';
 import { calculatePrice } from '../../utils/calculatePrice';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { selectCurrentUserId } from '../../features/auth/authSlice';
 import { useSelector } from 'react-redux';
 import { useBookingMutation } from '../../features/user/userApiSlice';
 
-const BookingModal = ({ isBooking, setIsBooking }) => {
+const BookingModal = ({ isBooking, setIsBooking, updateOpt = {} }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const ids = pathname.split('/');
-  const hotelId = ids[2];
-  const roomId = ids[4];
+  const hotelId = ids[2] || updateOpt.hotelId;
+  const roomId = ids[4] || updateOpt.roomId;
   const userID = useSelector(state => state.auth.id);
 
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState({});
 
   //fn Api booking
-  const [createBooking] = useCreateBookingMutation();
+  const [createBooking] = useCreateBookingMutation(); //Booking save in Hotel list
+  const [createBookingUser] = useBookingMutation(); //Booking save in User list
+  const [updateBooking] = useUpdateBookingMutation();
   const [dataRoom] = useGetRoomMutation();
-  const [createBookingUser] = useBookingMutation();
 
   //get current room data
   useEffect(() => {
@@ -53,6 +55,8 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
     }
   }, []);
 
+  //2method
+
   const handleBooking = async value => {
     if (!userID) navigate('/userPage');
     const { dataEnd, dataOff, finalPrice } = value;
@@ -60,6 +64,7 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
 
     Loading.dots('Бронювання Кімнати');
 
+    //in this we createBooking and createBookingUser 2 fn  (in serve we have 2 fn)
     await createBooking({ hotelId, roomId, newValue })
       .then(response => {
         Report.success('Бронювання успішне', '');
@@ -81,6 +86,31 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
       });
   };
 
+  const handleUpdateBooking = async value => {
+    if (!userID) navigate('/userPage');
+    const { dataEnd, dataOff, finalPrice } = value;
+    const newValue = { dataEnd, dataOff, finalPrice };
+
+    Loading.dots('Бронювання Кімнати');
+
+    //in this we updateBooking 1 fn (in serve we have 2 fn)
+    await updateBooking({
+      hotelId,
+      roomId,
+      bookingIdHotel: updateOpt.bookingIdHotel,
+      newValue,
+    })
+      .then(response => {
+        Report.success('Бронювання успішне', '');
+        Loading.remove();
+        setIsBooking(false);
+      })
+      .catch(error => {
+        Loading.remove();
+        Report.failure(error, '');
+      });
+  };
+
   return (
     <>
       {!loading && (
@@ -91,7 +121,6 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
             open={isBooking}
             onCancel={() => {
               setIsBooking(false);
-              //   setUpdateRoomId(null);
             }}
             className="hotelModal"
           >
@@ -102,17 +131,23 @@ const BookingModal = ({ isBooking, setIsBooking }) => {
                 price: roomData.price || '',
                 capacity: roomData.capacity || '',
                 dataEnd:
-                  JSON.parse(sessionStorage.getItem('searchValues'))?.dataEnd || '',
+                  JSON.parse(sessionStorage.getItem('searchValues'))?.dataEnd ||
+                  updateOpt.dataEnd ||
+                  '',
                 dataOff:
-                  JSON.parse(sessionStorage.getItem('searchValues'))?.dataOff || '',
+                  JSON.parse(sessionStorage.getItem('searchValues'))?.dataOff ||
+                  updateOpt.dataOff ||
+                  '',
                 finalPrice:
                   calculatePrice(
                     roomData.price,
                     JSON.parse(sessionStorage.getItem('searchValues'))?.dataEnd,
                     JSON.parse(sessionStorage.getItem('searchValues'))?.dataOff
-                  ) || '',
+                  ) ||
+                  calculatePrice(roomData.price, updateOpt.dataEnd, updateOpt.dataOff) ||
+                  '',
               }}
-              onSubmit={handleBooking}
+              onSubmit={!updateOpt.dataEnd ? handleBooking : handleUpdateBooking}
               validationSchema={bookingSchema}
             >
               {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (

@@ -6,14 +6,22 @@ const initialState = bookingAdapter.getInitialState();
 
 export const roomBooking = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    //booking room
+    //booking room//Booking
 
     //User ID
-    getBooking: builder.mutation({
+    getBooking: builder.query({
       query: ({ userID }) => ({
         url: `/booking/${userID}`,
         method: 'GET',
       }),
+
+      providesTags: (result, error, arg) => {
+        return [
+          ...result.map(item => {
+            return { type: 'Booking', id: item.roomId };
+          }),
+        ];
+      },
     }),
 
     //Hotel ID + Room ID
@@ -24,11 +32,13 @@ export const roomBooking = apiSlice.injectEndpoints({
         method: 'POST',
         body: newValue,
       }),
+
+      invalidatesTags: ['Booking'],
     }),
 
     //admin
     getAllBookingByRoom: builder.mutation({
-      query: ({ hotelId, roomId, newValue }) => ({
+      query: ({ hotelId, roomId }) => ({
         url: `/booking/${hotelId}/${roomId}`,
         method: 'GET',
       }),
@@ -36,21 +46,35 @@ export const roomBooking = apiSlice.injectEndpoints({
 
     //Hotel ID + Room ID + Booking ID
     //user and  admin
-    updateBooking: builder.mutation({}),
+    updateBooking: builder.mutation({
+      query: ({ hotelId, roomId, bookingIdHotel, newValue }) => ({
+        url: `/booking/${hotelId}/${roomId}/${bookingIdHotel}`,
+        method: 'PUT',
+        body: { newValue },
+      }),
+
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Booking', id: arg.id }];
+      },
+    }),
 
     deleteBooking: builder.mutation({
-      query: ({ hotelId, roomId, bookingId, userID, cardID }) => ({
-        url: `/booking/${hotelId}/${roomId}/${bookingId}`,
+      query: ({ hotelId, roomId, bookingIdHotel, userID, bookingIdUser }) => ({
+        url: `/booking/${hotelId}/${roomId}/${bookingIdHotel}`,
         method: 'DELETE',
-        body: { userID, cardID },
+        body: { userID, bookingIdUser },
       }),
+
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Booking', id: arg.id }];
+      },
     }),
   }),
 });
 
 export const {
   useGetAllBookingByRoomMutation,
-  useGetBookingMutation,
+  useGetBookingQuery,
   useCreateBookingMutation,
   useDeleteBookingMutation,
   useUpdateBookingMutation,

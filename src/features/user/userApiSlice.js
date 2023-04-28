@@ -101,7 +101,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: { ...userValue },
       }),
 
-      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
+      invalidatesTags: ['Users'],
     }),
   }),
 });

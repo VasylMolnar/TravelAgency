@@ -1,10 +1,8 @@
 import { useState, React } from 'react';
-import SearchBooking from '../../components/SearchBooking/SearchBooking';
 import Card from '../../components/Card/Card';
 import { useParams } from 'react-router-dom';
 import { useGetAllRoomsQuery } from '../../features/room/roomApiSlice';
 import { Report, Loading } from 'notiflix';
-import useSort from '../../hooks/useSort';
 
 const Rooms = () => {
   //select Hotel id from url and fetch data in rooms folder (in server)

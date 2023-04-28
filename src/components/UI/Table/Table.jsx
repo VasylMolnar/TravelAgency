@@ -1,53 +1,39 @@
-import { useEffect, useState, React } from 'react';
+import { React, useState } from 'react';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Loading, Report, Notify } from 'notiflix';
 import {
-  useGetBookingMutation,
+  useGetBookingQuery,
   useDeleteBookingMutation,
 } from '../../../features/booking/roomBookingApiSlice';
 import { useSelector } from 'react-redux';
+import BookingModal from '../../BookingModal/BookingModal';
 
 const Table = ({ content }) => {
-  const navigate = useNavigate();
   //for user booking table
+  const [isBooking, setIsBooking] = useState(false);
+  const [updateOpt, setUpdateOpt] = useState({});
+
+  //select User id and fetch User Booking Data
   const userID = useSelector(state => state.auth.id);
-  const [bookingData, setBookingData] = useState([]);
+  const { data, isLoading, isSuccess, isError, error } = useGetBookingQuery({ userID });
 
   //fn Api
-  const [getBooking] = useGetBookingMutation();
   const [deleteBooking] = useDeleteBookingMutation();
 
-  useEffect(() => {
-    const selectBooking = async () => {
-      Loading.dots('Завантаження');
+  const handleDeleteBooking = async (hotelId, roomId, bookingIdHotel, bookingIdUser) => {
+    //bookingIdHotel delete in Hotel + Room list {HotelID:'123', Rooms:[{RoomId:"123"...., _id: bookingIdHotel:'123'}]}
+    //bookingIdUser delete in User + Hotel + Room list {HotelID:'123',Rooms:[{RoomId:"123", _id: bookingIdUser:'123'}]}
 
-      await getBooking({ userID })
-        .then(result => {
-          Loading.remove();
-          setBookingData([...result.data]);
-        })
-        .catch(error => {
-          Loading.remove();
-        });
-    };
-
-    if (userID) {
-      selectBooking();
-    }
-  }, [userID]);
-
-  const handleDeleteBooking = async (hotelId, roomId, bookingId, cardID) => {
     Loading.dots('Видалення');
     const confirmDelete = window.confirm('Підтвердити видалення.');
 
     if (confirmDelete) {
-      await deleteBooking({ hotelId, roomId, bookingId, userID, cardID })
+      await deleteBooking({ hotelId, roomId, bookingIdHotel, userID, bookingIdUser })
         .then(data => {
           Loading.remove();
           Report.success('Бронювання було видалено', '');
-          navigate('/hotels');
           setTimeout(() => {
             Notify.success('Можливо ви виберете щось інше!');
           }, 300);
@@ -64,7 +50,9 @@ const Table = ({ content }) => {
 
   return (
     <>
-      {bookingData.length > 0 && (
+      {isLoading ? Loading.dots('Завантаження') : Loading.remove(300)}
+      {error && (Report.failure('Error', `${error.data}`), Loading.remove())}
+      {isSuccess && data.length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: '50px', padding: '30px' }}>
           <div className="table-responsive">
             <table className="table table-hover">
@@ -94,7 +82,7 @@ const Table = ({ content }) => {
                 </tr>
               </thead>
 
-              {bookingData.map((item, index) => (
+              {data.map((item, index) => (
                 <tbody key={item.booking._id}>
                   <tr>
                     <th scope="row">{index + 1}</th>
@@ -114,7 +102,18 @@ const Table = ({ content }) => {
                     <td style={{ width: '50px' }}>
                       <button
                         className="btn btn-warning"
-                        //onClick={() => handleDeleteBooking(booking._id)}
+                        onClick={() => {
+                          setIsBooking(true);
+                          setUpdateOpt({
+                            hotelId: item.hotelId,
+                            roomId: item.roomId,
+                            dataEnd: item.booking.dataEnd,
+                            dataOff: item.booking.dataOff,
+                            finalPrice: item.booking.finalPrice,
+                            bookingIdHotel: item.booking._id,
+                            bookingIdUser: item.cardId,
+                          });
+                        }}
                       >
                         Редагувати
                       </button>
@@ -127,8 +126,8 @@ const Table = ({ content }) => {
                           handleDeleteBooking(
                             item.hotelId,
                             item.roomId,
-                            item.booking._id,
-                            item.cardId
+                            item.booking._id, //for delete booking in Hotel + Room + bookingID
+                            item.cardId //for delete booking in User + Hotel + Room + bookingID
                           )
                         }
                       >
@@ -141,6 +140,19 @@ const Table = ({ content }) => {
             </table>
           </div>
         </TableContainer>
+      ) : (
+        <div style={{ width: '100%', marginTop: '100px' }}>
+          <p className="title" style={{ color: 'red' }}>
+            Список порожній
+          </p>
+        </div>
+      )}
+      {isBooking && (
+        <BookingModal
+          isBooking={isBooking}
+          setIsBooking={setIsBooking}
+          updateOpt={updateOpt}
+        />
       )}
     </>
   );

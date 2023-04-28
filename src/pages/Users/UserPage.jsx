@@ -244,7 +244,7 @@ const UserPage = () => {
                 <Table content="hotelContent" />
               </div>
               {/* <div className="tickets_content">
-                <Table data={dataForm} content="ticketsContent" />
+                <Table content="ticketsContent" />
               </div> */}
 
               <div className="gallery_content"></div>
