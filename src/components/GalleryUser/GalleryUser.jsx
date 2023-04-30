@@ -11,16 +11,19 @@ const GalleryUser = ({ userID, userName }) => {
   //select User Gallery List By User ID
   const { data, isLoading, isSuccess } = useGetGalleryListQuery({ userID });
 
+  // console.log(data);
+
   //fn Api
   const [createImage] = useCreateImageMutation();
 
   const handleCreate = async file => {
+    const title = window.prompt('Введіть назву до зображення.');
     const formData = new FormData();
 
     for (let item of file) {
       formData.append('image', item);
     }
-    formData.append('values', JSON.stringify({ userID, userName }));
+    formData.append('values', JSON.stringify({ userID, userName, title }));
 
     Loading.dots('Створення Готелю');
     //send data
@@ -40,14 +43,14 @@ const GalleryUser = ({ userID, userName }) => {
     <main className="section gallery">
       <div className="container">
         <h1 className="title">Галерея</h1>
-        {isSuccess && data.img.length > 0 ? (
+        {isSuccess && data.length > 0 ? (
           <div className="gallery_content">
-            {data.imagesUrl.map((item, index) => (
+            {data.map((item, index) => (
               <GalleryCard
                 item={item}
                 key={index}
-                userName={data.userName}
-                userID={userID}
+                currentImgID={item.currentImgID}
+                userID={item.userID}
               />
             ))}
           </div>

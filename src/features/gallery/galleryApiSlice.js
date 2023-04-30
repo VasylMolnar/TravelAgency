@@ -25,18 +25,22 @@ export const galleryApiSlice = apiSlice.injectEndpoints({
         const base64StringArray = responseData?.img?.map(imgData => {
           // return `data:image/png;base64,${uint8ArrayToBase64(imgData.data.data)}`;
           return {
+            userName: responseData.userName,
+            userID: responseData.userID,
+            currentImgID: imgData._id,
             reactions: imgData.reactions,
+            title: imgData.title,
             data: `data:image/png;base64,${uint8ArrayToBase64(imgData.data.data)}`,
           };
         });
 
-        return { ...responseData, imagesUrl: base64StringArray };
+        return base64StringArray;
       },
 
       providesTags: (result, error, arg) => {
         return [
-          ...result?.img?.map(item => {
-            const id = item._id;
+          ...result?.map(item => {
+            const id = item.currentImgID;
             return { type: 'Gallery', id };
           }),
         ];
@@ -58,14 +62,15 @@ export const galleryApiSlice = apiSlice.injectEndpoints({
               userID: item.userID,
               currentImgID: imgData._id,
               reactions: imgData.reactions,
+              title: imgData.title,
               data: `data:image/png;base64,${uint8ArrayToBase64(imgData.data.data)}`,
             };
           });
 
-          return base64StringArray;
+          return [...base64StringArray];
         });
 
-        return newResponse;
+        return [...newResponse];
       },
 
       providesTags: (result, error, arg) => {
@@ -77,6 +82,32 @@ export const galleryApiSlice = apiSlice.injectEndpoints({
         ];
       },
     }),
+
+    //delete User IMG by User ID + Current IMG ID
+    deleteImg: builder.mutation({
+      query: ({ userID, currentImgID }) => ({
+        url: `/gallery/${userID}/${currentImgID}`,
+        method: 'DELETE',
+        body: { userID, currentImgID },
+      }),
+
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Gallery', id: arg.id }];
+      },
+    }),
+
+    updateImg: builder.mutation({
+      query: ({ userID, currentImgID, newReactions }) => ({
+        url: `/gallery/${userID}/${currentImgID}`,
+        method: 'PUT',
+
+        body: { userID, currentImgID, newReactions },
+      }),
+
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Gallery', id: arg.id }];
+      },
+    }),
   }),
 });
 
@@ -84,4 +115,6 @@ export const {
   useCreateImageMutation,
   useGetGalleryListQuery,
   useGetAllGalleryListQuery,
+  useDeleteImgMutation,
+  useUpdateImgMutation,
 } = galleryApiSlice;

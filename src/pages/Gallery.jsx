@@ -2,12 +2,17 @@ import { useState, React } from 'react';
 import GalleryCard from '../components/GalleryCard/GalleryCard';
 import Search from '../components/Search/Search';
 import { useGetAllGalleryListQuery } from '../features/gallery/galleryApiSlice';
+import useSearch from '../hooks/useSearch';
 import { Loading, Report } from 'notiflix';
 
 const Gallery = () => {
   const [search, setSearch] = useState('');
 
   const { data, isLoading, isSuccess, error } = useGetAllGalleryListQuery();
+
+  const sortedGallery = useSearch(search, data?.flat());
+
+  console.log(sortedGallery);
 
   return (
     <main className="section gallery">
@@ -19,15 +24,14 @@ const Gallery = () => {
 
         {isSuccess ? (
           <div className="gallery_content">
-            {data.map((item, index) => {
-              console.log(item);
-              // <GalleryCard
-              //   item={item}
-              //   key={index}
-              //   userName={data.userName}
-              //   //userID={userID}
-              // />;
-            })}
+            {sortedGallery.map((item, index) => (
+              <GalleryCard
+                item={item}
+                key={index}
+                currentImgID={item.currentImgID}
+                userID={item.userID}
+              />
+            ))}
           </div>
         ) : (
           <div className="gallery_content">
