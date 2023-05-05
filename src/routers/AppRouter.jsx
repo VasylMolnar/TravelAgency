@@ -14,6 +14,8 @@ import allowedRoles from '../utils/roles_list.js';
 import PersistLogin from '../components/PersistLogin/PersistLogin';
 import HotelList from '../pages/Hotels/HotelList';
 import RoomList from '../pages/Rooms/RoomList';
+import { Flight } from '@mui/icons-material';
+import FlightsPage from '../pages/Flights/FlightsPage';
 
 const AppRouter = () => {
   return (
@@ -32,6 +34,14 @@ const AppRouter = () => {
               <Route index element={<Rooms />} />
               <Route path=":id" element={<RoomPage />} />
             </Route>
+          </Route>
+        </Route>
+
+        <Route path="flights">
+          <Route index element={<Flight />} />
+
+          <Route path=":id">
+            <Route index element={<FlightsPage />} />
           </Route>
         </Route>
 
