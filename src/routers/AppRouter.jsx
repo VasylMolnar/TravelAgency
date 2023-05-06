@@ -14,8 +14,12 @@ import allowedRoles from '../utils/roles_list.js';
 import PersistLogin from '../components/PersistLogin/PersistLogin';
 import HotelList from '../pages/Hotels/HotelList';
 import RoomList from '../pages/Rooms/RoomList';
-import { Flight } from '@mui/icons-material';
-import FlightsPage from '../pages/Flights/FlightsPage';
+import Aircraft from '../pages/Aircraft/Aircraft';
+import AircraftPage from '../pages/Aircraft/AircraftPage';
+import Airlines from '../pages/Airlines/Airlines';
+import AirlinesPage from '../pages/Airlines/AirlinesPage';
+import AirlinesList from '../pages/Airlines/AirlinesList';
+import AircraftList from '../pages/Aircraft/AircraftList';
 
 const AppRouter = () => {
   return (
@@ -37,11 +41,16 @@ const AppRouter = () => {
           </Route>
         </Route>
 
-        <Route path="flights">
-          <Route index element={<Flight />} />
+        <Route path="airline">
+          <Route index element={<Airlines />} />
 
           <Route path=":id">
-            <Route index element={<FlightsPage />} />
+            <Route index element={<AirlinesPage />} />
+
+            <Route path="aircraft">
+              <Route index element={<Aircraft />} />
+              <Route path=":id" element={<AircraftPage />} />
+            </Route>
           </Route>
         </Route>
 
@@ -60,6 +69,11 @@ const AppRouter = () => {
                 <Route path="hotelList">
                   <Route index element={<HotelList />} />
                   <Route path="roomList/:id" element={<RoomList />} />
+                </Route>
+
+                <Route path="airlineList">
+                  <Route index element={<AirlinesList />} />
+                  <Route path="airlineList/:id" ex element={<AircraftList />} />
                 </Route>
 
                 <Route path="userList">

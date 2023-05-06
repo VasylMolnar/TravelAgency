@@ -13,7 +13,7 @@ const ButtonList = () => {
         <button className="btn btn-outline-primary">Готелі</button>
       </Link>
 
-      <Link to={`${pathname}/userList`} className="btn_item">
+      <Link to={`${pathname}/airlineList`} className="btn_item">
         <button className="btn btn-outline-primary">Авіакомпанії</button>
       </Link>
     </div>

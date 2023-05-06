@@ -25,6 +25,11 @@ const Nav = () => {
             </NavLink>
           </li>
           <li className="item">
+            <NavLink to="/airLine" className="nav__link" href="/#hotels">
+              Польоти
+            </NavLink>
+          </li>
+          <li className="item">
             <NavLink to="/gallery" className="nav__link" href="/#gallery">
               Галерея
             </NavLink>

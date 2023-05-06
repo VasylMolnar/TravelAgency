@@ -1,9 +1,9 @@
 import React from 'react';
 
-const FlightsList = () => {
+const AircraftList = () => {
   //for admin other style
 
   return <div></div>;
 };
 
-export default FlightsList;
+export default AircraftList;

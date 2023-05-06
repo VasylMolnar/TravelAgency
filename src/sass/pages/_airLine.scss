@@ -1,0 +1,30 @@
+.airLine {
+  background-color: $color;
+
+  .card {
+    margin-top: 50px;
+    width: 100%;
+
+    @media screen and (min-width: $desktop) {
+      height: 400px;
+    }
+  }
+
+  .card_photo {
+    .card_img {
+      max-width: 310px;
+      height: 250px;
+      border-radius: 5%;
+
+      @media screen and (min-width: $desktop) {
+        max-width: 350px;
+        height: 250px;
+      }
+    }
+
+    @media screen and (min-width: $desktop) {
+      margin-right: 30px;
+      width: 700px;
+    }
+  }
+}

@@ -11,14 +11,16 @@ let Card = ({ element }) => {
     <Link to={`${pathname}/${element.id}`} style={{ textDecoration: 'none' }}>
       <figure className="card">
         <div className="card_content">
-          <div className="card_photo" style={{ maxWidth: '250px' }}>
+          <div className="card_photo">
             {/* {element.img} */}
             <img src={element.imagesUrl[0]} alt="test" className="card_img" />
           </div>
 
           <figcaption className="figcaption">
             <h1 className="hotelName">
-              {element.name || `Номер кімнати: ${element.roomNumber}`}
+              {element.name ||
+                element.nameAirLine ||
+                `Номер кімнати: ${element.roomNumber}`}
             </h1>
             <span>
               {element.address
@@ -35,10 +37,15 @@ let Card = ({ element }) => {
             <p> {element.description.split('').slice(0, 431)}</p>
 
             <h3 className="price">
-              {element.address
-                ? `Найдешевший номер: ${element.price}`
-                : `Ціна: ${element.price}`}
-              $
+              {/* {element.address
+                ? `Найдешевший номер: ${element.price} $`
+                : `Ціна: ${element.price} $`} */}
+
+              {!element.address
+                ? `Ціна: ${element.price} $`
+                : element.address && element.nameAirLine
+                ? ''
+                : `Найдешевший номер: ${element.price} $`}
             </h3>
           </figcaption>
         </div>
