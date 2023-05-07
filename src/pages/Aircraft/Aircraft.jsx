@@ -1,7 +1,7 @@
 import { useState, React } from 'react';
 import Card from '../../components/Card/Card';
 import { useParams } from 'react-router-dom';
-import { useGetAllRoomsQuery } from '../../features/room/roomApiSlice';
+import { useGetAllAirCraftQuery } from '../../features/airCraft/airCraftApiSlice';
 import { Report, Loading } from 'notiflix';
 
 const Aircraft = () => {
@@ -9,10 +9,11 @@ const Aircraft = () => {
   //for User other style
   const { id } = useParams();
 
-  //fetch Rooms data
-  const { data, isLoading, isSuccess, isError, error } = useGetAllRoomsQuery({
+  //fetch AirCraft data
+  const { data, isLoading, isSuccess, isError, error } = useGetAllAirCraftQuery({
     id,
   });
+
   return (
     <main className="section hotel">
       <div className="container">

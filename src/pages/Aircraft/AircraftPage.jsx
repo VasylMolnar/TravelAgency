@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useGetRoomMutation } from '../../features/room/roomApiSlice';
-import { Loading, Report } from 'notiflix';
+import { useGetAirCraftMutation } from '../../features/airCraft/airCraftApiSlice';
+import { Loading } from 'notiflix';
 import BookingModal from '../../components/BookingModal/BookingModal';
 
 const AircraftPage = () => {
   const { pathname } = useLocation();
   const ids = pathname.split('/');
-  const hotelId = ids[2];
-  const roomId = ids[4];
+  const airLineId = ids[2];
+  const airCraftId = ids[4];
   const [loading, setLoading] = useState(false);
-  const [roomData, setRoomData] = useState({});
+  const [airCraftData, setAirCraftData] = useState({});
   const [isBooking, setIsBooking] = useState(false);
 
   //fetch Rooms data
-  const [dataRoom] = useGetRoomMutation();
+  const [dataRoom] = useGetAirCraftMutation();
 
   useEffect(() => {
-    const selectCurrentRoom = async () => {
+    const selectCurrentAirCraft = async () => {
       Loading.dots('Завантаження');
 
-      await dataRoom({ hotelId, roomId })
+      await dataRoom({ airLineId, airCraftId })
         .then(result => {
           Loading.dots('Заватнаження');
           Loading.remove();
 
-          setRoomData({ ...roomData, ...result.data });
+          setAirCraftData({ ...airCraftData, ...result.data });
           setLoading(false);
         })
         .catch(error => {
@@ -34,7 +34,7 @@ const AircraftPage = () => {
     };
 
     setLoading(true);
-    selectCurrentRoom();
+    selectCurrentAirCraft();
   }, []);
 
   return (
@@ -43,14 +43,15 @@ const AircraftPage = () => {
         <main className="section hotel">
           <div className="container">
             <div className="hotelWrapper">
-              <h1 className="hotelTitle"> Номер кімнати: {roomData.roomNumber}</h1>
+              <h1 className="hotelTitle"> Відліт: {airCraftData.departure}</h1>
 
-              <span className="hotelDistance"> Поверх: {roomData.roomFloor}</span>
+              <span className="hotelDistance"> Приліт: {airCraftData.arrival}</span>
+              <p>Ціна: {airCraftData.price}</p>
             </div>
 
             <div className="hotel__content">
               <div className="hotelImages">
-                {roomData?.imagesUrl?.map((item, index) => {
+                {airCraftData?.imagesUrl?.map((item, index) => {
                   return <img src={item} alt="" className="hotelImg" key={index} />;
                 })}
               </div>
@@ -94,7 +95,7 @@ const AircraftPage = () => {
                   marginTop: '90px',
                 }}
               >
-                {roomData.description}
+                {airCraftData.description}
               </p>
             </div>
           </div>

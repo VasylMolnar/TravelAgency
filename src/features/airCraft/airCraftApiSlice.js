@@ -3,7 +3,7 @@ import { uint8ArrayToBase64 } from '../../utils/uint8ArrayToBase64';
 
 export const airCraftApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    //fetch data by Hotel ID
+    //fetch data by AirLine ID
 
     //User and Admin
     //airLineId + airCraftId
@@ -61,7 +61,7 @@ export const airCraftApiSlice = apiSlice.injectEndpoints({
     }),
 
     //Admin
-    //hotelID
+    //airLineId
     createAirCraft: builder.mutation({
       query: ({ airLineId, formData }) => ({
         url: `/aircraft/${airLineId}`,

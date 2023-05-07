@@ -18,14 +18,27 @@ let Card = ({ element }) => {
 
           <figcaption className="figcaption">
             <h1 className="hotelName">
-              {element.name ||
+              {/* {element.name ||
                 element.nameAirLine ||
-                `Номер кімнати: ${element.roomNumber}`}
+                `Відліт:${element.departure}` ||
+                `Номер кімнати: ${element.roomNumber}`} */}
+
+              {element.name
+                ? element.name
+                : element.nameAirLine
+                ? element.nameAirLine
+                : element.departure
+                ? `Відліт:${element.departure}`
+                : `Номер кімнати: ${element.roomNumber}`}
             </h1>
             <span>
-              {element.address
-                ? `Адрес: ${element.address}`
-                : `Поверх: ${element.roomFloor}`}
+              {element.arrival ? (
+                <p>Приліт: {element.arrival}</p>
+              ) : element.address ? (
+                `Адрес: ${element.address}`
+              ) : (
+                `Поверх: ${element.roomFloor}`
+              )}
             </span>
 
             <p>

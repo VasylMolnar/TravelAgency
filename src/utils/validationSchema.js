@@ -46,3 +46,10 @@ export const airLineSchema = yup.object({
   address: yup.string().required(),
   description: yup.string().required(),
 });
+
+export const airCraftSchema = yup.object({
+  departure: yup.string().required(),
+  arrival: yup.string().required(),
+  price: yup.number().required().positive().integer(),
+  description: yup.string().required(),
+});
