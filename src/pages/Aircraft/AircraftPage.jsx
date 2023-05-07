@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useGetAirCraftMutation } from '../../features/airCraft/airCraftApiSlice';
 import { Loading } from 'notiflix';
 import BookingModal from '../../components/BookingModal/BookingModal';
+import AirCraftBookingModal from '../../components/AirCraftBookingModal/AirCraftBookingModal';
 
 const AircraftPage = () => {
   const { pathname } = useLocation();
@@ -59,24 +60,25 @@ const AircraftPage = () => {
               <div className="hotelDetails">
                 <div className="hotelDetailsPrice">
                   <span>
-                    Цей готель розташований у самому серці міста відмінне розташування
-                    оцінка 9,8!
+                    Літаки мають багато переваг порівняно з іншими видами транспорту,
+                    особливо для довгих відстаней і пересування між країнами.
                   </span>
 
                   <p>
-                    Бронювання: Кімнату в готелі можна забронювати заздалегідь, що
-                    забезпечує впевненість в наявності проживання під час поїздки.
+                    Швидкість: літаки можуть рухатися з великою швидкістю, що дозволяє
+                    значно скоротити час подорожі. Наприклад, переліт з одного кінця світу
+                    до іншого може зайняти всього декілька годин.
                   </p>
 
                   <p>
-                    Безпека: Готельна кімната забезпечує безпеку для туристів, особливо
-                    якщо вона знаходиться в закритій будівлі з контрольованим доступом.
+                    Комфорт: багато авіакомпаній пропонують комфортабельні місця для
+                    пасажирів, зручні крісла, системи розваг та харчування.
                   </p>
 
                   <p>
-                    Зручності: Кімната в готелі зазвичай має зручності, такі як ванна
-                    кімната, кондиціонер, телевізор, холодильник, безкоштовний Wi-Fi тощо,
-                    що робить перебування більш комфортним.
+                    Безпека: літаки мають високий рівень безпеки. Авіакомпанії та льотні
+                    служби докладають багато зусиль, щоб забезпечити безпеку пасажирів під
+                    час польоту.
                   </p>
                   <button className="btn btn-primary" onClick={() => setIsBooking(true)}>
                     Бронюйте зараз!
@@ -102,7 +104,9 @@ const AircraftPage = () => {
         </main>
       )}
 
-      {isBooking && <BookingModal isBooking={isBooking} setIsBooking={setIsBooking} />}
+      {isBooking && (
+        <AirCraftBookingModal isBooking={isBooking} setIsBooking={setIsBooking} />
+      )}
     </>
   );
 };

@@ -53,3 +53,10 @@ export const airCraftSchema = yup.object({
   price: yup.number().required().positive().integer(),
   description: yup.string().required(),
 });
+
+export const airCraftBookingSchema = yup.object({
+  departure: yup.string().required(),
+  arrival: yup.string().required(),
+  price: yup.number().required().positive().integer(),
+  date: yup.string().required(),
+});
