@@ -38,3 +38,11 @@ export const bookingSchema = yup.object({
   dataOff: yup.string().required(),
   dataEnd: yup.string().required(),
 });
+
+export const airLineSchema = yup.object({
+  nameAirLine: yup.string().required(),
+  country: yup.string().required(),
+  city: yup.string().required(),
+  address: yup.string().required(),
+  description: yup.string().required(),
+});

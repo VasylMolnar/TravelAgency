@@ -7,7 +7,7 @@ import {
   useUpdateAirLineMutation,
 } from '../../features/airLine/airLineApiSlice';
 import { Formik, FastField, ErrorMessage } from 'formik';
-import { hotelSchema } from '../../utils/validationSchema';
+import { airLineSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 
 const AirLineModal = ({
@@ -25,6 +25,7 @@ const AirLineModal = ({
   const [dataUpdateAirLine] = useGetAirLineMutation();
   const [updateAirLine] = useUpdateAirLineMutation();
 
+  //for update AirLine we Get Data AirLine
   useEffect(() => {
     const selectCurrentAirLine = async () => {
       Loading.dots('Завантаження');
@@ -111,26 +112,26 @@ const AirLineModal = ({
             >
               <Formik
                 initialValues={{
-                  name: airLineData.name || '',
+                  nameAirLine: airLineData.nameAirLine || '',
                   country: airLineData.country || '',
                   city: airLineData.city || '',
                   address: airLineData.address || '',
                   description: airLineData.description || '',
                 }}
                 onSubmit={updateAirLineId ? handleUpdate : handleCreate}
-                validationSchema={hotelSchema}
+                validationSchema={airLineSchema}
               >
                 {({ values, errors, handleChange, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
                     <label className="label">
                       <FastField
                         type="text"
-                        name="name"
+                        name="nameAirLine"
                         placeholder="Назва Авіакомпанії:"
                       />
 
                       <ErrorMessage
-                        name="name"
+                        name="nameAirLine"
                         component="div"
                         style={{ color: 'red', textTransform: 'upperCase' }}
                       />

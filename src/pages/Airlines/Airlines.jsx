@@ -1,30 +1,26 @@
 import { useState, React } from 'react';
-import SearchBooking from '../../components/SearchBooking/SearchBooking';
 import Card from '../../components/Card/Card';
 import { useSelector } from 'react-redux';
 import {
-  useGetAllHotelsQuery,
-  selectAllHotels,
-} from '../../features/hotel/hotelApiSlice';
+  useGetAllAirLinesQuery,
+  selectAllAirLines,
+} from '../../features/airLine/airLineApiSlice';
 import { Report, Loading } from 'notiflix';
-import useSort from '../../hooks/useSort';
+import useSearchAirLine from '../../hooks/useSearchAirLine';
 import Search from '../../components/Search/Search';
 
 const Airlines = () => {
   //for user other style
-
   const [search, setSearch] = useState('');
 
-  //get ALL flights
+  //fetch AirLine data used RTK Query
+  const { isLoading, isSuccess, isError, error } = useGetAllAirLinesQuery();
 
-  //fetch Hotels data used RTK Query
-  const { isLoading, isSuccess, isError, error } = useGetAllHotelsQuery();
-
-  //select All Hotels
-  const dataAllHotels = useSelector(selectAllHotels);
+  //select All AirLine
+  const dataAllAirLine = useSelector(selectAllAirLines);
 
   //sort by SearchValue, Min, Max
-  const sorterData = dataAllHotels;
+  const sorterData = useSearchAirLine(search, dataAllAirLine);
 
   return (
     <main className="section airLine">
@@ -47,8 +43,8 @@ const Airlines = () => {
 
             {isSuccess && !isError && (
               <div className="content">
-                {sorterData.map(hotel => (
-                  <Card element={hotel} key={hotel.id} />
+                {sorterData.map(airLine => (
+                  <Card element={airLine} key={airLine.id} />
                 ))}
               </div>
             )}

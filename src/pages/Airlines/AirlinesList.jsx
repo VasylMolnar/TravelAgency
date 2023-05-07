@@ -5,19 +5,19 @@ import {
   selectAirLinesIds,
 } from '../../features/airLine/airLineApiSlice';
 import { Report, Loading } from 'notiflix';
-import HotelCard from '../../components/HotelCard/HotelCard';
 import { FcPlus } from 'react-icons/fc';
 import AirLineModal from '../../components/AirLineModal/AirLineModal';
+import AirLineCard from '../../components/AirLineCard/AirLineCard';
 
 const AirlinesList = () => {
   //for admin other style
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateAirLineId, setUpdateAirLineId] = useState(null); //for update Hotel
 
-  //fetch Hotels data
+  //fetch AirLines data
   const { isLoading, isSuccess, isError, error } = useGetAllAirLinesQuery();
 
-  //select Hotels IDS
+  //select AirLines IDS
   const orderedAirLinesIds = useSelector(selectAirLinesIds);
 
   return (
@@ -57,10 +57,10 @@ const AirlinesList = () => {
               {isSuccess &&
                 !isError &&
                 orderedAirLinesIds.map(id => (
-                  <HotelCard
+                  <AirLineCard
                     id={id}
                     key={id}
-                    setUpdateHotelId={setUpdateAirLineId}
+                    setUpdateAirLineId={setUpdateAirLineId}
                     setIsOpenModal={setIsOpenModal}
                   />
                 ))}

@@ -73,7 +73,7 @@ const AppRouter = () => {
 
                 <Route path="airlineList">
                   <Route index element={<AirlinesList />} />
-                  <Route path="airlineList/:id" ex element={<AircraftList />} />
+                  <Route path="airCraftLins/:id" ex element={<AircraftList />} />
                 </Route>
 
                 <Route path="userList">
