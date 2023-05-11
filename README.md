@@ -1,6 +1,4 @@
-Booking and Gallery
-
-RoomCard Admin see all list booking by room
+Booking plane, table in user and admin
 
 # Getting Started with Create React App
 

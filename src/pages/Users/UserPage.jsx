@@ -245,6 +245,10 @@ const UserPage = () => {
                 <Table content="hotelContent" />
               </div>
 
+              <div className="hotel_content">
+                <Table content="planeContent" />
+              </div>
+
               <div className="gallery_content">
                 <GalleryUser userID={id} userName={data.username} />
               </div>

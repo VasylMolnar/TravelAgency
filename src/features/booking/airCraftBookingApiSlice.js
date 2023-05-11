@@ -1,34 +1,15 @@
 import { apiSlice } from '../../app/api/apiSlice';
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
-const bookingAdapter = createEntityAdapter({});
-const initialState = bookingAdapter.getInitialState();
-
 export const airCraftBookingApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     //booking room//Booking
 
-    //User ID
-    getBooking: builder.query({
-      query: ({ userID }) => ({
-        url: `/booking/${userID}`,
-        method: 'GET',
-      }),
-
-      providesTags: (result, error, arg) => {
-        return [
-          ...result.map(item => {
-            return { type: 'Booking', id: item.roomId };
-          }),
-        ];
-      },
-    }),
-
     //Hotel ID + Room ID
     //user and admin
-    createBooking: builder.mutation({
-      query: ({ hotelId, roomId, newValue }) => ({
-        url: `/booking/${hotelId}/${roomId}`,
+    createPlaneBooking: builder.mutation({
+      query: ({ airLineId, airCraftId, newValue }) => ({
+        url: `/planeBooking/${airLineId}/${airCraftId}`,
         method: 'POST',
         body: newValue,
       }),
@@ -38,44 +19,39 @@ export const airCraftBookingApiSlice = apiSlice.injectEndpoints({
 
     //admin
     getAllBookingByAirCraft: builder.mutation({
-      query: ({ hotelId, roomId }) => ({
-        url: `/booking/${hotelId}/${roomId}`,
+      query: ({ airLineId, airCraftId }) => ({
+        url: `/planeBooking/${airLineId}/${airCraftId}`,
         method: 'GET',
       }),
     }),
 
     //Hotel ID + Room ID + Booking ID
     //user and  admin
-    updateBooking: builder.mutation({
-      query: ({ hotelId, roomId, bookingIdHotel, newValue }) => ({
-        url: `/booking/${hotelId}/${roomId}/${bookingIdHotel}`,
+    updateBookingPlane: builder.mutation({
+      query: ({ airLineId, airCraftId, bookingIdAirLine, newValue }) => ({
+        url: `/planeBooking/${airLineId}/${airCraftId}/${bookingIdAirLine}`,
         method: 'PUT',
         body: { newValue },
       }),
 
-      invalidatesTags: (result, error, arg) => {
-        return [{ type: 'Booking', id: arg.id }];
-      },
+      invalidatesTags: ['Booking'],
     }),
 
-    deleteBooking: builder.mutation({
-      query: ({ hotelId, roomId, bookingIdHotel, userID, bookingIdUser }) => ({
-        url: `/booking/${hotelId}/${roomId}/${bookingIdHotel}`,
+    deleteBookingPlane: builder.mutation({
+      query: ({ airLineId, airCraftId, bookingIdAirLine, userID, bookingIdUser }) => ({
+        url: `/planeBooking/${airLineId}/${airCraftId}/${bookingIdAirLine}`,
         method: 'DELETE',
         body: { userID, bookingIdUser },
       }),
 
-      invalidatesTags: (result, error, arg) => {
-        return [{ type: 'Booking', id: arg.id }];
-      },
+      invalidatesTags: ['Booking'],
     }),
   }),
 });
 
 export const {
   useGetAllBookingByAirCraftMutation,
-  useGetBookingQuery,
-  useCreateBookingMutation,
-  useDeleteBookingMutation,
-  useUpdateBookingMutation,
+  useCreatePlaneBookingMutation,
+  useDeleteBookingPlaneMutation,
+  useUpdateBookingPlaneMutation,
 } = airCraftBookingApiSlice;

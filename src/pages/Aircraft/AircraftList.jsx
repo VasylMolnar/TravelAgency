@@ -85,8 +85,9 @@ const AircraftList = () => {
           <AdminTable
             isBookingTable={isBookingTable}
             setIsBookingTable={setIsBookingTable}
-            roomId={updateAirCraftId}
-            setUpdateRoomId={setUpdateAirCraftId}
+            airCraftId={updateAirCraftId}
+            setUpdateAirCraftId={setUpdateAirCraftId}
+            info="plane"
           />
         )}
       </div>

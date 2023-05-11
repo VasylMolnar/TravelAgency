@@ -6,10 +6,10 @@ import { airCraftBookingSchema } from '../../utils/validationSchema';
 import { Loading, Report } from 'notiflix';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useBookingMutation } from '../../features/user/userApiSlice';
+import { useBookingPlaneMutation } from '../../features/user/userApiSlice';
 import {
-  useCreateBookingMutation,
-  useUpdateBookingMutation,
+  useCreatePlaneBookingMutation,
+  useUpdateBookingPlaneMutation,
 } from '../../features/booking/airCraftBookingApiSlice';
 import { useGetAirCraftMutation } from '../../features/airCraft/airCraftApiSlice';
 
@@ -25,9 +25,9 @@ const AirCraftBookingModal = ({ isBooking, setIsBooking, updateOpt = {} }) => {
   const [airCraftData, setAirCraftData] = useState({});
 
   //fn Api booking
-  const [createBooking] = useCreateBookingMutation(); //Booking save in AirLine list
-  const [createBookingUser] = useBookingMutation(); //Booking save in User list
-  const [updateBooking] = useUpdateBookingMutation();
+  const [createBooking] = useCreatePlaneBookingMutation(); //Booking save in AirLine list
+  const [createBookingUser] = useBookingPlaneMutation(); //Booking save in User list
+  const [updateBooking] = useUpdateBookingPlaneMutation();
   const [dataRoom] = useGetAirCraftMutation();
 
   //get current AirCraft data
