@@ -28,7 +28,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                 >
                   <ApartmentIcon className="icon-contact" />
-                  м. Мукачево,26
+                  м. Київ,26
                 </a>
               </li>
               <li className="item">
