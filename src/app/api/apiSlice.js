@@ -64,6 +64,7 @@ export const apiSlice = createApi({
     'AirLine',
     'AirCraft',
     'Gallery',
+    'CallCenter',
   ], //to save data cache
   endpoints: builder => ({}),
 });

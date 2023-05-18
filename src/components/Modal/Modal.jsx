@@ -3,8 +3,33 @@ import ReactDOM from 'react-dom';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import MailIcon from '@mui/icons-material/Mail';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import { Loading, Report } from 'notiflix';
+import { useCreateMessageMutation } from '../../features/callCenter/callCenterApiSlice';
 
 const Modal = ({ isOpen, setIsOpen }) => {
+  //fn Api
+  const [createMessage] = useCreateMessageMutation();
+
+  const sendMessage = async values => {
+    Loading.dots('');
+    const { name, phone, email, text } = values;
+
+    await createMessage({
+      name: name.value,
+      phone: phone.value,
+      email: email.value,
+      text: text.value,
+    })
+      .then(data => {
+        Loading.remove();
+        Report.success('Успішно надіслано', '');
+      })
+      .catch(error => {
+        Loading.remove();
+        Report.failure(error || 'Помилка', '');
+      });
+  };
+
   return ReactDOM.createPortal(
     <div className={isOpen ? 'backdropModal' : 'backdropModal is-hidden'}>
       <div className="modalContact">
@@ -12,7 +37,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
           className="modal_form"
           onSubmit={e => {
             e.preventDefault();
-            console.log('Modal');
+            sendMessage(e.target.elements);
           }}
         >
           <p className="title">Залиште свої дані, ми вам передзвонимо</p>
@@ -25,23 +50,13 @@ const Modal = ({ isOpen, setIsOpen }) => {
 
           <label className="form_item">
             <span className="form_label">Телефон</span>
-            <input
-              type="tel"
-              className="form-input"
-              name="phone"
-              placeholder=" "
-            />
+            <input type="tel" className="form-input" name="phone" placeholder=" " />
             <PhoneIphoneIcon className="icon" />
           </label>
 
           <label className="form_item">
             <span className="form_label">Пошта</span>
-            <input
-              type="email"
-              className="form-input"
-              name="mail"
-              placeholder=" "
-            />
+            <input type="email" className="form-input" name="email" placeholder=" " />
             <MailIcon className="icon" />
           </label>
 
@@ -49,7 +64,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
             <span className="form_label">Коментар</span>
             <textarea
               className="form_textarea"
-              name="comment"
+              name="text"
               placeholder="Введіть текст"
             ></textarea>
           </label>

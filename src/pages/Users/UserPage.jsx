@@ -21,6 +21,7 @@ import { logOut, selectCurrentRoles } from '../../features/auth/authSlice';
 import allowedRoles from '../../utils/roles_list';
 import ButtonList from '../../components/ButtonList/ButtonList';
 import GalleryUser from '../../components/GalleryUser/GalleryUser';
+import CallCenter from '../../components/CallCenter/CallCenter';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -232,6 +233,29 @@ const UserPage = () => {
             </div>
           </div>
 
+          {/* {role.includes(allowedRoles.Admin) ? (
+            <section className="section">
+              <div className="container">
+                <h1 className="title"> Admin Панель </h1>
+                <ButtonList />
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="hotel_content">
+                <Table content="hotelContent" />
+              </div>
+
+              <div className="hotel_content">
+                <Table content="planeContent" />
+              </div>
+
+              <div className="gallery_content">
+                <GalleryUser userID={id} userName={data.username} />
+              </div>
+            </>
+          )} */}
+
           {role.includes(allowedRoles.Admin) ? (
             <section className="section">
               <div className="container">
@@ -239,6 +263,8 @@ const UserPage = () => {
                 <ButtonList />
               </div>
             </section>
+          ) : role.includes(allowedRoles.CallCenter) ? (
+            <CallCenter />
           ) : (
             <>
               <div className="hotel_content">
